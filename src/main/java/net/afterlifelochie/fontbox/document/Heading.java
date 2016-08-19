@@ -1,7 +1,5 @@
 package net.afterlifelochie.fontbox.document;
 
-import java.io.IOException;
-
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.afterlifelochie.fontbox.data.FormattedString;
 import net.afterlifelochie.fontbox.document.property.AlignmentMode;
@@ -9,6 +7,8 @@ import net.afterlifelochie.fontbox.layout.LayoutException;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.render.BookGUI;
+
+import java.io.IOException;
 
 public class Heading extends Element {
 

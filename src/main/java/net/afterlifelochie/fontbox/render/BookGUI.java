@@ -1,7 +1,5 @@
 package net.afterlifelochie.fontbox.render;
 
-import java.util.ArrayList;
-
 import net.afterlifelochie.fontbox.Fontbox;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
@@ -10,11 +8,14 @@ import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageIndex;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
-
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.Util;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public abstract class BookGUI extends GuiScreen {
 
@@ -23,7 +24,7 @@ public abstract class BookGUI extends GuiScreen {
 	 *
 	 * @author AfterLifeLochie
 	 */
-	public static enum UpMode {
+	public enum UpMode {
 		/** One-up (one page) mode */
 		ONEUP(1),
 		/** Two-up (two page) mode */
@@ -162,7 +163,7 @@ public abstract class BookGUI extends GuiScreen {
 	public void onGuiClosed() {
 		if (useDisplayList) {
 			useDisplayList = false;
-			GL11.glDeleteLists(glDisplayLists[0], glDisplayLists.length);
+			GlStateManager.glDeleteLists(glDisplayLists[0], glDisplayLists.length);
 			for (int i = 0; i < glDisplayLists.length; i++)
 				glDisplayLists[i] = -1;
 		}
@@ -185,23 +186,22 @@ public abstract class BookGUI extends GuiScreen {
 					if (pages.size() <= what)
 						break;
 					Page page = pages.get(ptr + i);
-					GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+					GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 
 					if (cursors != null && what < cursors.size()) {
 						PageCursor cursor = cursors.get(what);
-						GL11.glDisable(GL11.GL_TEXTURE_2D);
-						GL11.glEnable(GL11.GL_BLEND);
-						GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-						GL11.glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
+						GlStateManager.disableTexture2D();
+						GlStateManager.enableBlend();
+						GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+						GlStateManager.color(1.0f, 0.0f, 0.0f, 0.5f);
 						GLUtils.drawDefaultRect(where.x, where.y, page.width * 0.44f, page.height * 0.44f, zLevel);
-						GL11.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+						GlStateManager.color(0.0f, 1.0f, 0.0f, 1.0f);
 						GLUtils.drawDefaultRect(where.x + (cursor.x() * 0.44f), where.y + (cursor.y() * 0.44f), 1.0,
 								1.0, zLevel);
-						GL11.glDisable(GL11.GL_BLEND);
-						GL11.glEnable(GL11.GL_TEXTURE_2D);
+						GlStateManager.disableBlend();
+						GlStateManager.enableTexture2D();
 					}
 					renderPage(i, page, where.x, where.y, zLevel, mx, my, frames);
-
 				}
 		} catch (RenderException err) {
 			err.printStackTrace();
@@ -278,7 +278,7 @@ public abstract class BookGUI extends GuiScreen {
 		}
 		glDisplayLists = new int[mode.pages];
 		glBufferDirty = new boolean[mode.pages];
-		int glList = GL11.glGenLists(glDisplayLists.length);
+		int glList = GlStateManager.glGenLists(glDisplayLists.length);
 
 		try {
 			Util.checkGLError();
@@ -349,7 +349,8 @@ public abstract class BookGUI extends GuiScreen {
 	}
 
 	@Override
-	protected void keyTyped(char val, int code) {
+	protected void keyTyped(char val, int code) throws IOException
+	{
 		super.keyTyped(val, code);
 		if (code == Keyboard.KEY_LEFT)
 			previous();
@@ -358,7 +359,8 @@ public abstract class BookGUI extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseClicked(int mx, int my, int button) {
+	protected void mouseClicked(int mx, int my, int button) throws IOException
+	{
 		super.mouseClicked(mx, my, button);
 		for (int i = 0; i < mode.pages; i++) {
 			Layout where = layout[i];
@@ -376,8 +378,9 @@ public abstract class BookGUI extends GuiScreen {
 	}
 
 	@Override
-	protected void mouseMovedOrUp(int mx, int my, int button) {
-		super.mouseMovedOrUp(mx, my, button);
+	protected void mouseReleased(int mouseX, int mouseY, int state)
+	{
+		super.mouseReleased(mouseX, mouseY, state);
 	}
 
 	@Override
@@ -398,49 +401,49 @@ public abstract class BookGUI extends GuiScreen {
 
 	private void renderPageDynamics(int index, Page page, float x, float y, float z, int mx, int my, float frame)
 			throws RenderException {
-		GL11.glPushMatrix();
-		GL11.glTranslatef(x, y, z);
-		rendeElementGroupImmediate(page.dynamicElements(), mx, my, frame);
-		GL11.glPopMatrix();
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, z);
+		renderElementGroupImmediate(page.dynamicElements(), mx, my, frame);
+		GlStateManager.popMatrix();
 	}
 
 	private void renderPageStaticsBuffered(int index, Page page, float x, float y, float z, int mx, int my, float frame)
 			throws RenderException {
 		if (glBufferDirty[index]) {
-			GL11.glNewList(glDisplayLists[index], GL11.GL_COMPILE);
+			GlStateManager.glNewList(glDisplayLists[index], GL11.GL_COMPILE);
 			renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
-			GL11.glEndList();
+			GlStateManager.glEndList();
 			glBufferDirty[index] = false;
 		}
-		GL11.glCallList(glDisplayLists[index]);
+		GlStateManager.callList(glDisplayLists[index]);
 	}
 
 	private void renderPageStaticsImmediate(int index, Page page, float x, float y, float z, int mx, int my, float frame)
 			throws RenderException {
-		GL11.glPushMatrix();
-		GL11.glTranslatef(x, y, z);
-		rendeElementGroupImmediate(page.staticElements(), mx, my, frame);
-		GL11.glPopMatrix();
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x, y, z);
+		renderElementGroupImmediate(page.staticElements(), mx, my, frame);
+		GlStateManager.popMatrix();
 	}
 
-	private void rendeElementGroupImmediate(ArrayList<Element> elements, int mx, int my, float frame)
+	private void renderElementGroupImmediate(ArrayList<Element> elements, int mx, int my, float frame)
 			throws RenderException {
 		int count = elements.size();
-		for (int i = 0; i < count; i++) {
-			elements.get(i).render(this, mx, my, frame);
+		for (Element element : elements) {
+			element.render(this, mx, my, frame);
 			if (cursors != null) {
-				ObjectBounds bounds = elements.get(i).bounds();
+				ObjectBounds bounds = element.bounds();
 				if (bounds != null) {
-					GL11.glDisable(GL11.GL_TEXTURE_2D);
-					GL11.glEnable(GL11.GL_BLEND);
-					GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-					GL11.glColor4f(0.0f, 0.0f, 1.0f, 0.5f);
-					GL11.glPushMatrix();
-					GL11.glTranslatef(bounds.x * 0.44f, bounds.y * 0.44f, 0);
+					GlStateManager.disableTexture2D();
+					GlStateManager.enableBlend();
+					GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+					GlStateManager.color(0.0f, 0.0f, 1.0f, 0.5f);
+					GlStateManager.pushMatrix();
+					GlStateManager.translate(bounds.x * 0.44f, bounds.y * 0.44f, 0);
 					GLUtils.drawDefaultRect(0, 0, bounds.width * 0.44f, bounds.height * 0.44f, zLevel);
-					GL11.glPopMatrix();
-					GL11.glDisable(GL11.GL_BLEND);
-					GL11.glEnable(GL11.GL_TEXTURE_2D);
+					GlStateManager.popMatrix();
+					GlStateManager.disableBlend();
+					GlStateManager.enableTexture2D();
 				}
 			}
 		}

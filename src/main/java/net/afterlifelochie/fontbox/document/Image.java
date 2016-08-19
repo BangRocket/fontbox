@@ -1,7 +1,5 @@
 package net.afterlifelochie.fontbox.document;
 
-import java.io.IOException;
-
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.afterlifelochie.fontbox.document.property.AlignmentMode;
 import net.afterlifelochie.fontbox.document.property.FloatMode;
@@ -12,9 +10,10 @@ import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.afterlifelochie.fontbox.render.GLUtils;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
-import org.lwjgl.opengl.GL11;
+import java.io.IOException;
 
 public class Image extends Element {
 
@@ -140,14 +139,14 @@ public class Image extends Element {
 
 	@Override
 	public void render(BookGUI gui, int mx, int my, float frame) {
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		GLUtils.useSystemTexture(source);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		GlStateManager.enableBlend();
+		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		GLUtils.drawTexturedRectUV(bounds().x * 0.44f, bounds().y * 0.44f, bounds().width * 0.44f,
 				bounds().height * 0.44f, 0, 0, 1, 1, 1);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 
 	@Override

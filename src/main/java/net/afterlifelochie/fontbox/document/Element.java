@@ -1,8 +1,5 @@
 package net.afterlifelochie.fontbox.document;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.afterlifelochie.fontbox.data.FormattedString;
 import net.afterlifelochie.fontbox.document.formatting.TextFormat;
@@ -18,6 +15,9 @@ import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.afterlifelochie.io.StackedPushbackStringReader;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * <p>

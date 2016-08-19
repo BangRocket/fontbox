@@ -10,13 +10,7 @@ import java.awt.Transparency;
 import java.awt.color.ColorSpace;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ComponentColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -29,6 +23,7 @@ import javax.imageio.ImageIO;
 import net.afterlifelochie.fontbox.Fontbox;
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 
@@ -219,16 +214,13 @@ public class GLFont {
 		buffer.put(data, 0, data.length);
 		buffer.flip();
 
-		IntBuffer tmp = BufferUtils.createIntBuffer(1);
-		GL11.glGenTextures(tmp);
-		tmp.rewind();
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tmp.get(0));
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-		GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
-				buffer);
-		tmp.rewind();
-		int texIdx = tmp.get(0);
+
+		int texIdx = GlStateManager.generateTexture();
+		GlStateManager.bindTexture(texIdx);
+		GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+		GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+		GlStateManager.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA,
+				GL11.GL_UNSIGNED_BYTE, buffer.asIntBuffer());
 		trace.trace("GLFont.fromBuffer", "texId", texIdx);
 		GLFont font = new GLFont(name, texIdx, 0.44f, metric);
 		trace.trace("GLFont.fromBuffer", font);
@@ -290,7 +282,7 @@ public class GLFont {
 	 */
 	public void delete() {
 		Fontbox.deleteFont(this);
-		GL11.glDeleteTextures(textureId);
+		GlStateManager.deleteTexture(textureId);
 		textureId = -1;
 		name = null;
 		metric = null;

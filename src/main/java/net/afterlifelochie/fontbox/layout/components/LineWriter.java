@@ -1,11 +1,5 @@
 package net.afterlifelochie.fontbox.layout.components;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
-
 import net.afterlifelochie.fontbox.document.formatting.TextFormat;
 import net.afterlifelochie.fontbox.document.property.AlignmentMode;
 import net.afterlifelochie.fontbox.document.property.FloatMode;
@@ -13,6 +7,12 @@ import net.afterlifelochie.fontbox.font.GLGlyphMetric;
 import net.afterlifelochie.fontbox.layout.LayoutException;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 public class LineWriter {
 

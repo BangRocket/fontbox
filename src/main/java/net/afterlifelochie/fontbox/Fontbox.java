@@ -1,10 +1,10 @@
 package net.afterlifelochie.fontbox;
 
-import java.util.HashMap;
-
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.afterlifelochie.fontbox.api.VoidTracer;
 import net.afterlifelochie.fontbox.font.GLFont;
+
+import java.util.HashMap;
 
 /**
  * Fontbox main registry.
@@ -82,7 +82,7 @@ public class Fontbox {
 	 *            The font to de-register
 	 */
 	public static void deleteFont(GLFont font) {
-		Fontbox.instance().fonts.remove(font);
+		Fontbox.instance().fonts.remove(font.getName());
 	}
 
 	/**

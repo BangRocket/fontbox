@@ -1,8 +1,8 @@
 package net.afterlifelochie.fontbox.document.formatting;
 
-import java.util.EnumSet;
-
 import net.afterlifelochie.fontbox.font.GLFont;
+
+import java.util.EnumSet;
 
 public class TextFormat implements Cloneable {
 

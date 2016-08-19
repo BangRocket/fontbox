@@ -1,9 +1,9 @@
 package net.afterlifelochie.fontbox.layout.components;
 
-import java.util.ArrayList;
-
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
+
+import java.util.ArrayList;
 
 /**
  * One whole page containing a collection of spaced lines with line-heights and

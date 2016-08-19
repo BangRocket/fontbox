@@ -1,7 +1,5 @@
 package net.afterlifelochie.fontbox.layout.components;
 
-import java.io.IOException;
-
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.document.formatting.DecorationStyle;
@@ -14,8 +12,13 @@ import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.afterlifelochie.fontbox.render.RenderException;
-
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
+
+import java.io.IOException;
 
 /**
  * One formatted line with a spacing and line-height
@@ -98,8 +101,8 @@ public class Line extends Element {
 		GLFontMetrics metric = font.getMetric();
 		if (metric == null)
 			throw new RenderException("Font object not loaded!");
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, font.getTextureId());
-		GL11.glScalef(font.getScale(), font.getScale(), 1.0f);
+		GlStateManager.bindTexture(font.getTextureId());
+		GlStateManager.scale(font.getScale(), font.getScale(), 1.0f);
 	}
 
 	@Override
@@ -107,14 +110,14 @@ public class Line extends Element {
 		float x = 0, y = 0;
 		if (line.length == 0)
 			return;
-		GL11.glPushMatrix();
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.pushMatrix();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
 		TextFormat decorator = format[0];
-		GL11.glPushMatrix();
+		GlStateManager.pushMatrix();
 		safeSwitchToFont(decorator.font);
-		GL11.glTranslatef(bounds().x, bounds().y, 0);
+		GlStateManager.translate(bounds().x, bounds().y, 0);
 
 		for (int i = 0; i < line.length; i++) {
 			char c = line[i];
@@ -122,10 +125,10 @@ public class Line extends Element {
 				TextFormat aDecorator = format[i];
 				if (aDecorator != null && !aDecorator.equals(decorator)) {
 					if (aDecorator.font != decorator.font) {
-						GL11.glPopMatrix();
-						GL11.glPushMatrix();
+						GlStateManager.popMatrix();
+						GlStateManager.pushMatrix();
 						safeSwitchToFont(aDecorator.font);
-						GL11.glTranslatef(bounds().x, bounds().y, 0);
+						GlStateManager.translate(bounds().x, bounds().y, 0);
 					}
 					decorator = aDecorator;
 				}
@@ -136,9 +139,9 @@ public class Line extends Element {
 					continue;
 
 				if (decorator.color == null)
-					GL11.glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
+					GlStateManager.color(0.0f, 0.0f, 0.0f, 1.0f);
 				else
-					GL11.glColor4f(decorator.color.redF(), decorator.color.greenF(), decorator.color.blueF(),
+					GlStateManager.color(decorator.color.redF(), decorator.color.greenF(), decorator.color.blueF(),
 							decorator.color.alphaF());
 
 				float tiltTop = 0.0f, tiltBottom = 0.0f;
@@ -156,10 +159,10 @@ public class Line extends Element {
 				x += space_size;
 		}
 
-		GL11.glPopMatrix();
+		GlStateManager.popMatrix();
 
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glPopMatrix();
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
 	}
 
 	private void renderGlyphInPlace(GLFontMetrics metric, GLGlyphMetric glyph, float x, float y, float tiltTop,
@@ -168,19 +171,17 @@ public class Line extends Element {
 		double v = (glyph.vy - glyph.ascent) / metric.fontImageHeight;
 		double us = glyph.width / metric.fontImageWidth;
 		double vs = glyph.height / metric.fontImageHeight;
-		GL11.glBegin(GL11.GL_QUADS);
 
-		GL11.glTexCoord2d(u, v + vs);
-		GL11.glVertex3d(x + tiltTop, y + glyph.height, 1.0);
+		Tessellator tessellator = Tessellator.getInstance();
+		VertexBuffer buffer = tessellator.getBuffer();
+		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-		GL11.glTexCoord2d(u + us, v + vs);
-		GL11.glVertex3d(x + tiltTop + glyph.width, y + glyph.height, 1.0);
+		buffer.pos(x + tiltTop, y + glyph.height, 1.0).tex(u, v + vs).endVertex();
+		buffer.pos(x + tiltTop + glyph.width, y + glyph.height, 1.0).tex(u + us, v + vs).endVertex();
+		buffer.pos(x + tiltBottom + glyph.width, y, 1.0).tex(u + us, v).endVertex();
+		buffer.pos(x + tiltBottom, y, 1.0).tex(u, v).endVertex();
 
-		GL11.glTexCoord2d(u + us, v);
-		GL11.glVertex3d(x + tiltBottom + glyph.width, y, 1.0);
-		GL11.glTexCoord2d(u, v);
-		GL11.glVertex3d(x + tiltBottom, y, 1.0);
-		GL11.glEnd();
+		tessellator.draw();
 	}
 
 	@Override

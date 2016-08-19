@@ -1,15 +1,15 @@
 package net.afterlifelochie.fontbox.document;
 
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.Iterator;
-
 import net.afterlifelochie.fontbox.api.ITracer;
 import net.afterlifelochie.fontbox.layout.LayoutException;
 import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.render.BookGUI;
+
+import java.io.IOException;
+import java.util.EnumSet;
+import java.util.Iterator;
 
 public class CompilerHint extends Element {
 

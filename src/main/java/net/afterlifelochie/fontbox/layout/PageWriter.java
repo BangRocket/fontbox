@@ -1,13 +1,13 @@
 package net.afterlifelochie.fontbox.layout;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import net.afterlifelochie.fontbox.Fontbox;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.layout.components.PageProperties;
 import net.afterlifelochie.io.IntegerExclusionStream;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class PageWriter {
 

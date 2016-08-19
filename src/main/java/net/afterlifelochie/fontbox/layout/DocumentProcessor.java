@@ -1,16 +1,10 @@
 package net.afterlifelochie.fontbox.layout;
 
-import java.io.IOException;
-
 import net.afterlifelochie.fontbox.api.ITracer;
-import net.afterlifelochie.fontbox.document.CompilerHint;
-import net.afterlifelochie.fontbox.document.Document;
-import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.document.Heading;
-import net.afterlifelochie.fontbox.document.Image;
-import net.afterlifelochie.fontbox.document.ImageItemStack;
-import net.afterlifelochie.fontbox.document.Paragraph;
+import net.afterlifelochie.fontbox.document.*;
 import net.afterlifelochie.fontbox.layout.components.Page;
+
+import java.io.IOException;
 
 public class DocumentProcessor {
 
