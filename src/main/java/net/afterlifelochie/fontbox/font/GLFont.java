@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.IntBuffer;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
@@ -27,7 +26,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 /**
