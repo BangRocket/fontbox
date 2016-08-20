@@ -42,7 +42,7 @@ public class Paragraph extends Element {
 	@Override
 	public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
 		Page page = writer.current();
-		boxText(trace, writer, page.properties.bodyFormat, text, null, AlignmentMode.JUSTIFY);
+		boxText(trace, writer, page.properties.bodyFormat, text, null, align);
 		writer.cursor().pushDown(10);
 	}
 

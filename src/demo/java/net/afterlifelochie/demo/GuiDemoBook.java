@@ -81,10 +81,11 @@ public class GuiDemoBook extends BookGUI {
 				if (para.trim().length() > 0)
 					reallines.add(para.trim());
 
-			document.push(new ImageItemStack(new ItemStack(Blocks.ANVIL, 1), 32, 32, FloatMode.LEFT));
+			// TODO: if any item stack is on the second page all text rendering is broken
+			//document.push(new ImageItemStack(new ItemStack(Blocks.ANVIL, 1), 32, 32, FloatMode.LEFT));
 			document.push(new Paragraph(new FormattedString(reallines.get(0))));
-			document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
-			document.push(new ImageItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT));
+			//document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
+			//document.push(new ImageItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT));
 			document.push(new Paragraph(new FormattedString(reallines.get(1))));
 			document.push(new CompilerHint(HintType.PAGEBREAK));
 
