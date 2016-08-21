@@ -236,6 +236,7 @@ public abstract class Element {
 			TextFormat defaultFormat, TextFormat[] format, String uid, AlignmentMode alignment) throws IOException,
 			LayoutException {
 		LineWriter stream = new LineWriter(writer, defaultFormat, alignment);
+		HashMap<Integer, TextFormat> formatting = new HashMap<Integer, TextFormat>();
 		main: while (text.available() > 0) {
 			// Put some words on the writer:
 			while (true) {
@@ -244,7 +245,6 @@ public abstract class Element {
 
 				// Build the word:
 				StringBuilder inWord = new StringBuilder();
-				HashMap<Integer, TextFormat> formatting = new HashMap<Integer, TextFormat>();
 				int offset = text.getPosition();
 				char cz;
 				while (true) {

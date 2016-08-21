@@ -56,23 +56,24 @@ public class GuiDemoBook extends BookGUI {
 
 			/* Build some document properties */
 			PageProperties properties = new PageProperties(400, 450, new TextFormat(daniel));
-			properties.headingFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD, DecorationStyle.ITALIC),
+			properties.headingFormat(new TextFormat(notethis,
+					EnumSet.of(DecorationStyle.BOLD, DecorationStyle.ITALIC),
 					new ColorFormat(255, 128, 64)));
 			properties.bodyFormat(new TextFormat(notethis));
 			properties.bothMargin(2).lineheightSize(8).spaceSize(4).densitiy(0.66f);
 
 			/* Build the document */
 			Document document = new Document();
-			document.push(new Image(new ResourceLocation("fontbox", "textures/books/afterlifelochie.png"), 128, 128,
-					FloatMode.LEFT));
+			document.push(new Image(new ResourceLocation("fontbox", "textures/books/tortoise-rocket.png"), 128, 128, FloatMode.LEFT));
 			document.push(new Heading("title", new FormattedString("The Tortoise and the Hare")));
 			document.push(new Heading("author", new FormattedString("Written by Aesop")));
 
 			document.push(new CompilerHint(HintType.FLOATBREAK));
-			document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
+			//document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
 			document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")
-					.applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128,
-							255)), 0)));
+					.applyFormat(new TextFormat(notethis,
+							EnumSet.of(DecorationStyle.BOLD),
+							new ColorFormat(128, 128, 255)), 0)));
 			document.push(new CompilerHint(HintType.PAGEBREAK));
 
 			String[] lines = fable.toString().split("\n");
@@ -81,10 +82,9 @@ public class GuiDemoBook extends BookGUI {
 				if (para.trim().length() > 0)
 					reallines.add(para.trim());
 
-			// TODO: if any item stack is on the second page all text rendering is broken
 			//document.push(new ImageItemStack(new ItemStack(Blocks.ANVIL, 1), 32, 32, FloatMode.LEFT));
 			document.push(new Paragraph(new FormattedString(reallines.get(0))));
-			//document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
+			document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
 			//document.push(new ImageItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT));
 			document.push(new Paragraph(new FormattedString(reallines.get(1))));
 			document.push(new CompilerHint(HintType.PAGEBREAK));

@@ -201,9 +201,7 @@ public abstract class BookGUI extends GuiScreen {
 						GlStateManager.disableBlend();
 						GlStateManager.enableTexture2D();
 					}
-					GlStateManager.pushMatrix();
 					renderPage(i, page, where.x, where.y, zLevel, mx, my, frames);
-					GlStateManager.popMatrix();
 				}
 		} catch (RenderException err) {
 			err.printStackTrace();

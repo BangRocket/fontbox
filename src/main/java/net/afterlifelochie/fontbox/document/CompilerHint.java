@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 public class CompilerHint extends Element {
 
-	public static enum HintType {
+	public enum HintType {
 		PAGEBREAK, FLOATBREAK;
 	}
 
@@ -22,20 +22,18 @@ public class CompilerHint extends Element {
 	/**
 	 * Constructs a new compiler hint rule with one hint type.
 	 *
-	 * @param type
-	 *            The type of hint. May not be null.
+	 * @param first The type of hint. May not be null.
 	 */
-	public CompilerHint(HintType type) {
-		if (type == null)
+	public CompilerHint(HintType first, HintType... more) {
+		if (first == null)
 			throw new IllegalArgumentException("Hint type cannot be null");
-		types = EnumSet.of(type);
+		types = EnumSet.of(first, more);
 	}
 
 	/**
 	 * Constructs a new compiler hint rule with a set of hint types.
 	 *
-	 * @param types
-	 *            The list of hints. May not be null, may not be empty.
+	 * @param types The list of hints. May not be null, may not be empty.
 	 */
 	public CompilerHint(EnumSet<HintType> types) {
 		if (types == null)
