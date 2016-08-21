@@ -15,7 +15,7 @@ public class CompilerHint extends Element
 {
     public enum HintType
     {
-        PAGEBREAK, FLOATBREAK;
+        PAGE_BREAK, FLOAT_BREAK
     }
 
     public EnumSet<HintType> types;
@@ -55,7 +55,7 @@ public class CompilerHint extends Element
             HintType whatHint = hints.next();
             switch (whatHint)
             {
-                case FLOATBREAK:
+                case FLOAT_BREAK:
                     PageCursor cursor = writer.cursor();
                     Page current = writer.current();
                     Element lowest = null;
@@ -79,7 +79,7 @@ public class CompilerHint extends Element
                     cursor.top(dfx);
 
                     break;
-                case PAGEBREAK:
+                case PAGE_BREAK:
                     writer.next();
                     break;
                 default:

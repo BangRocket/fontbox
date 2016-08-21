@@ -35,7 +35,7 @@ public class GuiDemoBook extends BookGUI
 {
     public GuiDemoBook()
     {
-        super(UpMode.TWOUP, new Layout[]{new Layout(0, 0), new Layout(180, 0)});
+        super(UpMode.TWO_UP, new Layout[]{new Layout(0, 0), new Layout(180, 0)});
 
         try
         {
@@ -68,11 +68,11 @@ public class GuiDemoBook extends BookGUI
             document.push(new Heading("title", new FormattedString("The Tortoise and the Hare")));
             document.push(new Heading("author", new FormattedString("Written by Aesop")));
 
-            document.push(new CompilerHint(HintType.FLOATBREAK));
+            document.push(new CompilerHint(HintType.FLOAT_BREAK));
             //document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")
                     .applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0)));
-            document.push(new CompilerHint(HintType.PAGEBREAK));
+            document.push(new CompilerHint(HintType.PAGE_BREAK));
 
             String[] lines = fable.toString().split("\n");
             ArrayList<String> reallines = new ArrayList<String>();
@@ -85,7 +85,7 @@ public class GuiDemoBook extends BookGUI
             document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             //document.push(new ImageItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT));
             document.push(new Paragraph(new FormattedString(reallines.get(1))));
-            document.push(new CompilerHint(HintType.PAGEBREAK));
+            document.push(new CompilerHint(HintType.PAGE_BREAK));
 
             document.push(new Heading("ending", new FormattedString("The Finish")));
             document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));

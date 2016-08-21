@@ -29,11 +29,11 @@ public abstract class BookGUI extends GuiScreen
         /**
          * One-up (one page) mode
          */
-        ONEUP(1),
+        ONE_UP(1),
         /**
          * Two-up (two page) mode
          */
-        TWOUP(2);
+        TWO_UP(2);
 
         /**
          * The number of pages in this mode
@@ -114,7 +114,7 @@ public abstract class BookGUI extends GuiScreen
      * control how many and where pages are rendered.
      * </p>
      *
-     * @param mode   The page mode, usually ONEUP or TWOUP.
+     * @param mode   The page mode, usually ONE_UP or TWO_UP.
      * @param layout The layout array which specifies where the pages should be
      *               rendered. The number of elements in the array must match the
      *               number of pages required by the UpMode specified.
