@@ -1,6 +1,8 @@
 package net.afterlifelochie.fontbox.render;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -31,8 +33,7 @@ public class GLUtils
         tessellator.draw();
     }
 
-    public static void drawTexturedRectUV(double x, double y, double w, double h, double u, double v, double us,
-                                          double vs, double z)
+    public static void drawTexturedRectUV(double x, double y, double w, double h, double u, double v, double us, double vs, double z)
     {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
@@ -44,4 +45,15 @@ public class GLUtils
         tessellator.draw();
     }
 
+    public static void drawLine(double xBegin, double yBegin, double xEnd, double yEnd)
+    {
+        int scale = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
+        GlStateManager.disableTexture2D();
+        GL11.glLineWidth(scale * 0.5f);
+        GL11.glBegin(GL11.GL_LINES);
+        GL11.glVertex2d(xBegin, yBegin);
+        GL11.glVertex2d(xEnd, yEnd);
+        GL11.glEnd();
+        GlStateManager.enableTexture2D();
+    }
 }

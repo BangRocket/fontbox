@@ -121,7 +121,7 @@ public class LineWriter
         }
 
         width = wordsWidth + Math.max(words.size() - 2, 0) * spaceSize;
-        bounds = new ObjectBounds(x, y, width, height, FloatMode.NONE);
+        bounds = new ObjectBounds(x, y, width, Math.max(height, page.properties.line_height_size), FloatMode.NONE);
     }
 
     /**
@@ -139,7 +139,7 @@ public class LineWriter
         {
             String what = this.words.get(i);
             words.append(what);
-            if (i < words.length() - 1)
+            if (i < this.words.size() - 1)
                 words.append(" ");
         }
         char[] glyphs = words.toString().toCharArray();

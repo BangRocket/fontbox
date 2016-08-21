@@ -43,7 +43,7 @@ public class Paragraph extends Element
     {
         Page page = writer.current();
         boxText(trace, writer, page.properties.bodyFormat, text, null, align);
-        writer.cursor().pushDown(10);
+        writer.cursor().pushDown(page.properties.line_height_size);
     }
 
     @Override

@@ -38,7 +38,7 @@ public class PageProperties
     /**
      * The default line-height size
      */
-    public int lineheight_size = 0;
+    public int line_height_size = 0;
     /**
      * The size of non-breaking tabs
      */
@@ -94,7 +94,7 @@ public class PageProperties
         margin_left = ml;
         margin_right = mr;
         min_space_size = min_sp;
-        lineheight_size = min_lhs;
+        line_height_size = min_lhs;
         min_line_density = line_density;
         tab_size = tab;
         headingFormat = head;
@@ -156,9 +156,9 @@ public class PageProperties
      * @param s The new value
      * @return The self object
      */
-    public PageProperties lineheightSize(int s)
+    public PageProperties lineHeightSize(int s)
     {
-        lineheight_size = s;
+        line_height_size = s;
         return this;
     }
 
@@ -235,7 +235,7 @@ public class PageProperties
      */
     public PageProperties copy()
     {
-        return new PageProperties(width, height, margin_left, margin_right, min_space_size, lineheight_size,
+        return new PageProperties(width, height, margin_left, margin_right, min_space_size, line_height_size,
                 min_line_density, tab_size, headingFormat, bodyFormat, linkFormat);
     }
 

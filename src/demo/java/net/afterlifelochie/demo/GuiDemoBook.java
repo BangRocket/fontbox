@@ -60,7 +60,7 @@ public class GuiDemoBook extends BookGUI
             PageProperties properties = new PageProperties(400, 450, new TextFormat(daniel));
             properties.headingFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD, DecorationStyle.ITALIC), new ColorFormat(255, 128, 64)));
             properties.bodyFormat(new TextFormat(notethis));
-            properties.bothMargin(2).lineheightSize(8).spaceSize(4).densitiy(0.66f);
+            properties.bothMargin(2).lineHeightSize(25).spaceSize(4).densitiy(0.66f);
 
 			/* Build the document */
             Document document = new Document();
@@ -82,7 +82,7 @@ public class GuiDemoBook extends BookGUI
 
             document.push(new ImageItemStack(new ItemStack(Blocks.ANVIL, 1), 32, 32, FloatMode.LEFT));
             document.push(new Paragraph(new FormattedString(reallines.get(0))));
-            document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
+            //document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             //document.push(new ImageItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT));
             document.push(new Paragraph(new FormattedString(reallines.get(1))));
             document.push(new CompilerHint(HintType.PAGE_BREAK));
@@ -90,7 +90,7 @@ public class GuiDemoBook extends BookGUI
             document.push(new Heading("ending", new FormattedString("The Finish")));
             document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             document.push(new ImageItemStack(new ItemStack(Items.GOLD_INGOT, 1), 32, 32, FloatMode.LEFT));
-            document.push(new Paragraph(new FormattedString(reallines.get(2))));
+            document.push(new Paragraph(new FormattedString(reallines.get(2)).applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.UNDERLINE)), 0)));
 
 			/* Actually generate some pages */
             PageWriter writer = new PageWriter(properties);

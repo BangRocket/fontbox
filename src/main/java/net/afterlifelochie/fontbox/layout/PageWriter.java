@@ -9,13 +9,14 @@ import net.afterlifelochie.io.IntegerExclusionStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@SuppressWarnings("unchecked")
 public class PageWriter
 {
+    private final Object lock = new Object();
     private ArrayList<Page> pages = new ArrayList<Page>();
     private ArrayList<PageCursor> cursors = new ArrayList<PageCursor>();
     private PageProperties attributes;
     private PageIndex index;
-    private Object lock = new Object();
     private boolean closed = false;
     private int ptr = 0;
 
@@ -77,11 +78,11 @@ public class PageWriter
         synchronized (lock)
         {
             checkOpen();
-            Page what = current();
+            Page currentPage = current();
             if (element.bounds() == null)
                 throw new IOException("Cannot write unbounded object to page.");
-            Fontbox.doAssert(what.insidePage(element.bounds()), "Element outside page boundary.");
-            Element intersect = what.intersectsElement(element.bounds());
+            Fontbox.doAssert(currentPage.insidePage(element.bounds()), "Element outside page boundary.");
+            Element intersect = currentPage.intersectsElement(element.bounds());
             Fontbox.doAssert(intersect == null, "Element intersects existing element " + intersect + ": box "
                     + ((intersect != null && intersect.bounds() != null) ? intersect.bounds() : "<null>") + " and "
                     + element.bounds() + "!");
@@ -89,10 +90,10 @@ public class PageWriter
             if (element.identifier() != null)
                 index.push(element.identifier(), ptr);
 
-            what.push(element);
+            currentPage.push(element);
 
             PageCursor current = cursor();
-            for (Element e : what.allElements())
+            for (Element e : currentPage.allElements())
             {
                 if (e.bounds().floating())
                     continue;
@@ -101,8 +102,8 @@ public class PageWriter
                     current.top(bb.y + bb.height + 1);
             }
 
-            IntegerExclusionStream window = new IntegerExclusionStream(0, what.width);
-            for (Element e : what.allElements())
+            IntegerExclusionStream window = new IntegerExclusionStream(0, currentPage.width);
+            for (Element e : currentPage.allElements())
             {
                 ObjectBounds bb = e.bounds();
                 if (current.y() >= bb.y && bb.y + bb.height >= current.y())

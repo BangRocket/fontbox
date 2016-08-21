@@ -11,6 +11,7 @@ import net.afterlifelochie.fontbox.layout.LayoutException;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.render.BookGUI;
+import net.afterlifelochie.fontbox.render.GLUtils;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -58,7 +59,7 @@ public class Line extends Element
         setBounds(bounds);
         this.line = line;
         this.format = format;
-        id = null;
+        this.id = null;
         this.space_size = space_size;
     }
 
@@ -74,7 +75,7 @@ public class Line extends Element
     public Line(char[] line, TextFormat[] format, String uid, ObjectBounds bounds, int space_size)
     {
         this(line, format, bounds, space_size);
-        id = uid;
+        this.id = uid;
     }
 
     @Override
@@ -163,9 +164,10 @@ public class Line extends Element
                     tiltBottom = 5.55f;
                 }
 
-                renderGlyphInPlace(metric, glyph, x, y, tiltTop, tiltBottom);
+                boolean underline = decorator.decorations.contains(DecorationStyle.UNDERLINE);
+                renderGlyphInPlace(metric, glyph, x, y, tiltTop, tiltBottom, underline);
                 if (decorator.decorations.contains(DecorationStyle.BOLD))
-                    renderGlyphInPlace(metric, glyph, x + 0.5f, y + 0.5f, tiltTop, tiltBottom);
+                    renderGlyphInPlace(metric, glyph, x + 0.5f, y + 0.5f, tiltTop, tiltBottom, underline);
 
                 x += glyph.width;
             } else
@@ -178,8 +180,7 @@ public class Line extends Element
         GlStateManager.popMatrix();
     }
 
-    private void renderGlyphInPlace(GLFontMetrics metric, GLGlyphMetric glyph, float x, float y, float tiltTop,
-                                    float tiltBottom)
+    private void renderGlyphInPlace(GLFontMetrics metric, GLGlyphMetric glyph, float x, float y, float tiltTop, float tiltBottom, boolean underline)
     {
         double u = glyph.ux / metric.fontImageWidth;
         double v = (glyph.vy - glyph.ascent) / metric.fontImageHeight;
@@ -196,6 +197,9 @@ public class Line extends Element
         buffer.pos(x + tiltBottom, y, 1.0).tex(u, v).endVertex();
 
         tessellator.draw();
+
+        if (underline)
+            GLUtils.drawLine(x, y + glyph.height*0.75, x + glyph.width + tiltBottom, y + glyph.height*0.75);
     }
 
     @Override

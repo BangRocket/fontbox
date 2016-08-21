@@ -158,8 +158,7 @@ public abstract class Element
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, PageWriter writer, TextFormat format, FormattedString what, String uid,
-                           AlignmentMode alignment) throws IOException, LayoutException
+    protected void boxText(ITracer trace, PageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException
     {
         StackedPushbackStringReader reader = new StackedPushbackStringReader(what.string);
         trace.trace("Element.boxText", "startBox");
