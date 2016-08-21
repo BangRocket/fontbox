@@ -5,26 +5,28 @@ package net.afterlifelochie.fontbox.layout.components;
  * height, and can contain child Container elements.
  *
  * @author AfterLifeLochie
- *
  */
-public abstract class Container {
+public abstract class Container
+{
+    /**
+     * The width of the container
+     */
+    public int width;
+    /**
+     * The height of the container
+     */
+    public int height;
 
-	/** The width of the container */
-	public int width;
-	/** The height of the container */
-	public int height;
-
-	/**
-	 * Initialize a new container
-	 *
-	 * @param width
-	 *            The desired width
-	 * @param height
-	 *            The desired height
-	 */
-	public Container(int width, int height) {
-		this.width = width;
-		this.height = height;
-	}
+    /**
+     * Initialize a new container
+     *
+     * @param width  The desired width
+     * @param height The desired height
+     */
+    public Container(int width, int height)
+    {
+        this.width = width;
+        this.height = height;
+    }
 
 }

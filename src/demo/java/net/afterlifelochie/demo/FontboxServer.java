@@ -4,18 +4,21 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class FontboxServer {
+public class FontboxServer
+{
+    public ItemDemoBook book;
 
-	public ItemDemoBook book;
+    public void preInit(FMLPreInitializationEvent e)
+    {
+    }
 
-	public void preInit(FMLPreInitializationEvent e) {
-	}
+    public void init(FMLInitializationEvent e)
+    {
+        book = new ItemDemoBook();
+    }
 
-	public void init(FMLInitializationEvent e) {
-		book = new ItemDemoBook();
-	}
-
-	public void postInit(FMLPostInitializationEvent e) {
-	}
+    public void postInit(FMLPostInitializationEvent e)
+    {
+    }
 
 }

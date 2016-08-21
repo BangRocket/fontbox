@@ -1,5 +1,6 @@
 package net.afterlifelochie.fontbox.document.property;
 
-public enum AlignmentMode {
-	LEFT, CENTER, RIGHT, JUSTIFY;
+public enum AlignmentMode
+{
+    LEFT, CENTER, RIGHT, JUSTIFY;
 }

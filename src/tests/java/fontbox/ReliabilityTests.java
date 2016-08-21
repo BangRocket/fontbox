@@ -15,7 +15,6 @@ import net.afterlifelochie.io.IntegerExclusionStream;
 import org.junit.Test;
 
 public class ReliabilityTests {
-
 	/**
 	 * Test to check if the ObjectBounds intersections are computed correctly.
 	 */

@@ -15,26 +15,28 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDemoBook extends Item {
+public class ItemDemoBook extends Item
+{
+    public ItemDemoBook()
+    {
+        super();
+        this.setUnlocalizedName("demo_book");
+        this.setRegistryName("demo_book");
+        this.setCreativeTab(CreativeTabs.MISC);
+        GameRegistry.register(this);
+    }
 
-	public ItemDemoBook() {
-		super();
-		this.setUnlocalizedName("demo_book");
-		this.setRegistryName("demo_book");
-		this.setCreativeTab(CreativeTabs.MISC);
-		GameRegistry.register(this);
-	}
+    @SideOnly(Side.CLIENT)
+    public void initModel()
+    {
+        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
+    }
 
-	@SideOnly(Side.CLIENT)
-	public void initModel() {
-		ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-	}
-
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
-	{
-		if (worldIn.isRemote)
-			Minecraft.getMinecraft().displayGuiScreen(new GuiDemoBook());
-		return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
-	}
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+    {
+        if (worldIn.isRemote)
+            Minecraft.getMinecraft().displayGuiScreen(new GuiDemoBook());
+        return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
+    }
 }

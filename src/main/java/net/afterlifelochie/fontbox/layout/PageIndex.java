@@ -2,20 +2,23 @@ package net.afterlifelochie.fontbox.layout;
 
 import java.util.HashMap;
 
-public class PageIndex {
+public class PageIndex
+{
+    private final HashMap<String, Integer> ids;
 
-	private final HashMap<String, Integer> ids;
+    public PageIndex()
+    {
+        ids = new HashMap<String, Integer>();
+    }
 
-	public PageIndex() {
-		ids = new HashMap<String, Integer>();
-	}
+    public void push(String id, int page)
+    {
+        ids.put(id, page);
+    }
 
-	public void push(String id, int page) {
-		ids.put(id, page);
-	}
-
-	public int find(String id) {
-		return (ids.containsKey(id)) ? ids.get(id) : -1;
-	}
+    public int find(String id)
+    {
+        return (ids.containsKey(id)) ? ids.get(id) : -1;
+    }
 
 }
