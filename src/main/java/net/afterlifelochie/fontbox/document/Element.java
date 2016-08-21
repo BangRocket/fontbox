@@ -210,8 +210,7 @@ public abstract class Element
     {
         LineWriter stream = new LineWriter(writer, defaultFormat, alignment);
         HashMap<Integer, TextFormat> formatting = new HashMap<Integer, TextFormat>();
-        main:
-        while (text.available() > 0)
+        main: while (text.available() > 0)
         {
             // Put some words on the writer:
             while (true)
@@ -234,7 +233,7 @@ public abstract class Element
                         formatting.put(u - offset, format[u]);
 
                     // Skip spaces or tabs;
-                    if (cz != 0 && cz != ' ' && cz != '\t')
+                    if (cz != ' ' && cz != '\t')
                         inWord.append(cz); // push
                     else if (inWord.length() > 0)
                         break; // okay, consider now

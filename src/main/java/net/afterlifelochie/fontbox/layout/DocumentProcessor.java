@@ -36,40 +36,9 @@ public class DocumentProcessor
      * @throws LayoutException Any layout exception which occurs when attempting to place an
      *                         element on a Page
      */
-    public static void generatePages(ITracer trace, Document doc, PageWriter writer) throws IOException,
-            LayoutException
+    public static void generatePages(ITracer trace, Document doc, PageWriter writer) throws IOException, LayoutException
     {
-        for (int i = 0; i < doc.elements.size(); i++)
-        {
-            Element e0 = doc.elements.get(i);
-            pushElement(trace, writer, e0);
-        }
-    }
-
-    private static void pushElement(ITracer trace, PageWriter writer, Element element) throws IOException,
-            LayoutException
-    {
-        if (element instanceof CompilerHint)
-        {
-            CompilerHint hint = (CompilerHint) element;
-            hint.layout(trace, writer);
-        } else if (element instanceof Heading)
-        {
-            Heading heading = (Heading) element;
-            heading.layout(trace, writer);
-        } else if (element instanceof Image)
-        {
-            Image image = (Image) element;
-            if (image instanceof ImageItemStack)
-            {
-                ImageItemStack blockIconImg = (ImageItemStack) image;
-                blockIconImg.layout(trace, writer);
-            } else
-                image.layout(trace, writer);
-        } else if (element instanceof Paragraph)
-        {
-            Paragraph paragraph = (Paragraph) element;
-            paragraph.layout(trace, writer);
-        }
+        for (Element element : doc.elements)
+            element.layout(trace, writer);
     }
 }

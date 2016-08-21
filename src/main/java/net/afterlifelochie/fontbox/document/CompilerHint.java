@@ -69,10 +69,13 @@ public class CompilerHint extends Element
                             lowest = elem;
                         }
                     }
-                    if (!lowest.bounds().floating())
+                    if (lowest == null || !lowest.bounds().floating())
                         return;
                     if (lowest.bounds().x == 0)
-                        cursor.left(lowest.bounds().x + lowest.bounds().width);
+                    {
+                        cursor.top(lowest.bounds().y + lowest.bounds().height);
+                        cursor.left(0);
+                    }
                     cursor.top(dfx);
 
                     break;
