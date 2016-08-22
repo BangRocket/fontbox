@@ -116,9 +116,9 @@ public class GLFontMetrics
             for (int i = 0; i < list_character.getLength(); i++)
             {
                 Element character = (Element) list_character.item(i);
-                int charcode = Integer.parseInt(character.getAttributes().getNamedItem("key").getNodeValue());
-                if (0 > charcode || charcode > 255)
-                    throw new FontException(String.format("Unsupported character code %s", charcode));
+                int c = Integer.parseInt(character.getAttributes().getNamedItem("key").getNodeValue());
+                if (0 > c || c > 255)
+                    throw new FontException(String.format("Unsupported character code %s", c));
                 int w = -1, h = -1, u = -1, v = -1;
                 NodeList character_properties = character.getChildNodes();
                 for (int k = 0; k < character_properties.getLength(); k++)
@@ -141,9 +141,9 @@ public class GLFontMetrics
                         throw new FontException(String.format("Unexpected metric command %s", name));
                 }
                 if (w == -1 || h == -1 || u == -1 || v == -1)
-                    throw new FontException(String.format("Invalid metric properties set for key %s", charcode));
-                trace.trace("GLFontMetrics.fromResource", "placeGlyph", charcode, w, h, u, v);
-                metric.glyphs.put(charcode, new GLGlyphMetric(w, h, h, u, v));
+                    throw new FontException(String.format("Invalid metric properties set for key %s", c));
+                trace.trace("GLFontMetrics.fromResource", "placeGlyph", (char)c, w, h, u, v);
+                metric.glyphs.put(c, new GLGlyphMetric(w, h, h, u, v));
             }
             trace.trace("GLFontMetrics.fromResource", metric);
             return metric;

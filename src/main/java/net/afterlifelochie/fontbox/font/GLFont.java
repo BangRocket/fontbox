@@ -78,7 +78,7 @@ public class GLFont
     }
 
     /**
-     * Create a GLFont from a spritefont and XML descriptor
+     * Create a GLFont from a sprite font and XML descriptor
      *
      * @param trace The debugging tracer object
      * @param name  The name of the font, case sensitive
@@ -89,7 +89,7 @@ public class GLFont
      *                       reading the XML descriptor, when brewing the buffer or
      *                       creating the final font.
      */
-    public static GLFont fromSpritefont(ITracer trace, String name, ResourceLocation image, ResourceLocation xml)
+    public static GLFont fromSpriteFont(ITracer trace, String name, ResourceLocation image, ResourceLocation xml)
             throws FontException
     {
         if (trace == null)
@@ -109,14 +109,14 @@ public class GLFont
             BufferedImage buffer = ImageIO.read(stream);
 
             GLFontMetrics metric = GLFontMetrics.fromResource(trace, xml, buffer.getWidth(), buffer.getHeight());
-            trace.trace("GLFont.fromSpritefont", "fromMetric", metric);
+            trace.trace("GLFont.fromSpriteFont", "fromMetric", metric);
             GLFont f0 = fromBuffer(trace, name, buffer, buffer.getWidth(), buffer.getHeight(), metric);
-            trace.trace("GLFont.fromSpritefont", f0);
+            trace.trace("GLFont.fromSpriteFont", f0);
             return f0;
 
         } catch (IOException ioex)
         {
-            trace.trace("GLFont.fromSpritefont", ioex);
+            trace.trace("GLFont.fromSpriteFont", ioex);
             throw new FontException("Can't perform I/O operation!", ioex);
         }
     }

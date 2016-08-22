@@ -430,15 +430,9 @@ public abstract class BookGUI extends GuiScreen
 
     private void renderPage(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException
     {
-        if (!useDisplayList)
-        {
-            renderPageDynamics(index, page, x, y, z, mx, my, frame);
-            renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
-        } else
-        {
-            renderPageDynamics(index, page, x, y, z, mx, my, frame);
-            renderPageStaticsBuffered(index, page, x, y, z, mx, my, frame);
-        }
+        renderPageDynamics(index, page, x, y, z, mx, my, frame);
+        if (useDisplayList) renderPageStaticsBuffered(index, page, x, y, z, mx, my, frame);
+        else renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
     }
 
     private void renderPageDynamics(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException

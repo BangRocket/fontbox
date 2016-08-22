@@ -182,6 +182,7 @@ public class Line extends Element
 
     private void renderGlyphInPlace(GLFontMetrics metric, GLGlyphMetric glyph, float x, float y, float tiltTop, float tiltBottom, boolean underline)
     {
+        final double z = 1.0;
         double u = glyph.ux / metric.fontImageWidth;
         double v = (glyph.vy - glyph.ascent) / metric.fontImageHeight;
         double us = glyph.width / metric.fontImageWidth;
@@ -191,15 +192,15 @@ public class Line extends Element
         VertexBuffer buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-        buffer.pos(x + tiltTop, y + glyph.height, 1.0).tex(u, v + vs).endVertex();
-        buffer.pos(x + tiltTop + glyph.width, y + glyph.height, 1.0).tex(u + us, v + vs).endVertex();
-        buffer.pos(x + tiltBottom + glyph.width, y, 1.0).tex(u + us, v).endVertex();
-        buffer.pos(x + tiltBottom, y, 1.0).tex(u, v).endVertex();
+        buffer.pos(x + tiltTop, y + glyph.height, z).tex(u, v + vs).endVertex();
+        buffer.pos(x + tiltTop + glyph.width, y + glyph.height, z).tex(u + us, v + vs).endVertex();
+        buffer.pos(x + tiltBottom + glyph.width, y, z).tex(u + us, v).endVertex();
+        buffer.pos(x + tiltBottom, y, z).tex(u, v).endVertex();
 
         tessellator.draw();
 
         if (underline)
-            GLUtils.drawLine(x, y + glyph.height*0.75, x + glyph.width + tiltBottom, y + glyph.height*0.75);
+            GLUtils.drawLine(x, y + glyph.height*0.75, x + glyph.width + tiltBottom, y + glyph.height*0.75, z);
     }
 
     @Override

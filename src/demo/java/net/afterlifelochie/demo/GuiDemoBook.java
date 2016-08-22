@@ -40,7 +40,7 @@ public class GuiDemoBook extends BookGUI
         try
         {
             /* Load the fable book */
-            StringBuffer fable = new StringBuffer();
+            StringBuilder fable = new StringBuilder();
             IResource resource = Minecraft.getMinecraft().getResourceManager()
                     .getResource(new ResourceLocation("fontbox", "books/fable.book"));
             InputStream stream = resource.getInputStream();
@@ -71,7 +71,11 @@ public class GuiDemoBook extends BookGUI
             document.push(new CompilerHint(HintType.FLOAT_BREAK));
             //document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")
+                    .applyFormat(new TextFormat(daniel, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0)));
+            document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")
                     .applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0)));
+            document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")
+                    .applyFormat(new TextFormat(ampersand, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0)));
             document.push(new CompilerHint(HintType.PAGE_BREAK));
 
             String[] lines = fable.toString().split("\n");
@@ -84,13 +88,13 @@ public class GuiDemoBook extends BookGUI
             document.push(new Paragraph(new FormattedString(reallines.get(0))));
             //document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             //document.push(new ImageItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT));
-            document.push(new Paragraph(new FormattedString(reallines.get(1))));
+            document.push(new Paragraph(new FormattedString(reallines.get(1)).applyFormat(new TextFormat(daniel), 0)));
             document.push(new CompilerHint(HintType.PAGE_BREAK));
 
             document.push(new Heading("ending", new FormattedString("The Finish")));
             document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             document.push(new ImageItemStack(new ItemStack(Items.GOLD_INGOT, 1), 32, 32, FloatMode.LEFT));
-            document.push(new Paragraph(new FormattedString(reallines.get(2)).applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.UNDERLINE)), 0)));
+            document.push(new Paragraph(new FormattedString(reallines.get(2))));
 
 			/* Actually generate some pages */
             PageWriter writer = new PageWriter(properties);

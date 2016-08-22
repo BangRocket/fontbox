@@ -45,15 +45,17 @@ public class GLUtils
         tessellator.draw();
     }
 
-    public static void drawLine(double xBegin, double yBegin, double xEnd, double yEnd)
+    public static void drawLine(double xBegin, double yBegin, double xEnd, double yEnd, double z)
     {
         int scale = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
         GlStateManager.disableTexture2D();
-        GL11.glLineWidth(scale * 0.5f);
-        GL11.glBegin(GL11.GL_LINES);
-        GL11.glVertex2d(xBegin, yBegin);
-        GL11.glVertex2d(xEnd, yEnd);
-        GL11.glEnd();
+        GlStateManager.glLineWidth(scale * 0.5F);
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer buffer = tessellator.getBuffer();
+        buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+        buffer.pos(xBegin, yBegin, z).endVertex();
+        buffer.pos(xEnd, yEnd, z).endVertex();
+        tessellator.draw();
         GlStateManager.enableTexture2D();
     }
 }
