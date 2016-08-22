@@ -69,7 +69,7 @@ public class GuiDemoBook extends BookGUI
             document.push(new Heading("author", new FormattedString("Written by Aesop")));
 
             document.push(new CompilerHint(HintType.FLOAT_BREAK));
-            //document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
+            document.push(new ImageItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER));
             document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")
                     .applyFormat(new TextFormat(daniel, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0)));
             document.push(new Paragraph(new FormattedString("The classic fable demonstration book thingy.")

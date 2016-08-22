@@ -4,6 +4,7 @@ import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * One whole page containing a collection of spaced lines with line-heights and
@@ -51,7 +52,7 @@ public class Page extends Container
      *
      * @return The list of static elements on the page
      */
-    public ArrayList<Element> staticElements()
+    public List<Element> staticElements()
     {
         return staticElements;
     }
@@ -61,7 +62,7 @@ public class Page extends Container
      *
      * @return The list of dynamic elements on the page
      */
-    public ArrayList<Element> dynamicElements()
+    public List<Element> dynamicElements()
     {
         return dynamicElements;
     }

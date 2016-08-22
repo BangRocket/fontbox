@@ -9,6 +9,7 @@ import net.afterlifelochie.fontbox.layout.PageIndex;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.Tuple;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.OpenGLException;
@@ -16,6 +17,7 @@ import org.lwjgl.opengl.Util;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class BookGUI extends GuiScreen
 {
@@ -80,11 +82,7 @@ public abstract class BookGUI extends GuiScreen
     /**
      * The list of pages
      */
-    protected ArrayList<Page> pages;
-    /**
-     * The list of cursors
-     */
-    protected ArrayList<PageCursor> cursors;
+    protected List<Page> pages;
     /**
      * The data index
      */
@@ -156,23 +154,6 @@ public abstract class BookGUI extends GuiScreen
         this.index = index;
     }
 
-    /**
-     * <p>
-     * Updates the cursors currently being rendered. Used for debugging only.
-     * </p>
-     * <p>
-     * If the cursor parameter is not null, the matching cursor for each page
-     * will be displayed. If the cursor parameter is null, no cursors will be
-     * rendered on the page.
-     * </p>
-     *
-     * @param cursors The list of cursors, or null if no cursors should be rendered
-     */
-    public void changeCursors(ArrayList<PageCursor> cursors)
-    {
-        this.cursors = cursors;
-    }
-
     @Override
     public boolean doesGuiPauseGame()
     {
@@ -211,31 +192,24 @@ public abstract class BookGUI extends GuiScreen
         try
         {
             if (pages != null)
-                for (int i = 0; i < mode.pages; i++)
+            {
+                List<Tuple<Layout, Page>> toRender = new ArrayList<Tuple<Layout, Page>>(2);
+                int i;
+                for (i = 0; i < mode.pages; i++)
                 {
-                    Layout where = layout[i];
                     int what = ptr + i;
                     if (pages.size() <= what)
                         break;
-                    Page page = pages.get(ptr + i);
-                    GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-
-                    if (cursors != null && what < cursors.size())
-                    {
-                        PageCursor cursor = cursors.get(what);
-                        GlStateManager.disableTexture2D();
-                        GlStateManager.enableBlend();
-                        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                        GlStateManager.color(1.0f, 0.0f, 0.0f, 0.5f);
-                        GLUtils.drawDefaultRect(where.x, where.y, page.width * 0.44f, page.height * 0.44f, zLevel);
-                        GlStateManager.color(0.0f, 1.0f, 0.0f, 1.0f);
-                        GLUtils.drawDefaultRect(where.x + (cursor.x() * 0.44f), where.y + (cursor.y() * 0.44f), 1.0,
-                                1.0, zLevel);
-                        GlStateManager.disableBlend();
-                        GlStateManager.enableTexture2D();
-                    }
-                    renderPage(i, page, where.x, where.y, zLevel, mx, my, frames);
+                    toRender.add(new Tuple<Layout, Page>(layout[i], pages.get(ptr + i)));
                 }
+                i = 0;
+                for (Tuple<Layout, Page> page : toRender)
+                    if (useDisplayList) renderPageStaticsBuffered(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
+                    else renderPageStaticsImmediate(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
+                i = 0;
+                for (Tuple<Layout, Page> page : toRender)
+                    renderPageDynamics(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
+            }
         } catch (RenderException err)
         {
             err.printStackTrace();
@@ -428,13 +402,6 @@ public abstract class BookGUI extends GuiScreen
         super.mouseClickMove(mx, my, button, ticks);
     }
 
-    private void renderPage(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException
-    {
-        renderPageDynamics(index, page, x, y, z, mx, my, frame);
-        if (useDisplayList) renderPageStaticsBuffered(index, page, x, y, z, mx, my, frame);
-        else renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
-    }
-
     private void renderPageDynamics(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException
     {
         GlStateManager.pushMatrix();
@@ -463,29 +430,10 @@ public abstract class BookGUI extends GuiScreen
         GlStateManager.popMatrix();
     }
 
-    private void renderElementGroupImmediate(ArrayList<Element> elements, int mx, int my, float frame) throws RenderException
+    private void renderElementGroupImmediate(List<Element> elements, int mx, int my, float frame) throws RenderException
     {
         for (Element element : elements)
-        {
             element.render(this, mx, my, frame);
-            if (cursors != null)
-            {
-                ObjectBounds bounds = element.bounds();
-                if (bounds != null)
-                {
-                    GlStateManager.disableTexture2D();
-                    GlStateManager.enableBlend();
-                    GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-                    GlStateManager.color(0.0f, 0.0f, 1.0f, 0.5f);
-                    GlStateManager.pushMatrix();
-                    GlStateManager.translate(bounds.x * 0.44f, bounds.y * 0.44f, 0);
-                    GLUtils.drawDefaultRect(0, 0, bounds.width * 0.44f, bounds.height * 0.44f, zLevel);
-                    GlStateManager.popMatrix();
-                    GlStateManager.disableBlend();
-                    GlStateManager.enableTexture2D();
-                }
-            }
-        }
     }
 
 }
