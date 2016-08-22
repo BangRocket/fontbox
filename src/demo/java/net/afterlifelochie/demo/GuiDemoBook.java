@@ -60,7 +60,7 @@ public class GuiDemoBook extends BookGUI
             PageProperties properties = new PageProperties(400, 450, new TextFormat(daniel));
             properties.headingFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD, DecorationStyle.ITALIC), new ColorFormat(255, 128, 64)));
             properties.bodyFormat(new TextFormat(notethis));
-            properties.bothMargin(2).lineHeightSize(20).spaceSize(4).densitiy(0.66f);
+            properties.bothMargin(2).lineHeightSize(30).spaceSize(4).densitiy(0.66f);
 
 			/* Build the document */
             Document document = new Document();

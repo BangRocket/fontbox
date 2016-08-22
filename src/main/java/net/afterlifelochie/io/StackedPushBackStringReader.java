@@ -10,7 +10,7 @@ import java.util.Stack;
  *
  * @author AfterLifeLochie
  */
-public class StackedPushbackStringReader
+public class StackedPushBackStringReader
 {
     /**
      * Mutex lock.
@@ -30,12 +30,12 @@ public class StackedPushbackStringReader
     private int next = 0;
 
     /**
-     * Create a new StackedPushbackStringReader at the start of the string. The
+     * Create a new StackedPushBackStringReader at the start of the string. The
      * contents of the string are copied to a local buffer.
      *
      * @param s The source string.
      */
-    public StackedPushbackStringReader(String s)
+    public StackedPushBackStringReader(String s)
     {
         lock = this;
         str = new ArrayList<Character>();

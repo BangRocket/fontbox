@@ -12,9 +12,10 @@ import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Line;
 import net.afterlifelochie.fontbox.layout.components.LineWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
+import net.afterlifelochie.fontbox.layout.components.TextFormatter;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.afterlifelochie.fontbox.render.RenderException;
-import net.afterlifelochie.io.StackedPushbackStringReader;
+import net.afterlifelochie.io.StackedPushBackStringReader;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -160,16 +161,14 @@ public abstract class Element
      */
     protected void boxText(ITracer trace, PageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException
     {
-        StackedPushbackStringReader reader = new StackedPushbackStringReader(what.string);
+        StackedPushBackStringReader reader = new StackedPushBackStringReader(what.string);
         trace.trace("Element.boxText", "startBox");
         while (reader.available() > 0)
         {
-            Page current = writer.current();
-            PageCursor cursor = writer.cursor();
-            ObjectBounds bounds = new ObjectBounds(cursor.x(), cursor.y(), current.properties.width - cursor.x(),
-                    current.properties.height - cursor.y(), FloatMode.NONE);
+            what.formatter.addDefaultFormat(format);
 
-            boxText(trace, writer, bounds, reader, format, what.format, uid, alignment);
+            LineWriter stream = new LineWriter(writer, what.formatter, alignment, uid);
+            boxText(trace, writer, stream, reader);
             trace.trace("Element.boxText", "streamRemain", reader.available());
             if (reader.available() > 0)
                 writer.next();
@@ -194,21 +193,14 @@ public abstract class Element
      * </p>
      *
      * @param trace     The debugging tracer object
-     * @param writer    The underlying stream to write onto
-     * @param bounds    The bounding box to write inside
+     * @param pageWriter    The underlying stream to write onto
      * @param text      The text stream to read from
-     * @param uid       The text object ID
-     * @param alignment The text alignment mode
      * @throws IOException     Any exception which occurs when reading from the text stream
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, PageWriter writer, ObjectBounds bounds, StackedPushbackStringReader text,
-                           TextFormat defaultFormat, TextFormat[] format, String uid, AlignmentMode alignment) throws IOException,
-            LayoutException
+    protected void boxText(ITracer trace, PageWriter pageWriter, LineWriter lineWriter, StackedPushBackStringReader text) throws IOException, LayoutException
     {
-        LineWriter stream = new LineWriter(writer, defaultFormat, alignment);
-        HashMap<Integer, TextFormat> formatting = new HashMap<Integer, TextFormat>();
         main: while (text.available() > 0)
         {
             // Put some words on the writer:
@@ -219,17 +211,11 @@ public abstract class Element
 
                 // Build the word:
                 StringBuilder inWord = new StringBuilder();
-                int offset = text.getPosition();
-                char cz;
                 while (true)
                 {
-                    int u = text.getPosition();
-                    cz = text.next();
+                    char cz = text.next();
                     if (cz == 0)
                         break; // okay, end of stream
-
-                    if (format[u] != null)
-                        formatting.put(u - offset, format[u]);
 
                     // Skip spaces or tabs;
                     if (cz != ' ' && cz != '\t')
@@ -243,35 +229,31 @@ public abstract class Element
 
                 // Consider the word:
                 trace.trace("Element.boxText", "considerWord", inWord.toString());
-                TextFormat[] fmt = new TextFormat[inWord.toString().length()];
-                if (formatting.size() != 0)
-                    for (int i = 0; i < fmt.length; i++)
-                        fmt[i] = formatting.get(i);
-                stream.push(inWord.toString(), fmt);
-                ObjectBounds future = stream.pendingBounds();
-                Page current = writer.current();
-                trace.trace("Element.boxText", "considerCursor", writer.cursor());
+                lineWriter.push(inWord.toString());
+                ObjectBounds future = lineWriter.pendingBounds();
+                Page current = pageWriter.current();
+                trace.trace("Element.boxText", "considerCursor", pageWriter.cursor());
 
                 // If we overflow the page, back out last change to fit:
                 if (!current.insidePage(future))
                 {
-                    trace.trace("Element.boxText", "overflowPage", current.width, current.height, future, stream.size());
-                    stream.pop();
+                    trace.trace("Element.boxText", "overflowPage", current.width, current.height, future, lineWriter.size());
+                    lineWriter.pop();
                     text.popPosition();
                     // If there are now no words on the writer, then
-                    if (stream.size() == 0)
+                    if (lineWriter.size() == 0)
                         break main; // nothing fits; break the loop
                     else
                         break; // break the local loop
                 } else if (current.intersectsElement(future) != null)
                 {
                     // We hit another object, so let's undo
-                    trace.trace("Element.boxText", "collideElement", stream.size());
+                    trace.trace("Element.boxText", "collideElement", lineWriter.size());
                     Element e0 = current.intersectsElement(future);
                     trace.trace("Element.boxText", "collideHit", e0.bounds().toString(), future.toString());
-                    stream.pop();
+                    lineWriter.pop();
                     text.popPosition();
-                    if (stream.size() == 0)
+                    if (lineWriter.size() == 0)
                         break main; // Nothing fits at all where we are; break
                     else
                         break; // break the local loop
@@ -285,9 +267,9 @@ public abstract class Element
 
             // Writer now contains a list of words which fit, so do something
             // useful with that line
-            Line line = stream.emit(uid);
+            Line line = lineWriter.emit();
             trace.trace("Element.boxText", "emitLine", line.line);
-            writer.write(line);
+            pageWriter.write(line);
         }
     }
 

@@ -10,9 +10,7 @@ import net.afterlifelochie.fontbox.layout.PageWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.List;
 
 public class LineWriter
 {
@@ -28,16 +26,11 @@ public class LineWriter
     /**
      * The list of words on the stack currently
      */
-    private final ArrayList<String> words;
+    private final List<String> words;
     /**
-     * The map of formatting objects on the stack currently
+     * The formatter for the text
      */
-    private final HashMap<Integer, TextFormat> format;
-    /**
-     * The default formatting
-     */
-    private final TextFormat zeroFormat;
-
+    private final TextFormatter formatter;
     /**
      * The current computed bounds of the stack's words
      */
@@ -46,23 +39,31 @@ public class LineWriter
      * The current size of the spaces between the stack's words
      */
     private int spaceSize;
+    /**
+     * Offset for current line
+     */
+    private int lineOffset;
+    /**
+     * Current lines uid
+     */
+    private final String uid;
 
     /**
      * Construct a new line writing utility. The underlying stream and the
      * writing font must be specified and cannot be null.
      *
      * @param writer        The underlying stream to operate on.
-     * @param defaultFormat The default text formatting to use.
+     * @param formatter     The text formatter.
      * @param alignment     The alignment to paginate in.
+     * @param uid           The lines uid.
      */
-    public LineWriter(PageWriter writer, TextFormat defaultFormat, AlignmentMode alignment)
+    public LineWriter(PageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid)
     {
         this.writer = writer;
         this.alignment = alignment;
-        zeroFormat = defaultFormat;
-        words = new ArrayList<String>();
-        format = new HashMap<Integer, TextFormat>();
-        format.put(0, zeroFormat.clone());
+        this.words = new ArrayList<String>();
+        this.formatter = formatter;
+        this.uid = uid;
     }
 
     private void update() throws LayoutException, IOException
@@ -70,21 +71,19 @@ public class LineWriter
         int width = 0, height = 0;
 
         Page page = writer.current();
-        TextFormat activeFormat = format.get(0);
 
-        int offset = 0;
+        int offset = lineOffset;
         int wordsWidth = 0;
         for (String word : words)
         {
             char[] chars = word.toCharArray();
             for (char cz : chars)
             {
-                if (format.get(offset) != null)
-                    activeFormat = format.get(offset);
-                GLGlyphMetric cm = activeFormat.font.getMetric().glyphs.get((int) cz);
+                TextFormat format = formatter.getFormat(offset);
+                GLGlyphMetric cm = format.font.getMetric().glyphs.get((int) cz);
                 if (cm == null)
                     throw new LayoutException(String.format("Glyph %s not supported by font %s.", cz,
-                            activeFormat.font.getName()));
+                            format.font.getName()));
                 wordsWidth += cm.width;
                 if (cm.ascent > height)
                     height = cm.ascent;
@@ -128,11 +127,10 @@ public class LineWriter
      * Called to emit the stack's contents to a Line element. The contents of
      * the stack are automatically cleared and zerored on invocation.
      *
-     * @param uid The line's ID, if any
      * @return The formatted line. The stack, properties and other values
      * associated with generating the line are reset on the self object.
      */
-    public Line emit(String uid)
+    public Line emit()
     {
         StringBuilder words = new StringBuilder();
         for (int i = 0; i < this.words.size(); i++)
@@ -142,17 +140,14 @@ public class LineWriter
             if (i < this.words.size() - 1)
                 words.append(" ");
         }
-        char[] glyphs = words.toString().toCharArray();
-        TextFormat[] format = new TextFormat[glyphs.length];
-        for (int i = 0; i < glyphs.length; i++)
-            if (this.format.get(i) != null)
-                format[i] = this.format.get(i);
-        Line what = new Line(words.toString().toCharArray(), format, uid, bounds, spaceSize);
+        int offset = 0;
+        for (String word : this.words)
+            offset += word.length() + 1;
+        Line what = new Line(words.toString().toCharArray(), formatter.getFormatter(lineOffset, offset), uid, bounds, spaceSize);
         bounds = null;
         spaceSize = 0;
+        lineOffset += offset;
         this.words.clear();
-        this.format.clear();
-        this.format.put(0, zeroFormat.clone());
         return what;
     }
 
@@ -171,30 +166,13 @@ public class LineWriter
      * the stack and the dimensions of the stack are recomputed automatically.
      *
      * @param word   The word to place on the end of the stack
-     * @param format The text formatting, if any
      * @throws IOException     Any exception which occurs when reading from the page writing
      *                         stream underlying this writer
      * @throws LayoutException Any exception which occurs when updating the potentially
      *                         paginated text
      */
-    public void push(String word, TextFormat[] format) throws LayoutException, IOException
+    public void push(String word) throws LayoutException, IOException
     {
-        if (format != null)
-        {
-            if (word.length() != format.length)
-                throw new LayoutException("Specified format doesn't bound word length");
-
-            int offset = 0;
-            for (String wd : words)
-                offset += wd.length() + 1;
-
-            for (int i = 0; i < format.length; i++)
-            {
-                TextFormat aformat = format[i];
-                if (aformat != null)
-                    this.format.put(offset + i, aformat);
-            }
-        }
         words.add(word);
         update();
     }
@@ -216,15 +194,8 @@ public class LineWriter
         int offset = 0;
         for (String wd : words)
             offset += wd.length() + 1;
-        Iterator<Entry<Integer, TextFormat>> itx = format.entrySet().iterator();
-        while (itx.hasNext())
-        {
-            Entry<Integer, TextFormat> etx = itx.next();
-            if (etx.getKey() >= offset)
-                itx.remove();
-        }
-        if (!format.containsKey(0))
-            format.put(0, zeroFormat.clone());
+
+        formatter.cleanAfter(offset);
 
         update();
         return word;

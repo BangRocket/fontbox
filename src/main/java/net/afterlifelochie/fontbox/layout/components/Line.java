@@ -33,9 +33,9 @@ public class Line extends Element
      */
     public final char[] line;
     /**
-     * The character formats
+     * The character formatter
      */
-    public final TextFormat[] format;
+    public final TextFormatter formatter;
 
     /**
      * The line's ID
@@ -50,16 +50,16 @@ public class Line extends Element
      * Create a new line
      *
      * @param line       The line's text
-     * @param format     The text format map
+     * @param formatter  The text formatter
      * @param bounds     The location of the line
      * @param space_size The size of the spacing between words
      */
-    public Line(char[] line, TextFormat[] format, ObjectBounds bounds, int space_size)
+    public Line(char[] line, TextFormatter formatter, ObjectBounds bounds, int space_size)
     {
         setBounds(bounds);
-        this.line = line;
-        this.format = format;
         this.id = null;
+        this.line = line;
+        this.formatter = formatter;
         this.space_size = space_size;
     }
 
@@ -67,14 +67,14 @@ public class Line extends Element
      * Create a new line with an ID
      *
      * @param line       The line's text
-     * @param format     The text format map
+     * @param formatter  The text formatter
      * @param uid        The line's ID
      * @param bounds     The location of the line
      * @param space_size The size of the spacing between words
      */
-    public Line(char[] line, TextFormat[] format, String uid, ObjectBounds bounds, int space_size)
+    public Line(char[] line, TextFormatter formatter, String uid, ObjectBounds bounds, int space_size)
     {
-        this(line, format, bounds, space_size);
+        this(line, formatter, bounds, space_size);
         this.id = uid;
     }
 
@@ -123,7 +123,7 @@ public class Line extends Element
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-        TextFormat decorator = format[0];
+        TextFormat decorator = formatter.getFormat(0);
         GlStateManager.pushMatrix();
         safeSwitchToFont(decorator.font);
         GlStateManager.translate(bounds().x, bounds().y, 0);
@@ -133,17 +133,17 @@ public class Line extends Element
             char c = line[i];
             if (c != ' ')
             {
-                TextFormat aDecorator = format[i];
-                if (aDecorator != null && !aDecorator.equals(decorator))
+                TextFormat newDecorator = formatter.getFormat(i);
+                if (newDecorator != null && !newDecorator.equals(decorator))
                 {
-                    if (aDecorator.font != decorator.font)
+                    if (newDecorator.font != decorator.font)
                     {
                         GlStateManager.popMatrix();
                         GlStateManager.pushMatrix();
-                        safeSwitchToFont(aDecorator.font);
+                        safeSwitchToFont(newDecorator.font);
                         GlStateManager.translate(bounds().x, bounds().y, 0);
                     }
-                    decorator = aDecorator;
+                    decorator = newDecorator;
                 }
 
                 GLFontMetrics metric = decorator.font.getMetric();
