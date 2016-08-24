@@ -10,11 +10,11 @@ public class FontboxServer
 
     public void preInit(FMLPreInitializationEvent e)
     {
+        book = new ItemDemoBook();
     }
 
     public void init(FMLInitializationEvent e)
     {
-        book = new ItemDemoBook();
     }
 
     public void postInit(FMLPostInitializationEvent e)

@@ -6,9 +6,17 @@ import net.afterlifelochie.fontbox.font.FontException;
 import net.afterlifelochie.fontbox.font.GLFont;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class FontboxClient extends FontboxServer
 {
+    @Override
+    public void preInit(FMLPreInitializationEvent e)
+    {
+        super.preInit(e);
+        book.initModel();
+    }
+
     @Override
     public void init(FMLInitializationEvent e)
     {
@@ -23,7 +31,6 @@ public class FontboxClient extends FontboxServer
         {
             f0.printStackTrace();
         }
-        book.initModel();
     }
 
 }
