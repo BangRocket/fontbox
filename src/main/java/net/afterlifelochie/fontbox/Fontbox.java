@@ -103,7 +103,7 @@ public class Fontbox
      */
     public ITracer tracer = new VoidTracer();
     /**
-     * The map of all fontnames to fonts
+     * The map of all font names to fonts
      */
     public HashMap<String, GLFont> fonts = new HashMap<String, GLFont>();
 

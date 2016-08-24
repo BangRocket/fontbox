@@ -143,7 +143,7 @@ public class GLFontMetrics
                 if (w == -1 || h == -1 || u == -1 || v == -1)
                     throw new FontException(String.format("Invalid metric properties set for key %s", c));
                 trace.trace("GLFontMetrics.fromResource", "placeGlyph", (char)c, w, h, u, v);
-                metric.glyphs.put(c, new GLGlyphMetric(w, h, h, u, v));
+                metric.glyphs.put(c, new GLGlyphMetric(w, h, 0, u, v));
             }
             trace.trace("GLFontMetrics.fromResource", metric);
             return metric;
