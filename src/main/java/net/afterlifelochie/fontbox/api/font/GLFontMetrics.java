@@ -1,6 +1,7 @@
-package net.afterlifelochie.fontbox.font;
+package net.afterlifelochie.fontbox.api.font;
 
-import net.afterlifelochie.fontbox.api.ITracer;
+import net.afterlifelochie.fontbox.api.exception.FontException;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.util.ResourceLocation;

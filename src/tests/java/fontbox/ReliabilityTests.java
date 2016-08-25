@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import java.util.EnumSet;
 
-import net.afterlifelochie.fontbox.document.CompilerHint;
-import net.afterlifelochie.fontbox.document.CompilerHint.HintType;
-import net.afterlifelochie.fontbox.document.property.FloatMode;
+import net.afterlifelochie.fontbox.document.CompilerHintElement;
+import net.afterlifelochie.fontbox.api.formatting.CompilerHint;
+import net.afterlifelochie.fontbox.api.formatting.FloatMode;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.layout.components.PageProperties;
+import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.io.IntegerExclusionStream;
 
 import org.junit.Test;
@@ -59,9 +59,9 @@ public class ReliabilityTests {
 	@Test
 	public void testCompilerHints() {
 		try {
-			HintType typeof = null;
-			new CompilerHint(typeof);
-			fail("CompilerHint constructor must not accept null");
+			CompilerHint typeof = null;
+			new CompilerHintElement(typeof);
+			fail("CompilerHintElement constructor must not accept null");
 		} catch (Throwable t) {
 			if (!(t instanceof IllegalArgumentException))
 				if (t instanceof AssertionError)
@@ -71,9 +71,9 @@ public class ReliabilityTests {
 		}
 
 		try {
-			EnumSet<HintType> blank = EnumSet.noneOf(HintType.class);
-			new CompilerHint(blank);
-			fail("CompilerHint constructor must not accept empty EnumSet");
+			EnumSet<CompilerHint> blank = EnumSet.noneOf(CompilerHint.class);
+			new CompilerHintElement(blank);
+			fail("CompilerHintElement constructor must not accept empty EnumSet");
 		} catch (Throwable t) {
 			if (!(t instanceof IllegalArgumentException))
 				if (t instanceof AssertionError)

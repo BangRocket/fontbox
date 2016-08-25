@@ -36,7 +36,7 @@ public class ItemDemoBook extends Item
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {
         if (worldIn.isRemote)
-            Minecraft.getMinecraft().displayGuiScreen(new GuiDemoBook());
+            Minecraft.getMinecraft().displayGuiScreen(new DemoBook().toGui());
         return ActionResult.newResult(EnumActionResult.PASS, itemStackIn);
     }
 }

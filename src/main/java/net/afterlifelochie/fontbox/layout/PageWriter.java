@@ -1,18 +1,20 @@
 package net.afterlifelochie.fontbox.layout;
 
-import net.afterlifelochie.fontbox.Fontbox;
+import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.layout.components.PageProperties;
+import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.io.IntegerExclusionStream;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class PageWriter
 {
     private final Object lock = new Object();
+    private final FontboxManager manager;
     private ArrayList<Page> pages = new ArrayList<Page>();
     private ArrayList<PageCursor> cursors = new ArrayList<PageCursor>();
     private PageProperties attributes;
@@ -20,10 +22,11 @@ public class PageWriter
     private boolean closed = false;
     private int ptr = 0;
 
-    public PageWriter(PageProperties attributes)
+    public PageWriter(PageProperties attributes, FontboxManager manager)
     {
         this.attributes = attributes;
-        index = new PageIndex();
+        this.manager = manager;
+        this.index = new PageIndex();
     }
 
     public void close()
@@ -81,9 +84,9 @@ public class PageWriter
             Page currentPage = current();
             if (element.bounds() == null)
                 throw new IOException("Cannot write unbounded object to page.");
-            Fontbox.doAssert(currentPage.insidePage(element.bounds()), "Element outside page boundary.");
+            manager.doAssert(currentPage.insidePage(element.bounds()), "Element outside page boundary.");
             Element intersect = currentPage.intersectsElement(element.bounds());
-            Fontbox.doAssert(intersect == null, "Element intersects existing element " + intersect + ": box "
+            manager.doAssert(intersect == null, "Element intersects existing element " + intersect + ": box "
                     + ((intersect != null && intersect.bounds() != null) ? intersect.bounds() : "<null>") + " and "
                     + element.bounds() + "!");
 
@@ -111,7 +114,7 @@ public class PageWriter
             }
             current.left(window.largest());
 
-            Fontbox.tracer().trace("PageWriter.write", "pushCursor", current);
+            manager.tracer().trace("PageWriter.write", "pushCursor", current);
 
             return true;
         }
@@ -143,12 +146,12 @@ public class PageWriter
         }
     }
 
-    public ArrayList<Page> pages()
+    public List<Page> pages()
     {
         synchronized (lock)
         {
             if (!closed)
-                return (ArrayList<Page>) pages.clone();
+                return (List<Page>) pages.clone();
             return pages;
         }
     }
@@ -160,16 +163,6 @@ public class PageWriter
             if (!closed)
                 throw new IOException("Writing not finished!");
             return index;
-        }
-    }
-
-    public ArrayList<PageCursor> cursors()
-    {
-        synchronized (lock)
-        {
-            if (!closed)
-                return (ArrayList<PageCursor>) cursors.clone();
-            return cursors;
         }
     }
 }

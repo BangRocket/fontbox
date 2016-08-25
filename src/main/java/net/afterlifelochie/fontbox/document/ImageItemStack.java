@@ -1,7 +1,7 @@
 package net.afterlifelochie.fontbox.document;
 
-import net.afterlifelochie.fontbox.document.property.AlignmentMode;
-import net.afterlifelochie.fontbox.document.property.FloatMode;
+import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.FloatMode;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -19,6 +19,18 @@ public class ImageItemStack extends Image
      * The item stack
      */
     public ItemStack stack;
+
+    /**
+     * Creates a new inline item-stack image with the properties specified.
+     *
+     * @param source The item stack, may not be null.
+     * @param width  The width of the image.
+     * @param height The height of the image.
+     */
+    public ImageItemStack(ItemStack source, int width, int height)
+    {
+        this(source, width, height, AlignmentMode.LEFT, FloatMode.NONE);
+    }
 
     /**
      * Creates a new inline item-stack image with the properties specified.

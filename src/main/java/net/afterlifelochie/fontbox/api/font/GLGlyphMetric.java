@@ -1,4 +1,4 @@
-package net.afterlifelochie.fontbox.font;
+package net.afterlifelochie.fontbox.api.font;
 
 /**
  * Metrics about a character

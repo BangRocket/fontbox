@@ -1,4 +1,4 @@
-package net.afterlifelochie.fontbox.font;
+package net.afterlifelochie.fontbox.api.exception;
 
 /**
  * Font processor exception. Used when a font file cannot be loaded or when a

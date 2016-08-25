@@ -1,10 +1,11 @@
 package net.afterlifelochie.fontbox.render;
 
-import net.afterlifelochie.fontbox.Fontbox;
+import net.afterlifelochie.fontbox.api.data.IBook;
+import net.afterlifelochie.fontbox.api.formatting.Layout;
+import net.afterlifelochie.fontbox.api.formatting.PageMode;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
-import net.afterlifelochie.fontbox.layout.ObjectBounds;
-import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageIndex;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
@@ -19,91 +20,42 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BookGUI extends GuiScreen
+public class BookGUI extends GuiScreen
 {
     /**
-     * The page-up mode.
-     *
-     * @author AfterLifeLochie
+     * The renderer's PageMode
      */
-    public enum UpMode
-    {
-        /**
-         * One-up (one page) mode
-         */
-        ONE_UP(1),
-        /**
-         * Two-up (two page) mode
-         */
-        TWO_UP(2);
-
-        /**
-         * The number of pages in this mode
-         */
-        public final int pages;
-
-        UpMode(int pages)
-        {
-            this.pages = pages;
-        }
-    }
-
-    /**
-     * Page layout container
-     *
-     * @author AfterLifeLochie
-     */
-    public static class Layout
-    {
-        public int x, y;
-
-        /**
-         * Create a new Layout container for rendering the page on screen.
-         *
-         * @param x The x-coordinate to render at
-         * @param y The y-coordinate to render at
-         */
-        public Layout(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    }
-
-    /**
-     * The renderer's UpMode
-     */
-    protected final UpMode mode;
-    /**
-     * The page layout grid
-     */
-    protected final Layout[] layout;
+    private final PageMode mode;
 
     /**
      * The list of pages
      */
-    protected List<Page> pages;
+    private List<Page> pages;
     /**
      * The data index
      */
-    protected PageIndex index;
+    private PageIndex index;
     /**
      * The current page pointer
      */
-    protected int ptr = 0;
+    private int ptr = 0;
 
     /**
      * The current opengl display list state
      */
-    protected boolean useDisplayList = false;
+    private boolean useDisplayList = false;
     /**
      * The current opengl buffer list
      */
-    protected int[] glDisplayLists;
+    private int[] glDisplayLists;
     /**
      * The current buffer dirty state
      */
-    protected boolean glBufferDirty[];
+    private boolean glBufferDirty[];
+    /**
+     * The underlying book
+     */
+    private final IBook book;
 
     /**
      * <p>
@@ -112,22 +64,19 @@ public abstract class BookGUI extends GuiScreen
      * control how many and where pages are rendered.
      * </p>
      *
-     * @param mode   The page mode, usually ONE_UP or TWO_UP.
-     * @param layout The layout array which specifies where the pages should be
-     *               rendered. The number of elements in the array must match the
-     *               number of pages required by the UpMode specified.
+     * @param book The underlying {@link IBook}
      */
-    public BookGUI(UpMode mode, Layout[] layout)
+    public BookGUI(IBook book, ITracer tracer)
     {
-        if (layout == null)
-            throw new IllegalArgumentException("Layout cannot be null!");
-        if (mode == null)
+        if (book == null)
+            throw new IllegalArgumentException("IBook cannot be null!");
+        if (book.getPageMode() == null)
             throw new IllegalArgumentException("Mode cannot be null!");
-        if (layout.length != mode.pages)
-            throw new IllegalArgumentException("Expected " + mode.pages + " pages for mode " + mode);
-        this.mode = mode;
-        this.layout = layout;
-        prepareGraphics();
+        if (book.getPageMode().layouts == null)
+            throw new IllegalArgumentException("Layout cannot be null!");
+        this.book = book;
+        this.mode = book.getPageMode();
+        prepareGraphics(tracer);
     }
 
     /**
@@ -143,7 +92,7 @@ public abstract class BookGUI extends GuiScreen
      * @param pages The new list of pages
      * @param index The new page index
      */
-    public void changePages(ArrayList<Page> pages, PageIndex index)
+    public void changePages(List<Page> pages, PageIndex index)
     {
         if (ptr >= pages.size())
         {
@@ -200,12 +149,14 @@ public abstract class BookGUI extends GuiScreen
                     int what = ptr + i;
                     if (pages.size() <= what)
                         break;
-                    toRender.add(new Tuple<Layout, Page>(layout[i], pages.get(ptr + i)));
+                    toRender.add(new Tuple<Layout, Page>(mode.layouts[i], pages.get(ptr + i)));
                 }
                 i = 0;
                 for (Tuple<Layout, Page> page : toRender)
-                    if (useDisplayList) renderPageStaticsBuffered(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
-                    else renderPageStaticsImmediate(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
+                    if (useDisplayList)
+                        renderPageStaticsBuffered(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
+                    else
+                        renderPageStaticsImmediate(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
                 i = 0;
                 for (Tuple<Layout, Page> page : toRender)
                     renderPageDynamics(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
@@ -218,14 +169,6 @@ public abstract class BookGUI extends GuiScreen
     }
 
     /**
-     * Called when the current page is changed
-     *
-     * @param gui     The current GUI
-     * @param whatPtr The new page pointer value
-     */
-    public abstract void onPageChanged(BookGUI gui, int whatPtr);
-
-    /**
      * <p>
      * Draw the background layer of the interface. You must leave the opengl
      * state such that the layout (0, 0) will be drawn in the current place.
@@ -235,7 +178,10 @@ public abstract class BookGUI extends GuiScreen
      * @param my    The mouse y-coordinate
      * @param frame The partial frames rendered
      */
-    public abstract void drawBackground(int mx, int my, float frame);
+    public void drawBackground(int mx, int my, float frame)
+    {
+        book.drawBackground(width, height, mx, my, frame, zLevel);
+    }
 
     /**
      * <p>
@@ -248,33 +194,35 @@ public abstract class BookGUI extends GuiScreen
      * @param my    The mouse y-coordinate
      * @param frame The partial frames rendered
      */
-    public abstract void drawForeground(int mx, int my, float frame);
+    public void drawForeground(int mx, int my, float frame)
+    {
+        book.drawForeground(width, height, mx, my, frame, zLevel);
+    }
 
     /**
-     * Called internally when the page is changed. Don't override this, use
-     * {@link #onPageChanged(BookGUI, int)} instead.
+     * Called internally when the page is changed.
      *
      * @param gui     The book GUI
      * @param whatPtr The new page pointer
      */
-    protected void internalOnPageChanged(BookGUI gui, int whatPtr)
+    private void internalOnPageChanged(BookGUI gui, int whatPtr)
     {
         for (int i = 0; i < mode.pages; i++)
             glBufferDirty[i] = true;
-        onPageChanged(gui, whatPtr);
+        book.onPageChanged(gui, whatPtr);
     }
 
     /**
      * Called internally to set up the display lists.
      */
-    protected void prepareGraphics()
+    protected void prepareGraphics(ITracer tracer)
     {
         try
         {
             Util.checkGLError();
         } catch (OpenGLException glex)
         {
-            Fontbox.tracer().warn("BookGUI.prepareGraphics", "Bad OpenGL operation detected, check GL history!");
+            tracer.warn("BookGUI.prepareGraphics", "Bad OpenGL operation detected, check GL history!");
             glex.printStackTrace();
             return;
         }
@@ -287,13 +235,13 @@ public abstract class BookGUI extends GuiScreen
             Util.checkGLError();
         } catch (OpenGLException glex)
         {
-            Fontbox.tracer().warn("BookGUI.prepareGraphics",
+            tracer.warn("BookGUI.prepareGraphics",
                     "Unable to allocate display-list buffers, using immediate mode.");
             return;
         }
 
         if (glList <= 0)
-            Fontbox.tracer().warn("BookGUI.prepareGraphics", "No display-lists available, using immediate mode.");
+            tracer.warn("BookGUI.prepareGraphics", "No display-lists available, using immediate mode.");
         else
         {
             for (int i = 0; i < glDisplayLists.length; i++)
@@ -301,8 +249,7 @@ public abstract class BookGUI extends GuiScreen
                 glDisplayLists[i] = glList + i;
                 glBufferDirty[i] = true;
             }
-            Fontbox.tracer()
-                    .trace("BookGUI.prepareGraphics", "Displaylist initialized.", glList, glDisplayLists.length);
+            tracer.trace("BookGUI.prepareGraphics", "Displaylist initialized.", glList, glDisplayLists.length);
             useDisplayList = true;
         }
     }
@@ -375,7 +322,7 @@ public abstract class BookGUI extends GuiScreen
         super.mouseClicked(mx, my, button);
         for (int i = 0; i < mode.pages; i++)
         {
-            Layout where = layout[i];
+            Layout where = mode.layouts[i];
             int which = ptr + i;
             if (pages.size() <= which)
                 break;

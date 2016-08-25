@@ -1,6 +1,4 @@
-package net.afterlifelochie.fontbox.layout.components;
-
-import net.afterlifelochie.fontbox.document.formatting.TextFormat;
+package net.afterlifelochie.fontbox.api.formatting;
 
 import java.util.HashMap;
 import java.util.Iterator;

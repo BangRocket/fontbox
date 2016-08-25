@@ -1,9 +1,9 @@
 package net.afterlifelochie.fontbox.document;
 
-import net.afterlifelochie.fontbox.api.ITracer;
-import net.afterlifelochie.fontbox.document.property.AlignmentMode;
-import net.afterlifelochie.fontbox.document.property.FloatMode;
-import net.afterlifelochie.fontbox.layout.LayoutException;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
+import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.FloatMode;
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
@@ -31,6 +31,18 @@ public class Image extends Element
      * The floating of the image
      */
     public FloatMode floating;
+
+    /**
+     * Creates a new inline image with the properties specified.
+     *
+     * @param source The image source location, may not be null.
+     * @param width  The width of the image.
+     * @param height The height of the image.
+     */
+    public Image(ResourceLocation source, int width, int height)
+    {
+        this(source, width, height, AlignmentMode.LEFT, FloatMode.NONE);
+    }
 
     /**
      * Creates a new inline image with the properties specified.

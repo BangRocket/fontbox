@@ -1,24 +1,20 @@
 package net.afterlifelochie.fontbox.document;
 
-import net.afterlifelochie.fontbox.api.ITracer;
-import net.afterlifelochie.fontbox.data.FormattedString;
-import net.afterlifelochie.fontbox.document.formatting.TextFormat;
-import net.afterlifelochie.fontbox.document.property.AlignmentMode;
-import net.afterlifelochie.fontbox.document.property.FloatMode;
-import net.afterlifelochie.fontbox.layout.LayoutException;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
+import net.afterlifelochie.fontbox.api.data.FormattedString;
+import net.afterlifelochie.fontbox.api.formatting.TextFormat;
+import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
-import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Line;
 import net.afterlifelochie.fontbox.layout.components.LineWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.layout.components.TextFormatter;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.afterlifelochie.io.StackedPushBackStringReader;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 /**
  * <p>
