@@ -1,15 +1,13 @@
 package net.afterlifelochie.demo;
 
-import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.api.DocumentBuilder;
 import net.afterlifelochie.fontbox.api.IDocumentBuilder;
+import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.data.IBook;
 import net.afterlifelochie.fontbox.api.data.IDocument;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
-import net.afterlifelochie.fontbox.api.formatting.*;
-import net.afterlifelochie.fontbox.api.formatting.PageMode;
-import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.font.GLFont;
+import net.afterlifelochie.fontbox.api.formatting.*;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

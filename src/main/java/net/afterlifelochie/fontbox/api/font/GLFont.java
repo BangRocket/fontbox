@@ -1,12 +1,15 @@
 package net.afterlifelochie.fontbox.api.font;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Transparency;
+import net.afterlifelochie.fontbox.api.FontboxManager;
+import net.afterlifelochie.fontbox.api.exception.FontException;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
@@ -16,18 +19,6 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
-
-import net.afterlifelochie.fontbox.api.FontboxManager;
-import net.afterlifelochie.fontbox.api.exception.FontException;
-import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.resources.IResource;
-import net.minecraft.util.ResourceLocation;
-
-import org.lwjgl.opengl.GL11;
 
 /**
  * Represents a Font object for OpenGL.

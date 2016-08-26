@@ -1,9 +1,9 @@
 package net.afterlifelochie.fontbox.layout;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
+import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.io.IntegerExclusionStream;
 
 import java.io.IOException;

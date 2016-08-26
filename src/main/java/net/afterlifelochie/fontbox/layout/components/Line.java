@@ -1,14 +1,14 @@
 package net.afterlifelochie.fontbox.layout.components;
 
-import net.afterlifelochie.fontbox.api.formatting.TextFormatter;
-import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.api.formatting.DecorationStyle;
-import net.afterlifelochie.fontbox.api.formatting.TextFormat;
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.font.GLFont;
 import net.afterlifelochie.fontbox.api.font.GLFontMetrics;
 import net.afterlifelochie.fontbox.api.font.GLGlyphMetric;
-import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.formatting.DecorationStyle;
+import net.afterlifelochie.fontbox.api.formatting.TextFormat;
+import net.afterlifelochie.fontbox.api.formatting.TextFormatter;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
+import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.render.BookGUI;

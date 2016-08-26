@@ -1,9 +1,9 @@
 package net.afterlifelochie.fontbox.document;
 
-import net.afterlifelochie.fontbox.api.tracer.ITracer;
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.FloatMode;
-import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;

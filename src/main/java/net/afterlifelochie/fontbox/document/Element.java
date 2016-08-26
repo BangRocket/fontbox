@@ -1,10 +1,10 @@
 package net.afterlifelochie.fontbox.document;
 
-import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
-import net.afterlifelochie.fontbox.api.formatting.TextFormat;
-import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.TextFormat;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Line;

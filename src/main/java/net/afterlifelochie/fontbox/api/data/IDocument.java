@@ -1,9 +1,10 @@
 package net.afterlifelochie.fontbox.api.data;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
-import net.afterlifelochie.fontbox.api.formatting.*;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
-import net.afterlifelochie.fontbox.api.tracer.ITracer;
+import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.CompilerHint;
+import net.afterlifelochie.fontbox.api.formatting.FloatMode;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;

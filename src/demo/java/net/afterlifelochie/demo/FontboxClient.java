@@ -1,9 +1,9 @@
 package net.afterlifelochie.demo;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
-import net.afterlifelochie.fontbox.api.tracer.PrintOutputTracer;
 import net.afterlifelochie.fontbox.api.exception.FontException;
 import net.afterlifelochie.fontbox.api.font.GLFont;
+import net.afterlifelochie.fontbox.api.tracer.PrintOutputTracer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

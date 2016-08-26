@@ -1,7 +1,7 @@
 package net.afterlifelochie.fontbox.api.data;
 
-import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
+import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.minecraft.client.gui.GuiScreen;
 
 public interface IBook

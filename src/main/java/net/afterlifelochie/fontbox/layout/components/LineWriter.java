@@ -1,11 +1,11 @@
 package net.afterlifelochie.fontbox.layout.components;
 
-import net.afterlifelochie.fontbox.api.formatting.TextFormat;
-import net.afterlifelochie.fontbox.api.formatting.TextFormatter;
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.font.GLGlyphMetric;
 import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.FloatMode;
-import net.afterlifelochie.fontbox.api.font.GLGlyphMetric;
-import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.formatting.TextFormat;
+import net.afterlifelochie.fontbox.api.formatting.TextFormatter;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 
