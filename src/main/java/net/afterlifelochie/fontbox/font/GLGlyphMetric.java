@@ -1,34 +1,16 @@
-package net.afterlifelochie.fontbox.api.font;
+package net.afterlifelochie.fontbox.font;
+
+import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
 
 /**
  * Metrics about a character
  *
  * @author AfterLifeLochie
  */
-public class GLGlyphMetric
+public class GLGlyphMetric implements IGLGlyphMetric
 {
-    /**
-     * The character's width
-     */
-    public int width;
-    /**
-     * The character's height
-     */
-    public int height;
 
-    /**
-     * The character's ascent
-     */
-    public int ascent;
-
-    /**
-     * The u-coordinate of the texture
-     */
-    public int ux;
-    /**
-     * The v-coordinate of the texture
-     */
-    public int vy;
+    public final int width, height, ascent, ux, vy;
 
     /**
      * Creates a new GlpyhMetric.
@@ -50,6 +32,36 @@ public class GLGlyphMetric
         ascent = a;
         ux = u;
         vy = v;
+    }
+
+    @Override
+    public int getWidth()
+    {
+        return width;
+    }
+
+    @Override
+    public int getHeight()
+    {
+        return height;
+    }
+
+    @Override
+    public int getAscent()
+    {
+        return ascent;
+    }
+
+    @Override
+    public int getUx()
+    {
+        return ux;
+    }
+
+    @Override
+    public int getVy()
+    {
+        return vy;
     }
 
     @Override

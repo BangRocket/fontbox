@@ -1,31 +1,31 @@
 package net.afterlifelochie.fontbox.api.formatting;
 
-import net.afterlifelochie.fontbox.api.font.GLFont;
+import net.afterlifelochie.fontbox.api.font.IGLFont;
 
 import java.util.EnumSet;
 
 public class TextFormat implements Cloneable
 {
     public final EnumSet<DecorationStyle> decorations;
-    public final GLFont font;
+    public final IGLFont font;
     public final ColorFormat color;
 
-    public TextFormat(GLFont font)
+    public TextFormat(IGLFont font)
     {
         this(font, EnumSet.noneOf(DecorationStyle.class), null);
     }
 
-    public TextFormat(GLFont font, EnumSet<DecorationStyle> decorations)
+    public TextFormat(IGLFont font, EnumSet<DecorationStyle> decorations)
     {
         this(font, decorations, null);
     }
 
-    public TextFormat(GLFont font, ColorFormat color)
+    public TextFormat(IGLFont font, ColorFormat color)
     {
         this(font, EnumSet.noneOf(DecorationStyle.class), color);
     }
 
-    public TextFormat(GLFont font, EnumSet<DecorationStyle> decorations, ColorFormat color)
+    public TextFormat(IGLFont font, EnumSet<DecorationStyle> decorations, ColorFormat color)
     {
         this.decorations = decorations;
         this.font = font;

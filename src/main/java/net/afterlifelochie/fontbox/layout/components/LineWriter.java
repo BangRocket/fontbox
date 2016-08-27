@@ -1,7 +1,8 @@
 package net.afterlifelochie.fontbox.layout.components;
 
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
-import net.afterlifelochie.fontbox.api.font.GLGlyphMetric;
+import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
+import net.afterlifelochie.fontbox.font.GLGlyphMetric;
 import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.FloatMode;
 import net.afterlifelochie.fontbox.api.formatting.TextFormat;
@@ -81,13 +82,13 @@ public class LineWriter
             for (char cz : chars)
             {
                 TextFormat format = formatter.getFormat(offset);
-                GLGlyphMetric cm = format.font.getMetric().glyphs.get((int) cz);
+                IGLGlyphMetric cm = format.font.getMetric().getGlyphs().get((int) cz);
                 if (cm == null)
                     throw new LayoutException(String.format("Glyph %s not supported by font %s.", cz,
                             format.font.getName()));
-                wordsWidth += cm.width;
-                if (cm.ascent > height)
-                    height = cm.ascent;
+                wordsWidth += cm.getWidth();
+                if (cm.getAscent() > height)
+                    height = cm.getAscent();
                 offset++;
             }
             offset++;

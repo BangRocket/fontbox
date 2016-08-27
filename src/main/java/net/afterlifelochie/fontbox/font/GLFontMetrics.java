@@ -1,6 +1,8 @@
-package net.afterlifelochie.fontbox.api.font;
+package net.afterlifelochie.fontbox.font;
 
 import net.afterlifelochie.fontbox.api.exception.FontException;
+import net.afterlifelochie.fontbox.api.font.IGLFontMetrics;
+import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.IResource;
@@ -21,6 +23,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A font metric digest. Contains information on the font, such as the
@@ -29,7 +32,7 @@ import java.util.HashMap;
  *
  * @author AfterLifeLochie
  */
-public class GLFontMetrics
+public class GLFontMetrics implements IGLFontMetrics
 {
     /**
      * Derive a font metric from a font file, a font render context and the
@@ -160,24 +163,32 @@ public class GLFontMetrics
         }
     }
 
-    /**
-     * The individual dimensions and u-v locations of each character in the set
-     */
-    public final HashMap<Integer, GLGlyphMetric> glyphs = new HashMap<Integer, GLGlyphMetric>();
 
-    /**
-     * The universal width of the font image.
-     */
-    public final float fontImageWidth;
-    /**
-     * The universal height of the font image.
-     */
-    public final float fontImageHeight;
+    private final Map<Integer, IGLGlyphMetric> glyphs = new HashMap<Integer, IGLGlyphMetric>();
+    private final float fontImageWidth, fontImageHeight;
 
     private GLFontMetrics(int fontImageWidth, int fontImageHeight)
     {
         this.fontImageWidth = fontImageWidth;
         this.fontImageHeight = fontImageHeight;
+    }
+
+    @Override
+    public Map<Integer, IGLGlyphMetric> getGlyphs()
+    {
+        return glyphs;
+    }
+
+    @Override
+    public float getFontImageWidth()
+    {
+        return fontImageWidth;
+    }
+
+    @Override
+    public float getFontImageHeight()
+    {
+        return fontImageHeight;
     }
 
     @Override

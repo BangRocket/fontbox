@@ -1,6 +1,7 @@
 package net.afterlifelochie.fontbox.api;
 
-import net.afterlifelochie.fontbox.api.font.GLFont;
+import net.afterlifelochie.fontbox.api.font.IGLFont;
+import net.afterlifelochie.fontbox.font.GLFont;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.api.tracer.VoidTracer;
 
@@ -8,6 +9,7 @@ import java.util.HashMap;
 
 /**
  * Manger used for passing around commonly used objects
+ * and doing some debug checks and prints
  */
 public class FontboxManager
 {
@@ -51,7 +53,7 @@ public class FontboxManager
     /**
      * The map of all font names to fonts
      */
-    private HashMap<String, GLFont> fonts = new HashMap<String, GLFont>();
+    private HashMap<String, IGLFont> fonts = new HashMap<String, IGLFont>();
 
     /**
      * Allocate a font on the font record heap. The font can later be referenced
@@ -59,7 +61,7 @@ public class FontboxManager
      *
      * @param font The font object
      */
-    public void allocateFont(GLFont font)
+    public void allocateFont(IGLFont font)
     {
         fonts.put(font.getName(), font);
     }
@@ -73,7 +75,7 @@ public class FontboxManager
      * @param font The font to de-register
      * @see GLFont#delete(FontboxManager) ()
      */
-    public void deleteFont(GLFont font)
+    public void deleteFont(IGLFont font)
     {
         fonts.remove(font.getName());
     }
@@ -86,7 +88,7 @@ public class FontboxManager
      * @return The game font associated with the name, or null if the font
      * hasn't been loaded or doesn't exist.
      */
-    public GLFont fromName(String name)
+    public IGLFont fromName(String name)
     {
         return fonts.get(name);
     }

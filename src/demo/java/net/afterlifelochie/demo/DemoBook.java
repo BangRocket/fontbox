@@ -6,7 +6,7 @@ import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.data.IBook;
 import net.afterlifelochie.fontbox.api.data.IDocument;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
-import net.afterlifelochie.fontbox.api.font.GLFont;
+import net.afterlifelochie.fontbox.api.font.IGLFont;
 import net.afterlifelochie.fontbox.api.formatting.*;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.minecraft.client.Minecraft;
@@ -31,7 +31,7 @@ public class DemoBook implements IBook
     public static IDocumentBuilder builder;
 
     private IDocument document;
-    private GLFont daniel, notethis, ampersand;
+    private IGLFont daniel, notethis, ampersand;
 
     public DemoBook()
     {

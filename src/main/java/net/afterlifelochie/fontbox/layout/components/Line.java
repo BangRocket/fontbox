@@ -1,9 +1,12 @@
 package net.afterlifelochie.fontbox.layout.components;
 
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
-import net.afterlifelochie.fontbox.api.font.GLFont;
-import net.afterlifelochie.fontbox.api.font.GLFontMetrics;
-import net.afterlifelochie.fontbox.api.font.GLGlyphMetric;
+import net.afterlifelochie.fontbox.api.font.IGLFont;
+import net.afterlifelochie.fontbox.api.font.IGLFontMetrics;
+import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
+import net.afterlifelochie.fontbox.font.GLFont;
+import net.afterlifelochie.fontbox.font.GLFontMetrics;
+import net.afterlifelochie.fontbox.font.GLGlyphMetric;
 import net.afterlifelochie.fontbox.api.formatting.DecorationStyle;
 import net.afterlifelochie.fontbox.api.formatting.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.TextFormatter;
@@ -103,11 +106,11 @@ public class Line extends Element
         return true;
     }
 
-    private void safeSwitchToFont(GLFont font) throws RenderException
+    private void safeSwitchToFont(IGLFont font) throws RenderException
     {
         if (font.getTextureId() == -1)
             throw new RenderException("Font object not loaded!");
-        GLFontMetrics metric = font.getMetric();
+        IGLFontMetrics metric = font.getMetric();
         if (metric == null)
             throw new RenderException("Font object not loaded!");
         GlStateManager.bindTexture(font.getTextureId());
@@ -147,8 +150,8 @@ public class Line extends Element
                     decorator = newDecorator;
                 }
 
-                GLFontMetrics metric = decorator.font.getMetric();
-                GLGlyphMetric glyph = metric.glyphs.get((int) c);
+                IGLFontMetrics metric = decorator.font.getMetric();
+                IGLGlyphMetric glyph = metric.getGlyphs().get((int) c);
                 if (glyph == null) // blank glyph?
                     continue;
 
@@ -170,7 +173,7 @@ public class Line extends Element
                 if (decorator.decorations.contains(DecorationStyle.BOLD))
                     renderGlyphInPlace(metric, glyph, x + 0.5f, y + 0.5f, tiltTop, tiltBottom, underline);
 
-                x += glyph.width;
+                x += glyph.getWidth();
             } else
                 x += space_size;
         }
@@ -181,27 +184,27 @@ public class Line extends Element
         GlStateManager.popMatrix();
     }
 
-    private void renderGlyphInPlace(GLFontMetrics metric, GLGlyphMetric glyph, float x, float y, float tiltTop, float tiltBottom, boolean underline)
+    private void renderGlyphInPlace(IGLFontMetrics metric, IGLGlyphMetric glyph, float x, float y, float tiltTop, float tiltBottom, boolean underline)
     {
         final double z = 1.0;
-        double u = glyph.ux / metric.fontImageWidth;
-        double v = (glyph.vy - glyph.ascent) / metric.fontImageHeight;
-        double us = glyph.width / metric.fontImageWidth;
-        double vs = glyph.height / metric.fontImageHeight;
+        double u = glyph.getUx() / metric.getFontImageWidth();
+        double v = (glyph.getVy() - glyph.getAscent()) / metric.getFontImageHeight();
+        double us = glyph.getWidth() / metric.getFontImageWidth();
+        double vs = glyph.getHeight() / metric.getFontImageHeight();
 
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
-        buffer.pos(x + tiltTop, y + glyph.height, z).tex(u, v + vs).endVertex();
-        buffer.pos(x + tiltTop + glyph.width, y + glyph.height, z).tex(u + us, v + vs).endVertex();
-        buffer.pos(x + tiltBottom + glyph.width, y, z).tex(u + us, v).endVertex();
+        buffer.pos(x + tiltTop, y + glyph.getHeight(), z).tex(u, v + vs).endVertex();
+        buffer.pos(x + tiltTop + glyph.getWidth(), y + glyph.getHeight(), z).tex(u + us, v + vs).endVertex();
+        buffer.pos(x + tiltBottom + glyph.getWidth(), y, z).tex(u + us, v).endVertex();
         buffer.pos(x + tiltBottom, y, z).tex(u, v).endVertex();
 
         tessellator.draw();
 
         if (underline)
-            GLUtils.drawLine(x, y + glyph.height*0.75, x + glyph.width + tiltBottom, y + glyph.height*0.75, z);
+            GLUtils.drawLine(x, y + glyph.getHeight()*0.75, x + glyph.getWidth() + tiltBottom, y + glyph.getHeight()*0.75, z);
     }
 
     @Override

@@ -1,14 +1,14 @@
-package net.afterlifelochie.fontbox.api;
+package net.afterlifelochie.fontbox.api.font;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
 /**
- * Add to field of type {@link IDocumentBuilder}
- * Used for building {@link net.afterlifelochie.fontbox.api.data.IDocument}s
+ * Apply to field of type {@link IGLFontBuilder}
+ * Use this to construct {@link IGLFont}s
  * Provided during {@link net.minecraftforge.fml.common.event.FMLPreInitializationEvent}
  */
 @Target(ElementType.FIELD)
-public @interface DocumentBuilder
+public @interface GLFontBuilder
 {
 }
