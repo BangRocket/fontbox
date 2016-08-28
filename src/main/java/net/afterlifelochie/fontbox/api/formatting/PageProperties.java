@@ -1,5 +1,7 @@
 package net.afterlifelochie.fontbox.api.formatting;
 
+import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
+
 /**
  * The page layout properties. Includes properties such as the width, the
  * height, the gutters (margins), the minimum space dimensions and the default

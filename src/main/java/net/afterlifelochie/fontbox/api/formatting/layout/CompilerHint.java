@@ -1,4 +1,4 @@
-package net.afterlifelochie.fontbox.api.formatting;
+package net.afterlifelochie.fontbox.api.formatting.layout;
 
 public enum CompilerHint
 {

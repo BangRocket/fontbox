@@ -1,4 +1,4 @@
-package net.afterlifelochie.fontbox.api.formatting;
+package net.afterlifelochie.fontbox.api.formatting.style;
 
 import java.util.HashMap;
 import java.util.Iterator;

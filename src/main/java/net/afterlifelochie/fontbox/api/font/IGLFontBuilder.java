@@ -2,7 +2,6 @@ package net.afterlifelochie.fontbox.api.font;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.api.exception.FontException;
-import net.afterlifelochie.fontbox.font.GLFont;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;

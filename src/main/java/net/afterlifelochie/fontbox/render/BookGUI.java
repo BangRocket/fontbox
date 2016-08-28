@@ -1,8 +1,8 @@
 package net.afterlifelochie.fontbox.render;
 
 import net.afterlifelochie.fontbox.api.data.IBook;
-import net.afterlifelochie.fontbox.api.formatting.Layout;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;

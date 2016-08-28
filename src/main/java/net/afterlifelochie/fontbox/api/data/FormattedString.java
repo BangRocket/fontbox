@@ -1,7 +1,7 @@
 package net.afterlifelochie.fontbox.api.data;
 
-import net.afterlifelochie.fontbox.api.formatting.TextFormat;
-import net.afterlifelochie.fontbox.api.formatting.TextFormatter;
+import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
+import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
 
 public class FormattedString
 {

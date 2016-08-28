@@ -1,9 +1,9 @@
 package net.afterlifelochie.fontbox.api;
 
 import net.afterlifelochie.fontbox.api.font.IGLFont;
-import net.afterlifelochie.fontbox.font.GLFont;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.api.tracer.VoidTracer;
+import net.afterlifelochie.fontbox.font.GLFont;
 
 import java.util.HashMap;
 

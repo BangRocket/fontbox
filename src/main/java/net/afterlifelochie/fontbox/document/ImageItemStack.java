@@ -1,7 +1,7 @@
 package net.afterlifelochie.fontbox.document;
 
-import net.afterlifelochie.fontbox.api.formatting.AlignmentMode;
-import net.afterlifelochie.fontbox.api.formatting.FloatMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

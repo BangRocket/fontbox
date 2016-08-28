@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import java.util.EnumSet;
 
 import net.afterlifelochie.fontbox.document.CompilerHintElement;
-import net.afterlifelochie.fontbox.api.formatting.CompilerHint;
-import net.afterlifelochie.fontbox.api.formatting.FloatMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
+import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;

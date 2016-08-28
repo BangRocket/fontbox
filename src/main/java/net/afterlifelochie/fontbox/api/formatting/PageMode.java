@@ -1,5 +1,7 @@
 package net.afterlifelochie.fontbox.api.formatting;
 
+import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
+
 /**
  * The page-up mode.
  */

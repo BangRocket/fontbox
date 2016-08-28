@@ -1,6 +1,6 @@
 package net.afterlifelochie.fontbox.layout;
 
-import net.afterlifelochie.fontbox.api.formatting.FloatMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 
 public class ObjectBounds
 {
