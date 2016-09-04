@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(name = "fontbox-demo", modid = FontboxDemoMod.modid)
+@Mod(name = "fontbox-demo", modid = FontboxDemoMod.modid, version = "@VERSION@")
 public class FontboxDemoMod
 {
     public static final String modid = "fontbox-demo";

@@ -217,6 +217,7 @@ pip-log.txt
 # Gradle
 /.gradle
 /build/
+output/
 /run/
 /eclipse/
 /runtime/
