@@ -50,6 +50,10 @@ minecraft {
 	replaceIn "package-info.java"
 }
 
+dependencies {
+	testCompile 'junit:junit:4.12'
+}
+
 processResources {
 	inputs.property "version", project.version
 	inputs.property "mcversion", project.minecraft.version
