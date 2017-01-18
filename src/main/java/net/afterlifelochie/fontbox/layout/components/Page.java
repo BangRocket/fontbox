@@ -13,8 +13,7 @@ import java.util.List;
  *
  * @author AfterLifeLochie
  */
-public class Page extends Container
-{
+public class Page extends Container {
     /**
      * The page layout properties container
      */
@@ -34,14 +33,12 @@ public class Page extends Container
      *
      * @param properties The page layout properties.
      */
-    public Page(PageProperties properties)
-    {
+    public Page(PageProperties properties) {
         super(properties.width, properties.height);
         this.properties = properties;
     }
 
-    public ArrayList<Element> allElements()
-    {
+    public ArrayList<Element> allElements() {
         ArrayList<Element> all = new ArrayList<Element>();
         all.addAll(staticElements);
         all.addAll(dynamicElements);
@@ -53,8 +50,7 @@ public class Page extends Container
      *
      * @return The list of static elements on the page
      */
-    public List<Element> staticElements()
-    {
+    public List<Element> staticElements() {
         return staticElements;
     }
 
@@ -63,8 +59,7 @@ public class Page extends Container
      *
      * @return The list of dynamic elements on the page
      */
-    public List<Element> dynamicElements()
-    {
+    public List<Element> dynamicElements() {
         return dynamicElements;
     }
 
@@ -73,8 +68,7 @@ public class Page extends Container
      *
      * @param element The element to push
      */
-    public void push(Element element)
-    {
+    public void push(Element element) {
         if (!element.canCompileRender())
             dynamicElements.add(element);
         else
@@ -89,8 +83,7 @@ public class Page extends Container
      * @param bounds The bounding box to check
      * @return If an intersection occurs
      */
-    public Element intersectsElement(ObjectBounds bounds)
-    {
+    public Element intersectsElement(ObjectBounds bounds) {
         for (Element element : staticElements)
             if (element.bounds() != null && element.bounds().intersects(bounds))
                 return element;
@@ -104,8 +97,7 @@ public class Page extends Container
      * @param bounds The bounding box to check
      * @return If the bounding box fits inside the page
      */
-    public boolean insidePage(ObjectBounds bounds)
-    {
+    public boolean insidePage(ObjectBounds bounds) {
         if (bounds.x < 0 || bounds.y < 0 || bounds.x > width || bounds.y > height)
             return false;
         if (bounds.x + bounds.width > width || bounds.y + bounds.height > height)

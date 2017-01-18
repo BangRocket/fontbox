@@ -5,8 +5,7 @@ import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
 /**
  * The page-up mode.
  */
-public class PageMode
-{
+public class PageMode {
     /**
      * The number of pages in this mode
      */
@@ -17,8 +16,7 @@ public class PageMode
      */
     public final Layout[] layouts;
 
-    public PageMode(Layout... layouts)
-    {
+    public PageMode(Layout... layouts) {
         this.pages = layouts.length;
         this.layouts = layouts;
     }

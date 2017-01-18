@@ -24,8 +24,7 @@ import java.io.IOException;
  *
  * @author AfterLifeLochie
  */
-public abstract class Element
-{
+public abstract class Element {
     private ObjectBounds bounds;
 
     /**
@@ -33,8 +32,7 @@ public abstract class Element
      *
      * @return The bounds of the object
      */
-    public ObjectBounds bounds()
-    {
+    public ObjectBounds bounds() {
         return bounds;
     }
 
@@ -43,8 +41,7 @@ public abstract class Element
      *
      * @param bb The new bounds of the object
      */
-    public void setBounds(ObjectBounds bb)
-    {
+    public void setBounds(ObjectBounds bb) {
         bounds = bb;
     }
 
@@ -133,8 +130,7 @@ public abstract class Element
      *
      * @return The unique identifier for this element
      */
-    public String identifier()
-    {
+    public String identifier() {
         return null;
     }
 
@@ -155,12 +151,10 @@ public abstract class Element
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, PageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException
-    {
+    protected void boxText(ITracer trace, PageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException {
         StackedPushBackStringReader reader = new StackedPushBackStringReader(what.string);
         trace.trace("Element.boxText", "startBox");
-        while (reader.available() > 0)
-        {
+        while (reader.available() > 0) {
             what.formatter.addDefaultFormat(format);
 
             LineWriter stream = new LineWriter(writer, what.formatter, alignment, uid);
@@ -188,27 +182,24 @@ public abstract class Element
      * </ul>
      * </p>
      *
-     * @param trace     The debugging tracer object
-     * @param pageWriter    The underlying stream to write onto
-     * @param text      The text stream to read from
+     * @param trace      The debugging tracer object
+     * @param pageWriter The underlying stream to write onto
+     * @param text       The text stream to read from
      * @throws IOException     Any exception which occurs when reading from the text stream
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, PageWriter pageWriter, LineWriter lineWriter, StackedPushBackStringReader text) throws IOException, LayoutException
-    {
-        main: while (text.available() > 0)
-        {
+    protected void boxText(ITracer trace, PageWriter pageWriter, LineWriter lineWriter, StackedPushBackStringReader text) throws IOException, LayoutException {
+        main:
+        while (text.available() > 0) {
             // Put some words on the writer:
-            while (true)
-            {
+            while (true) {
                 // Push the writer so we can back out
                 text.pushPosition();
 
                 // Build the word:
                 StringBuilder inWord = new StringBuilder();
-                while (true)
-                {
+                while (true) {
                     char cz = text.next();
                     if (cz == 0)
                         break; // okay, end of stream
@@ -231,8 +222,7 @@ public abstract class Element
                 trace.trace("Element.boxText", "considerCursor", pageWriter.cursor());
 
                 // If we overflow the page, back out last change to fit:
-                if (!current.insidePage(future))
-                {
+                if (!current.insidePage(future)) {
                     trace.trace("Element.boxText", "overflowPage", current.width, current.height, future, lineWriter.size());
                     lineWriter.pop();
                     text.popPosition();
@@ -241,8 +231,7 @@ public abstract class Element
                         break main; // nothing fits; break the loop
                     else
                         break; // break the local loop
-                } else if (current.intersectsElement(future) != null)
-                {
+                } else if (current.intersectsElement(future) != null) {
                     // We hit another object, so let's undo
                     trace.trace("Element.boxText", "collideElement", lineWriter.size());
                     Element e0 = current.intersectsElement(future);
@@ -253,8 +242,7 @@ public abstract class Element
                         break main; // Nothing fits at all where we are; break
                     else
                         break; // break the local loop
-                } else
-                {
+                } else {
                     // Store our work
                     trace.trace("Element.boxText", "commitWord");
                     text.commitPosition();

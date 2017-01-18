@@ -8,17 +8,14 @@ package net.afterlifelochie.fontbox.api.tracer;
  *
  * @author AfterLifeLochie
  */
-public class VoidTracer implements ITracer
-{
+public class VoidTracer implements ITracer {
     @Override
-    public void trace(Object... params)
-    {
+    public void trace(Object... params) {
         /* Do nothing */
     }
 
     @Override
-    public void warn(Object... params)
-    {
+    public void warn(Object... params) {
         Object[] data = params;
         StringBuilder result = new StringBuilder();
         for (Object element : data)
@@ -28,8 +25,7 @@ public class VoidTracer implements ITracer
     }
 
     @Override
-    public boolean enableAssertion()
-    {
+    public boolean enableAssertion() {
         return false;
     }
 }

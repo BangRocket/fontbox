@@ -11,8 +11,7 @@ import net.afterlifelochie.fontbox.render.BookGUI;
 import java.io.IOException;
 import java.util.EnumSet;
 
-public class CompilerHintElement extends Element
-{
+public class CompilerHintElement extends Element {
     public EnumSet<CompilerHint> types;
 
     /**
@@ -20,8 +19,7 @@ public class CompilerHintElement extends Element
      *
      * @param first The type of hint. May not be null.
      */
-    public CompilerHintElement(CompilerHint first, CompilerHint... more)
-    {
+    public CompilerHintElement(CompilerHint first, CompilerHint... more) {
         if (first == null)
             throw new IllegalArgumentException("Hint type cannot be null");
         types = EnumSet.of(first, more);
@@ -32,8 +30,7 @@ public class CompilerHintElement extends Element
      *
      * @param types The list of hints. May not be null, may not be empty.
      */
-    public CompilerHintElement(EnumSet<CompilerHint> types)
-    {
+    public CompilerHintElement(EnumSet<CompilerHint> types) {
         if (types == null)
             throw new IllegalArgumentException("Hint types cannot be null");
         if (types.size() == 0)
@@ -42,30 +39,24 @@ public class CompilerHintElement extends Element
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException
-    {
-        for (CompilerHint whatHint : types)
-        {
-            switch (whatHint)
-            {
+    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
+        for (CompilerHint whatHint : types) {
+            switch (whatHint) {
                 case FLOAT_BREAK:
                     PageCursor cursor = writer.cursor();
                     Page current = writer.current();
                     Element lowest = null;
                     int dfx = 0;
-                    for (Element elem : current.allElements())
-                    {
+                    for (Element elem : current.allElements()) {
                         int dux = elem.bounds().y + elem.bounds().height;
-                        if (dux > dfx)
-                        {
+                        if (dux > dfx) {
                             dfx = dux;
                             lowest = elem;
                         }
                     }
                     if (lowest == null || !lowest.bounds().floating())
                         return;
-                    if (lowest.bounds().x == 0)
-                    {
+                    if (lowest.bounds().x == 0) {
                         cursor.top(lowest.bounds().y + lowest.bounds().height);
                         cursor.left(0);
                     }
@@ -76,45 +67,38 @@ public class CompilerHintElement extends Element
                     writer.next();
                     break;
                 default:
-                    throw new LayoutException("Unknown compiler hint: "
-                            + ((whatHint == null) ? "<null>" : whatHint.getClass().getName()));
+                    throw new LayoutException("Unknown compiler hint: " + ((whatHint == null) ? "<null>" : whatHint.getClass().getName()));
             }
         }
     }
 
     @Override
-    public boolean canCompileRender()
-    {
+    public boolean canCompileRender() {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame)
-    {
+    public void render(BookGUI gui, int mx, int my, float frame) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my)
-    {
+    public void clicked(BookGUI gui, int mx, int my) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code)
-    {
+    public void typed(BookGUI gui, char val, int code) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 }

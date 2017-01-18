@@ -11,8 +11,7 @@ import java.util.HashMap;
  * Manger used for passing around commonly used objects
  * and doing some debug checks and prints
  */
-public class FontboxManager
-{
+public class FontboxManager {
     /**
      * The system tracer
      */
@@ -24,8 +23,7 @@ public class FontboxManager
      * @param condition The condition
      * @param reason    The error message to raise if the condition is not true
      */
-    public void doAssert(boolean condition, String reason)
-    {
+    public void doAssert(boolean condition, String reason) {
         if (!condition && (tracer == null || tracer.enableAssertion()))
             throw new AssertionError(reason);
     }
@@ -35,8 +33,7 @@ public class FontboxManager
      *
      * @return The current system tracer
      */
-    public ITracer tracer()
-    {
+    public ITracer tracer() {
         return tracer;
     }
 
@@ -45,8 +42,7 @@ public class FontboxManager
      *
      * @param tracer The new tracer
      */
-    public void setTracer(ITracer tracer)
-    {
+    public void setTracer(ITracer tracer) {
         this.tracer = tracer;
     }
 
@@ -61,8 +57,7 @@ public class FontboxManager
      *
      * @param font The font object
      */
-    public void allocateFont(IGLFont font)
-    {
+    public void allocateFont(IGLFont font) {
         fonts.put(font.getName(), font);
     }
 
@@ -75,8 +70,7 @@ public class FontboxManager
      * @param font The font to de-register
      * @see GLFont#delete(FontboxManager) ()
      */
-    public void deleteFont(IGLFont font)
-    {
+    public void deleteFont(IGLFont font) {
         fonts.remove(font.getName());
     }
 
@@ -88,8 +82,7 @@ public class FontboxManager
      * @return The game font associated with the name, or null if the font
      * hasn't been loaded or doesn't exist.
      */
-    public IGLFont fromName(String name)
-    {
+    public IGLFont fromName(String name) {
         return fonts.get(name);
     }
 }

@@ -8,10 +8,8 @@ import net.afterlifelochie.fontbox.layout.components.Page;
 
 import java.io.IOException;
 
-public class DocumentProcessor
-{
-    public static Element getElementAt(Page page, int x, int y)
-    {
+public class DocumentProcessor {
+    public static Element getElementAt(Page page, int x, int y) {
         for (Element element : page.allElements())
             if (element.bounds().encloses(x, y))
                 return element;
@@ -38,8 +36,7 @@ public class DocumentProcessor
      * @throws LayoutException Any layout exception which occurs when attempting to place an
      *                         element on a Page
      */
-    public static void generatePages(ITracer trace, Document doc, PageWriter writer) throws IOException, LayoutException
-    {
+    public static void generatePages(ITracer trace, Document doc, PageWriter writer) throws IOException, LayoutException {
         for (Element element : doc.elements)
             element.layout(trace, writer);
     }

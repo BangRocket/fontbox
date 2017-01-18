@@ -1,6 +1,5 @@
 package net.afterlifelochie.fontbox.api.formatting.layout;
 
-public enum FloatMode
-{
+public enum FloatMode {
     NONE, LEFT, RIGHT
 }

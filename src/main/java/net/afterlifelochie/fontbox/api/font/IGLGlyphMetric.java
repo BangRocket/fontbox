@@ -1,7 +1,6 @@
 package net.afterlifelochie.fontbox.api.font;
 
-public interface IGLGlyphMetric
-{
+public interface IGLGlyphMetric {
     /**
      * The character's width
      */

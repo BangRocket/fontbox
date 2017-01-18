@@ -2,8 +2,7 @@ package net.afterlifelochie.fontbox.api.font;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
 
-public interface IGLFont
-{
+public interface IGLFont {
     char MIN_CH = '\u0000';
     char MAX_CH = '\u00ff';
 

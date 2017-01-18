@@ -9,7 +9,9 @@ import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.font.IGLFont;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
-import net.afterlifelochie.fontbox.api.formatting.layout.*;
+import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
 import net.afterlifelochie.fontbox.api.formatting.style.ColorFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.DecorationStyle;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
@@ -30,18 +32,15 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-public class DemoBook implements IBook
-{
+public class DemoBook implements IBook {
     @DocumentBuilder
     public static IDocumentBuilder builder;
 
     private IDocument document;
     private IGLFont daniel, notethis, ampersand;
 
-    public DemoBook()
-    {
-        try
-        {
+    public DemoBook() {
+        try {
             /* Get some initial fonts */
             daniel = FontboxClient.getManager().fromName("Daniel");
             notethis = FontboxClient.getManager().fromName("Note this");
@@ -50,7 +49,7 @@ public class DemoBook implements IBook
             /* Load the fable book */
             StringBuilder fable = new StringBuilder();
             IResource resource = Minecraft.getMinecraft().getResourceManager()
-                    .getResource(new ResourceLocation("fontbox", "books/fable.book"));
+                .getResource(new ResourceLocation("fontbox", "books/fable.book"));
             InputStream stream = resource.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
             char[] buf = new char[1024];
@@ -68,11 +67,11 @@ public class DemoBook implements IBook
             document.floatBreak();
             document.addItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER);
             document.addParagraph(new FormattedString("The classic fable demonstration book thingy.")
-                    .applyFormat(new TextFormat(daniel, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
+                .applyFormat(new TextFormat(daniel, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
             document.addParagraph(new FormattedString("The classic fable demonstration book thingy.")
-                    .applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
+                .applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
             document.addParagraph(new FormattedString("The classic fable demonstration book thingy.")
-                    .applyFormat(new TextFormat(ampersand, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
+                .applyFormat(new TextFormat(ampersand, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
             document.pageBreak();
 
             String[] lines = fable.toString().split("\n");
@@ -93,30 +92,22 @@ public class DemoBook implements IBook
             document.addItemStack(new ItemStack(Items.GOLD_INGOT, 1), 32, 32, FloatMode.LEFT);
             document.addParagraph(new FormattedString(realLines.get(2)));
 
-        } catch (IOException ioex)
-        {
+        } catch (IOException ioex) {
             ioex.printStackTrace();
         }
     }
 
-    public GuiScreen toGui()
-    {
-        try
-        {
+    public GuiScreen toGui() {
+        try {
             return document.createBookGui(FontboxClient.getManager(), this);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        } catch (LayoutException e)
-        {
+        } catch (IOException | LayoutException e) {
             e.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public PageProperties getPageProperties()
-    {
+    public PageProperties getPageProperties() {
         /* Build some document properties */
         PageProperties properties = new PageProperties(400, 450, new TextFormat(daniel));
         properties.headingFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD, DecorationStyle.ITALIC), new ColorFormat(255, 128, 64)));
@@ -126,20 +117,17 @@ public class DemoBook implements IBook
     }
 
     @Override
-    public PageMode getPageMode()
-    {
+    public PageMode getPageMode() {
         return new PageMode(new Layout(0, 0), new Layout(180, 0));
     }
 
     @Override
-    public void onPageChanged(GuiScreen gui, int whatPtr)
-    {
+    public void onPageChanged(GuiScreen gui, int whatPtr) {
         /* No action required */
     }
 
     @Override
-    public void drawBackground(int width, int height, int mx, int my, float frame, float zLevel)
-    {
+    public void drawBackground(int width, int height, int mx, int my, float frame, float zLevel) {
         GlStateManager.pushMatrix();
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         GlStateManager.translate(width / 2 - 200, height / 2 - 110, 0.0f);
@@ -152,8 +140,7 @@ public class DemoBook implements IBook
     }
 
     @Override
-    public void drawForeground(int width, int height, int mx, int my, float frame, float zLevel)
-    {
+    public void drawForeground(int width, int height, int mx, int my, float frame, float zLevel) {
         GlStateManager.popMatrix();
     }
 

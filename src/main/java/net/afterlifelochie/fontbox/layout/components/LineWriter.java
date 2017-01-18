@@ -13,8 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineWriter
-{
+public class LineWriter {
     /**
      * The writer stream
      */
@@ -53,13 +52,12 @@ public class LineWriter
      * Construct a new line writing utility. The underlying stream and the
      * writing font must be specified and cannot be null.
      *
-     * @param writer        The underlying stream to operate on.
-     * @param formatter     The text formatter.
-     * @param alignment     The alignment to paginate in.
-     * @param uid           The lines uid.
+     * @param writer    The underlying stream to operate on.
+     * @param formatter The text formatter.
+     * @param alignment The alignment to paginate in.
+     * @param uid       The lines uid.
      */
-    public LineWriter(PageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid)
-    {
+    public LineWriter(PageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid) {
         this.writer = writer;
         this.alignment = alignment;
         this.words = new ArrayList<String>();
@@ -67,24 +65,21 @@ public class LineWriter
         this.uid = uid;
     }
 
-    private void update() throws LayoutException, IOException
-    {
+    private void update() throws LayoutException, IOException {
         int width = 0, height = 0;
 
         Page page = writer.current();
 
         int offset = lineOffset;
         int wordsWidth = 0;
-        for (String word : words)
-        {
+        for (String word : words) {
             char[] chars = word.toCharArray();
-            for (char cz : chars)
-            {
+            for (char cz : chars) {
                 TextFormat format = formatter.getFormat(offset);
                 IGLGlyphMetric cm = format.font.getMetric().getGlyphs().get((int) cz);
                 if (cm == null)
                     throw new LayoutException(String.format("Glyph %s not supported by font %s.", cz,
-                            format.font.getName()));
+                        format.font.getName()));
                 wordsWidth += cm.getWidth();
                 if (cm.getAscent() > height)
                     height = cm.getAscent();
@@ -97,16 +92,14 @@ public class LineWriter
         spaceSize = page.properties.min_space_size;
         int x = writer.cursor().x(), y = writer.cursor().y();
 
-        switch (alignment)
-        {
+        switch (alignment) {
             case CENTER:
                 float halfBlank = blankWidth / 2.0f;
                 x += (int) Math.floor(halfBlank);
                 break;
             case JUSTIFY:
                 float density = (float) wordsWidth / (float) page.width;
-                if (density >= page.properties.min_line_density)
-                {
+                if (density >= page.properties.min_line_density) {
                     int extra_px_per_space = (int) Math.floor(blankWidth / words.size());
                     if (extra_px_per_space > page.properties.min_space_size)
                         spaceSize = extra_px_per_space;
@@ -131,11 +124,9 @@ public class LineWriter
      * @return The formatted line. The stack, properties and other values
      * associated with generating the line are reset on the self object.
      */
-    public Line emit()
-    {
+    public Line emit() {
         StringBuilder words = new StringBuilder();
-        for (int i = 0; i < this.words.size(); i++)
-        {
+        for (int i = 0; i < this.words.size(); i++) {
             String what = this.words.get(i);
             words.append(what);
             if (i < this.words.size() - 1)
@@ -157,8 +148,7 @@ public class LineWriter
      *
      * @return The pending bounding box of the words on the writer.
      */
-    public ObjectBounds pendingBounds()
-    {
+    public ObjectBounds pendingBounds() {
         return bounds;
     }
 
@@ -166,14 +156,13 @@ public class LineWriter
      * Pushes the word onto the writer stack. The word is placed on the end of
      * the stack and the dimensions of the stack are recomputed automatically.
      *
-     * @param word   The word to place on the end of the stack
+     * @param word The word to place on the end of the stack
      * @throws IOException     Any exception which occurs when reading from the page writing
      *                         stream underlying this writer
      * @throws LayoutException Any exception which occurs when updating the potentially
      *                         paginated text
      */
-    public void push(String word) throws LayoutException, IOException
-    {
+    public void push(String word) throws LayoutException, IOException {
         words.add(word);
         update();
     }
@@ -188,8 +177,7 @@ public class LineWriter
      * @throws LayoutException Any exception which occurs when updating the potentially
      *                         paginated text
      */
-    public String pop() throws LayoutException, IOException
-    {
+    public String pop() throws LayoutException, IOException {
         String word = words.remove(words.size() - 1);
 
         int offset = 0;
@@ -208,8 +196,7 @@ public class LineWriter
      * @return The number of elements currently on the writer stack at the time
      * of invocation.
      */
-    public int size()
-    {
+    public int size() {
         return words.size();
     }
 

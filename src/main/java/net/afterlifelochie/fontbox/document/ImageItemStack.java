@@ -13,8 +13,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author AfterLifeLochie
  */
-public class ImageItemStack extends Image
-{
+public class ImageItemStack extends Image {
     /**
      * The item stack
      */
@@ -27,8 +26,7 @@ public class ImageItemStack extends Image
      * @param width  The width of the image.
      * @param height The height of the image.
      */
-    public ImageItemStack(ItemStack source, int width, int height)
-    {
+    public ImageItemStack(ItemStack source, int width, int height) {
         this(source, width, height, AlignmentMode.LEFT, FloatMode.NONE);
     }
 
@@ -40,8 +38,7 @@ public class ImageItemStack extends Image
      * @param height The height of the image.
      * @param align  The alignment of the image.
      */
-    public ImageItemStack(ItemStack source, int width, int height, AlignmentMode align)
-    {
+    public ImageItemStack(ItemStack source, int width, int height, AlignmentMode align) {
         this(source, width, height, align, FloatMode.NONE);
     }
 
@@ -53,8 +50,7 @@ public class ImageItemStack extends Image
      * @param height   The height of the image.
      * @param floating The floating mode.
      */
-    public ImageItemStack(ItemStack source, int width, int height, FloatMode floating)
-    {
+    public ImageItemStack(ItemStack source, int width, int height, FloatMode floating) {
         this(source, width, height, AlignmentMode.LEFT, floating);
     }
 
@@ -67,34 +63,29 @@ public class ImageItemStack extends Image
      * @param align    The alignment of the image.
      * @param floating The floating mode.
      */
-    public ImageItemStack(ItemStack source, int width, int height, AlignmentMode align, FloatMode floating)
-    {
+    public ImageItemStack(ItemStack source, int width, int height, AlignmentMode align, FloatMode floating) {
         super(null, width, height, align, floating);
         stack = source;
     }
 
     @Override
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         return true;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         /* No action required */
     }
 
     @Override
-    public boolean canCompileRender()
-    {
-		/* No, because glint effects */
+    public boolean canCompileRender() {
+        /* No, because glint effects */
         return false;
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame)
-    {
+    public void render(BookGUI gui, int mx, int my, float frame) {
         GlStateManager.pushMatrix();
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.translate(bounds().x * 0.44f, bounds().y * 0.44f, 0);
@@ -105,14 +96,12 @@ public class ImageItemStack extends Image
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my)
-    {
+    public void clicked(BookGUI gui, int mx, int my) {
 		/* No action required */
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code)
-    {
+    public void typed(BookGUI gui, char val, int code) {
 		/* No action required */
     }
 }

@@ -17,102 +17,85 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class DocumentWrapper implements IDocument
-{
+public class DocumentWrapper implements IDocument {
     private Document document;
 
-    public DocumentWrapper()
-    {
+    public DocumentWrapper() {
         document = new Document();
     }
 
     @Override
-    public void addHeading(String uid, FormattedString text)
-    {
+    public void addHeading(String uid, FormattedString text) {
         document.push(new Heading(uid, text));
     }
 
     @Override
-    public void addParagraph(FormattedString text)
-    {
+    public void addParagraph(FormattedString text) {
         document.push(new Paragraph(text));
     }
 
     @Override
-    public void addParagraph(FormattedString text, AlignmentMode align)
-    {
+    public void addParagraph(FormattedString text, AlignmentMode align) {
         document.push(new Paragraph(text, align));
     }
 
     @Override
-    public void addImage(ResourceLocation location, int width, int height)
-    {
+    public void addImage(ResourceLocation location, int width, int height) {
         document.push(new Image(location, width, height));
     }
 
     @Override
-    public void addImage(ResourceLocation location, int width, int height, AlignmentMode align)
-    {
+    public void addImage(ResourceLocation location, int width, int height, AlignmentMode align) {
         document.push(new Image(location, width, height, align));
     }
 
     @Override
-    public void addImage(ResourceLocation location, int width, int height, FloatMode floating)
-    {
+    public void addImage(ResourceLocation location, int width, int height, FloatMode floating) {
         document.push(new Image(location, width, height, floating));
     }
 
     @Override
-    public void addImage(ResourceLocation location, int width, int height, AlignmentMode align, FloatMode floating)
-    {
+    public void addImage(ResourceLocation location, int width, int height, AlignmentMode align, FloatMode floating) {
         document.push(new Image(location, width, height, align, floating));
     }
 
     @Override
-    public void addItemStack(ItemStack itemStack, int width, int height)
-    {
+    public void addItemStack(ItemStack itemStack, int width, int height) {
         document.push(new ImageItemStack(itemStack, width, height));
     }
 
     @Override
-    public void addItemStack(ItemStack itemStack, int width, int height, AlignmentMode align)
-    {
+    public void addItemStack(ItemStack itemStack, int width, int height, AlignmentMode align) {
         document.push(new ImageItemStack(itemStack, width, height, align));
     }
 
     @Override
-    public void addItemStack(ItemStack itemStack, int width, int height, FloatMode floating)
-    {
+    public void addItemStack(ItemStack itemStack, int width, int height, FloatMode floating) {
         document.push(new ImageItemStack(itemStack, width, height, floating));
     }
 
     @Override
-    public void addItemStack(ItemStack itemStack, int width, int height, AlignmentMode align, FloatMode floating)
-    {
+    public void addItemStack(ItemStack itemStack, int width, int height, AlignmentMode align, FloatMode floating) {
         document.push(new ImageItemStack(itemStack, width, height, align, floating));
     }
 
     @Override
-    public void addCompilerHint(CompilerHint hint)
-    {
+    public void addCompilerHint(CompilerHint hint) {
         document.push(new CompilerHintElement(hint));
     }
 
     @Override
-    public void pageBreak()
-    {
+    public void pageBreak() {
         addCompilerHint(CompilerHint.PAGE_BREAK);
     }
 
     @Override
-    public void floatBreak()
-    {
+    public void floatBreak() {
         addCompilerHint(CompilerHint.FLOAT_BREAK);
     }
 
     @Override
-    public GuiScreen createBookGui(FontboxManager manager, IBook book) throws IOException, LayoutException
-    {
+    public GuiScreen createBookGui(FontboxManager manager, IBook book) throws IOException, LayoutException {
         PageWriter writer = new PageWriter(book.getPageProperties(), manager);
         DocumentProcessor.generatePages(manager.tracer(), document, writer);
         writer.close();

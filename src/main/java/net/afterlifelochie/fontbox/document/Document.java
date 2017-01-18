@@ -9,8 +9,7 @@ import java.util.List;
  *
  * @author AfterLifeLochie
  */
-public class Document
-{
+public class Document {
     /**
      * The list of elements in the document
      */
@@ -19,8 +18,7 @@ public class Document
     /**
      * Creates a new blank Document
      */
-    public Document()
-    {
+    public Document() {
         elements = new ArrayList<Element>();
     }
 
@@ -36,8 +34,7 @@ public class Document
      *
      * @param element The element to add
      */
-    public void push(Element element)
-    {
+    public void push(Element element) {
         if (elements.contains(element))
             throw new IllegalArgumentException("Element already exists in tree!");
         elements.add(element);
@@ -55,8 +52,7 @@ public class Document
      *
      * @param elements The elements to add
      */
-    public void pushAll(List<Element> elements)
-    {
+    public void pushAll(List<Element> elements) {
         for (Element ez : elements)
             if (ez != null)
                 push(ez);
@@ -71,8 +67,7 @@ public class Document
      * @return The element on the end of the document, or null if the document
      * is empty
      */
-    public Element pop()
-    {
+    public Element pop() {
         if (elements.size() == 0)
             return null;
         return elements.remove(elements.size() - 1);
@@ -86,8 +81,7 @@ public class Document
      *
      * @return The first element in the document, or null
      */
-    public Element head()
-    {
+    public Element head() {
         return elements.get(0);
     }
 
@@ -99,8 +93,7 @@ public class Document
      *
      * @return The last element in the document, or null
      */
-    public Element tail()
-    {
+    public Element tail() {
         return elements.get(elements.size() - 1);
     }
 

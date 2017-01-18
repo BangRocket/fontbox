@@ -9,20 +9,16 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class GLUtils
-{
-    public static void useSystemTexture(ResourceLocation loc)
-    {
+public class GLUtils {
+    public static void useSystemTexture(ResourceLocation loc) {
         Minecraft.getMinecraft().getTextureManager().bindTexture(loc);
     }
 
-    public static void useFontboxTexture(String name)
-    {
+    public static void useFontboxTexture(String name) {
         GLUtils.useSystemTexture(new ResourceLocation("fontbox", "textures/gui/" + name + ".png"));
     }
 
-    public static void drawDefaultRect(double x, double y, double w, double h, double z)
-    {
+    public static void drawDefaultRect(double x, double y, double w, double h, double z) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -33,8 +29,7 @@ public class GLUtils
         tessellator.draw();
     }
 
-    public static void drawTexturedRectUV(double x, double y, double w, double h, double u, double v, double us, double vs, double z)
-    {
+    public static void drawTexturedRectUV(double x, double y, double w, double h, double u, double v, double us, double vs, double z) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
@@ -45,8 +40,7 @@ public class GLUtils
         tessellator.draw();
     }
 
-    public static void drawLine(double xBegin, double yBegin, double xEnd, double yEnd, double z)
-    {
+    public static void drawLine(double xBegin, double yBegin, double xEnd, double yEnd, double z) {
         int scale = new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor();
         GlStateManager.disableTexture2D();
         GlStateManager.glLineWidth(scale * 0.5F);

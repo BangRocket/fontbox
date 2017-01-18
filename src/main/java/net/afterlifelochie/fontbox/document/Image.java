@@ -15,8 +15,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 
-public class Image extends Element
-{
+public class Image extends Element {
     /**
      * The resource source
      */
@@ -39,8 +38,7 @@ public class Image extends Element
      * @param width  The width of the image.
      * @param height The height of the image.
      */
-    public Image(ResourceLocation source, int width, int height)
-    {
+    public Image(ResourceLocation source, int width, int height) {
         this(source, width, height, AlignmentMode.LEFT, FloatMode.NONE);
     }
 
@@ -52,8 +50,7 @@ public class Image extends Element
      * @param height The height of the image.
      * @param align  The alignment of the image.
      */
-    public Image(ResourceLocation source, int width, int height, AlignmentMode align)
-    {
+    public Image(ResourceLocation source, int width, int height, AlignmentMode align) {
         this(source, width, height, align, FloatMode.NONE);
     }
 
@@ -65,8 +62,7 @@ public class Image extends Element
      * @param height   The height of the image.
      * @param floating The floating mode.
      */
-    public Image(ResourceLocation source, int width, int height, FloatMode floating)
-    {
+    public Image(ResourceLocation source, int width, int height, FloatMode floating) {
         this(source, width, height, AlignmentMode.LEFT, floating);
     }
 
@@ -79,8 +75,7 @@ public class Image extends Element
      * @param align    The alignment of the image.
      * @param floating The floating mode.
      */
-    public Image(ResourceLocation source, int width, int height, AlignmentMode align, FloatMode floating)
-    {
+    public Image(ResourceLocation source, int width, int height, AlignmentMode align, FloatMode floating) {
         this.source = source;
         this.width = width;
         this.height = height;
@@ -89,21 +84,18 @@ public class Image extends Element
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException
-    {
+    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
         Page current = writer.current();
         PageCursor cursor = writer.cursor();
         int yh = cursor.y() + height;
-        if (yh > current.properties.height)
-        {
+        if (yh > current.properties.height) {
             current = writer.next();
             cursor = writer.cursor();
         }
 
         int x;
 
-        switch (align)
-        {
+        switch (align) {
             case CENTER:
                 float qt = current.properties.width - width;
                 x = (int) Math.floor(qt / 2.0f);
@@ -134,45 +126,39 @@ public class Image extends Element
     }
 
     @Override
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         return false;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         /* No action required */
     }
 
     @Override
-    public boolean canCompileRender()
-    {
+    public boolean canCompileRender() {
         return true;
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame)
-    {
+    public void render(BookGUI gui, int mx, int my, float frame) {
         GlStateManager.pushMatrix();
         GLUtils.useSystemTexture(source);
         GlStateManager.enableBlend();
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
         GLUtils.drawTexturedRectUV(bounds().x * 0.44f, bounds().y * 0.44f, bounds().width * 0.44f,
-                bounds().height * 0.44f, 0, 0, 1, 1, 1);
+            bounds().height * 0.44f, 0, 0, 1, 1, 1);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my)
-    {
-		/* No action required */
+    public void clicked(BookGUI gui, int mx, int my) {
+        /* No action required */
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code)
-    {
+    public void typed(BookGUI gui, char val, int code) {
 		/* No action required */
     }
 

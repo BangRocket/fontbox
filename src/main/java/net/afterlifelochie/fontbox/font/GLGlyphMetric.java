@@ -7,8 +7,7 @@ import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
  *
  * @author AfterLifeLochie
  */
-public class GLGlyphMetric implements IGLGlyphMetric
-{
+public class GLGlyphMetric implements IGLGlyphMetric {
 
     public final int width, height, ascent, ux, vy;
 
@@ -25,8 +24,7 @@ public class GLGlyphMetric implements IGLGlyphMetric
      * @param u The u origin-coordinate of the texture
      * @param v The v origin-coordinate of the texture
      */
-    public GLGlyphMetric(int w, int h, int a, int u, int v)
-    {
+    public GLGlyphMetric(int w, int h, int a, int u, int v) {
         width = w;
         height = h;
         ascent = a;
@@ -35,39 +33,33 @@ public class GLGlyphMetric implements IGLGlyphMetric
     }
 
     @Override
-    public int getWidth()
-    {
+    public int getWidth() {
         return width;
     }
 
     @Override
-    public int getHeight()
-    {
+    public int getHeight() {
         return height;
     }
 
     @Override
-    public int getAscent()
-    {
+    public int getAscent() {
         return ascent;
     }
 
     @Override
-    public int getUx()
-    {
+    public int getUx() {
         return ux;
     }
 
     @Override
-    public int getVy()
-    {
+    public int getVy() {
         return vy;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "GLGlyphMetric { width: " + width + ", height: " + height + ", ascent: " + ascent + ", ux: " + ux
-                + ", vy: " + vy + " }";
+            + ", vy: " + vy + " }";
     }
 }

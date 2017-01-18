@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
  * Provided during {@link net.minecraftforge.fml.common.event.FMLPreInitializationEvent}
  */
 @Target(ElementType.FIELD)
-public @interface GLFontBuilder
-{
+public @interface GLFontBuilder {
 }

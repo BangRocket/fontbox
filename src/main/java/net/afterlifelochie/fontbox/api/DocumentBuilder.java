@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
  * Provided during {@link net.minecraftforge.fml.common.event.FMLPreInitializationEvent}
  */
 @Target(ElementType.FIELD)
-public @interface DocumentBuilder
-{
+public @interface DocumentBuilder {
 }

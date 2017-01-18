@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookGUI extends GuiScreen
-{
+public class BookGUI extends GuiScreen {
     /**
      * The renderer's PageMode
      */
@@ -66,8 +65,7 @@ public class BookGUI extends GuiScreen
      *
      * @param book The underlying {@link IBook}
      */
-    public BookGUI(IBook book, ITracer tracer)
-    {
+    public BookGUI(IBook book, ITracer tracer) {
         if (book == null)
             throw new IllegalArgumentException("IBook cannot be null!");
         if (book.getPageMode() == null)
@@ -92,10 +90,8 @@ public class BookGUI extends GuiScreen
      * @param pages The new list of pages
      * @param index The new page index
      */
-    public void changePages(List<Page> pages, PageIndex index)
-    {
-        if (ptr >= pages.size())
-        {
+    public void changePages(List<Page> pages, PageIndex index) {
+        if (ptr >= pages.size()) {
             ptr = 0;
             internalOnPageChanged(this, ptr);
         }
@@ -104,22 +100,18 @@ public class BookGUI extends GuiScreen
     }
 
     @Override
-    public boolean doesGuiPauseGame()
-    {
+    public boolean doesGuiPauseGame() {
         return false;
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
     }
 
     @Override
-    public void onGuiClosed()
-    {
-        if (useDisplayList)
-        {
+    public void onGuiClosed() {
+        if (useDisplayList) {
             useDisplayList = false;
             GlStateManager.glDeleteLists(glDisplayLists[0], glDisplayLists.length);
             for (int i = 0; i < glDisplayLists.length; i++)
@@ -128,24 +120,19 @@ public class BookGUI extends GuiScreen
     }
 
     @Override
-    public void updateScreen()
-    {
+    public void updateScreen() {
         super.updateScreen();
     }
 
     @Override
-    public void drawScreen(int mx, int my, float frames)
-    {
+    public void drawScreen(int mx, int my, float frames) {
         super.drawScreen(mx, my, frames);
         drawBackground(mx, my, frames);
-        try
-        {
-            if (pages != null)
-            {
+        try {
+            if (pages != null) {
                 List<Tuple<Layout, Page>> toRender = new ArrayList<Tuple<Layout, Page>>(2);
                 int i;
-                for (i = 0; i < mode.pages; i++)
-                {
+                for (i = 0; i < mode.pages; i++) {
                     int what = ptr + i;
                     if (pages.size() <= what)
                         break;
@@ -161,8 +148,7 @@ public class BookGUI extends GuiScreen
                 for (Tuple<Layout, Page> page : toRender)
                     renderPageDynamics(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
             }
-        } catch (RenderException err)
-        {
+        } catch (RenderException err) {
             err.printStackTrace();
         }
         drawForeground(mx, my, frames);
@@ -178,8 +164,7 @@ public class BookGUI extends GuiScreen
      * @param my    The mouse y-coordinate
      * @param frame The partial frames rendered
      */
-    public void drawBackground(int mx, int my, float frame)
-    {
+    public void drawBackground(int mx, int my, float frame) {
         book.drawBackground(width, height, mx, my, frame, zLevel);
     }
 
@@ -194,8 +179,7 @@ public class BookGUI extends GuiScreen
      * @param my    The mouse y-coordinate
      * @param frame The partial frames rendered
      */
-    public void drawForeground(int mx, int my, float frame)
-    {
+    public void drawForeground(int mx, int my, float frame) {
         book.drawForeground(width, height, mx, my, frame, zLevel);
     }
 
@@ -205,8 +189,7 @@ public class BookGUI extends GuiScreen
      * @param gui     The book GUI
      * @param whatPtr The new page pointer
      */
-    private void internalOnPageChanged(BookGUI gui, int whatPtr)
-    {
+    private void internalOnPageChanged(BookGUI gui, int whatPtr) {
         for (int i = 0; i < mode.pages; i++)
             glBufferDirty[i] = true;
         book.onPageChanged(gui, whatPtr);
@@ -215,13 +198,10 @@ public class BookGUI extends GuiScreen
     /**
      * Called internally to set up the display lists.
      */
-    protected void prepareGraphics(ITracer tracer)
-    {
-        try
-        {
+    protected void prepareGraphics(ITracer tracer) {
+        try {
             Util.checkGLError();
-        } catch (OpenGLException glex)
-        {
+        } catch (OpenGLException glex) {
             tracer.warn("BookGUI.prepareGraphics", "Bad OpenGL operation detected, check GL history!");
             glex.printStackTrace();
             return;
@@ -230,22 +210,18 @@ public class BookGUI extends GuiScreen
         glBufferDirty = new boolean[mode.pages];
         int glList = GlStateManager.glGenLists(glDisplayLists.length);
 
-        try
-        {
+        try {
             Util.checkGLError();
-        } catch (OpenGLException glex)
-        {
+        } catch (OpenGLException glex) {
             tracer.warn("BookGUI.prepareGraphics",
-                    "Unable to allocate display-list buffers, using immediate mode.");
+                "Unable to allocate display-list buffers, using immediate mode.");
             return;
         }
 
         if (glList <= 0)
             tracer.warn("BookGUI.prepareGraphics", "No display-lists available, using immediate mode.");
-        else
-        {
-            for (int i = 0; i < glDisplayLists.length; i++)
-            {
+        else {
+            for (int i = 0; i < glDisplayLists.length; i++) {
                 glDisplayLists[i] = glList + i;
                 glBufferDirty[i] = true;
             }
@@ -257,10 +233,8 @@ public class BookGUI extends GuiScreen
     /**
      * Advance to the next page
      */
-    protected void next()
-    {
-        if (ptr + mode.pages < pages.size())
-        {
+    protected void next() {
+        if (ptr + mode.pages < pages.size()) {
             ptr += mode.pages;
             internalOnPageChanged(this, ptr);
         }
@@ -272,8 +246,7 @@ public class BookGUI extends GuiScreen
      *
      * @param id The ID of the anchor to go to
      */
-    protected void go(String id)
-    {
+    protected void go(String id) {
         int where = index.find(id);
         if (where != -1)
             go(where);
@@ -284,11 +257,9 @@ public class BookGUI extends GuiScreen
      *
      * @param where The page pointer
      */
-    protected void go(int where)
-    {
+    protected void go(int where) {
         where = where - (where % mode.pages);
-        if (ptr != where && 0 <= where - mode.pages && where + mode.pages < pages.size())
-        {
+        if (ptr != where && 0 <= where - mode.pages && where + mode.pages < pages.size()) {
             ptr = where;
             internalOnPageChanged(this, ptr);
         }
@@ -297,18 +268,15 @@ public class BookGUI extends GuiScreen
     /**
      * Reverse to the previous page
      */
-    protected void previous()
-    {
-        if (0 <= ptr - mode.pages)
-        {
+    protected void previous() {
+        if (0 <= ptr - mode.pages) {
             ptr -= mode.pages;
             internalOnPageChanged(this, ptr);
         }
     }
 
     @Override
-    protected void keyTyped(char val, int code) throws IOException
-    {
+    protected void keyTyped(char val, int code) throws IOException {
         super.keyTyped(val, code);
         if (code == Keyboard.KEY_LEFT)
             previous();
@@ -317,19 +285,16 @@ public class BookGUI extends GuiScreen
     }
 
     @Override
-    protected void mouseClicked(int mx, int my, int button) throws IOException
-    {
+    protected void mouseClicked(int mx, int my, int button) throws IOException {
         super.mouseClicked(mx, my, button);
-        for (int i = 0; i < mode.pages; i++)
-        {
+        for (int i = 0; i < mode.pages; i++) {
             Layout where = mode.layouts[i];
             int which = ptr + i;
             if (pages.size() <= which)
                 break;
             Page page = pages.get(ptr + i);
             int mouseX = mx - where.x, mouseY = my - where.y;
-            if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.width && mouseY <= page.height)
-            {
+            if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.width && mouseY <= page.height) {
                 Element elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
                 if (elem != null)
                     elem.clicked(this, mouseX, mouseY);
@@ -338,29 +303,24 @@ public class BookGUI extends GuiScreen
     }
 
     @Override
-    protected void mouseReleased(int mouseX, int mouseY, int state)
-    {
+    protected void mouseReleased(int mouseX, int mouseY, int state) {
         super.mouseReleased(mouseX, mouseY, state);
     }
 
     @Override
-    protected void mouseClickMove(int mx, int my, int button, long ticks)
-    {
+    protected void mouseClickMove(int mx, int my, int button, long ticks) {
         super.mouseClickMove(mx, my, button, ticks);
     }
 
-    private void renderPageDynamics(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException
-    {
+    private void renderPageDynamics(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         renderElementGroupImmediate(page.dynamicElements(), mx, my, frame);
         GlStateManager.popMatrix();
     }
 
-    private void renderPageStaticsBuffered(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException
-    {
-        if (glBufferDirty[index])
-        {
+    private void renderPageStaticsBuffered(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+        if (glBufferDirty[index]) {
             GlStateManager.glNewList(glDisplayLists[index], GL11.GL_COMPILE);
             renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
             GlStateManager.glEndList();
@@ -369,16 +329,14 @@ public class BookGUI extends GuiScreen
         GlStateManager.callList(glDisplayLists[index]);
     }
 
-    private void renderPageStaticsImmediate(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException
-    {
+    private void renderPageStaticsImmediate(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         renderElementGroupImmediate(page.staticElements(), mx, my, frame);
         GlStateManager.popMatrix();
     }
 
-    private void renderElementGroupImmediate(List<Element> elements, int mx, int my, float frame) throws RenderException
-    {
+    private void renderElementGroupImmediate(List<Element> elements, int mx, int my, float frame) throws RenderException {
         for (Element element : elements)
             element.render(this, mx, my, frame);
     }

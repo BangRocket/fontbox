@@ -5,8 +5,7 @@ package net.afterlifelochie.fontbox.api.formatting.layout;
  *
  * @author AfterLifeLochie
  */
-public class Layout
-{
+public class Layout {
     public int x, y;
 
     /**
@@ -15,8 +14,7 @@ public class Layout
      * @param x The x-coordinate to render at
      * @param y The y-coordinate to render at
      */
-    public Layout(int x, int y)
-    {
+    public Layout(int x, int y) {
         this.x = x;
         this.y = y;
     }

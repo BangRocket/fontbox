@@ -12,9 +12,8 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-@Mod(name = Fontbox.NAME, modid = Fontbox.ID, version="@VERSION@")
-public class Fontbox
-{
+@Mod(name = Fontbox.NAME, modid = Fontbox.ID, version = "@VERSION@")
+public class Fontbox {
     public static final String NAME = "Fontbox";
     public static final String ID = "fontbox";
 
@@ -22,8 +21,7 @@ public class Fontbox
     private static final IGLFontBuilder fontBuilder = new net.afterlifelochie.fontbox.font.GLFontBuilder();
 
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    public void preInit(FMLPreInitializationEvent event) {
         Logger log = event.getModLog();
         log.info("Providing FontBuilders...");
         injectIntoFields(event.getModLog(), event.getAsmData(), GLFontBuilder.class, IGLFontBuilder.class, fontBuilder);
@@ -40,14 +38,11 @@ public class Fontbox
                 Field field = clazz.getField(asmData.getObjectName());
                 if (field.getType() == type)
                     field.set(null, instance);
-            } catch (ClassNotFoundException e)
-            {
+            } catch (ClassNotFoundException e) {
                 log.warn("Failed to set: {}" + asmData.getClassName() + "." + asmData.getObjectName());
-            } catch (NoSuchFieldException e)
-            {
+            } catch (NoSuchFieldException e) {
                 log.warn("Failed to set: {}" + asmData.getClassName() + "." + asmData.getObjectName());
-            } catch (IllegalAccessException e)
-            {
+            } catch (IllegalAccessException e) {
                 log.warn("Failed to set: {}" + asmData.getClassName() + "." + asmData.getObjectName());
             }
         }

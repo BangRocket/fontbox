@@ -9,8 +9,7 @@ import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
  *
  * @author AfterLifeLochie
  */
-public class PageProperties
-{
+public class PageProperties {
     /**
      * The width of the page
      */
@@ -64,8 +63,7 @@ public class PageProperties
      * @param h             The height of the page
      * @param defaultFormat The default font to use
      */
-    public PageProperties(int w, int h, TextFormat defaultFormat)
-    {
+    public PageProperties(int w, int h, TextFormat defaultFormat) {
         width = w;
         height = h;
         headingFormat = bodyFormat = linkFormat = defaultFormat;
@@ -87,8 +85,7 @@ public class PageProperties
      * @param link         The link font to use
      */
     public PageProperties(int w, int h, int ml, int mr, int min_sp, int min_lhs, float line_density, int tab,
-                          TextFormat head, TextFormat body, TextFormat link)
-    {
+                          TextFormat head, TextFormat body, TextFormat link) {
         width = w;
         height = h;
         margin_left = ml;
@@ -108,8 +105,7 @@ public class PageProperties
      * @param ml The new value
      * @return The self object
      */
-    public PageProperties leftMargin(int ml)
-    {
+    public PageProperties leftMargin(int ml) {
         margin_left = ml;
         return this;
     }
@@ -120,8 +116,7 @@ public class PageProperties
      * @param mr The new value
      * @return The self object
      */
-    public PageProperties rightMargin(int mr)
-    {
+    public PageProperties rightMargin(int mr) {
         margin_right = mr;
         return this;
     }
@@ -132,8 +127,7 @@ public class PageProperties
      * @param m The new value
      * @return The self object
      */
-    public PageProperties bothMargin(int m)
-    {
+    public PageProperties bothMargin(int m) {
         margin_left = margin_right = m;
         return this;
     }
@@ -144,8 +138,7 @@ public class PageProperties
      * @param s The new value
      * @return The self object
      */
-    public PageProperties spaceSize(int s)
-    {
+    public PageProperties spaceSize(int s) {
         min_space_size = s;
         return this;
     }
@@ -156,8 +149,7 @@ public class PageProperties
      * @param s The new value
      * @return The self object
      */
-    public PageProperties lineHeightSize(int s)
-    {
+    public PageProperties lineHeightSize(int s) {
         line_height_size = s;
         return this;
     }
@@ -168,8 +160,7 @@ public class PageProperties
      * @param rz The new value
      * @return The self object
      */
-    public PageProperties densitiy(float rz)
-    {
+    public PageProperties densitiy(float rz) {
         if (0.0f > rz)
             rz = 0.0f;
         if (1.0f < rz)
@@ -184,8 +175,7 @@ public class PageProperties
      * @param sz The new value
      * @return The self object
      */
-    public PageProperties tabSize(int sz)
-    {
+    public PageProperties tabSize(int sz) {
         tab_size = sz;
         return this;
     }
@@ -196,8 +186,7 @@ public class PageProperties
      * @param font The format to use
      * @return The self object
      */
-    public PageProperties headingFormat(TextFormat font)
-    {
+    public PageProperties headingFormat(TextFormat font) {
         headingFormat = font;
         return this;
     }
@@ -208,8 +197,7 @@ public class PageProperties
      * @param font The format to use
      * @return The self object
      */
-    public PageProperties bodyFormat(TextFormat font)
-    {
+    public PageProperties bodyFormat(TextFormat font) {
         bodyFormat = font;
         return this;
     }
@@ -220,8 +208,7 @@ public class PageProperties
      * @param font The format to use
      * @return The self object
      */
-    public PageProperties linkFormat(TextFormat font)
-    {
+    public PageProperties linkFormat(TextFormat font) {
         linkFormat = font;
         return this;
     }
@@ -233,10 +220,9 @@ public class PageProperties
      *
      * @return An identical copy of this PageProperties object
      */
-    public PageProperties copy()
-    {
+    public PageProperties copy() {
         return new PageProperties(width, height, margin_left, margin_right, min_space_size, line_height_size,
-                min_line_density, tab_size, headingFormat, bodyFormat, linkFormat);
+            min_line_density, tab_size, headingFormat, bodyFormat, linkFormat);
     }
 
 }

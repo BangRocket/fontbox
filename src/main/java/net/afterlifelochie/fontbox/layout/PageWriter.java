@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class PageWriter
-{
+public class PageWriter {
     private final Object lock = new Object();
     private final FontboxManager manager;
     private ArrayList<Page> pages = new ArrayList<Page>();
@@ -22,64 +21,51 @@ public class PageWriter
     private boolean closed = false;
     private int ptr = 0;
 
-    public PageWriter(PageProperties attributes, FontboxManager manager)
-    {
+    public PageWriter(PageProperties attributes, FontboxManager manager) {
         this.attributes = attributes;
         this.manager = manager;
         this.index = new PageIndex();
     }
 
-    public void close()
-    {
-        synchronized (lock)
-        {
+    public void close() {
+        synchronized (lock) {
             closed = true;
         }
     }
 
-    private void checkOpen() throws IOException
-    {
-        synchronized (lock)
-        {
+    private void checkOpen() throws IOException {
+        synchronized (lock) {
             if (closed)
                 throw new IOException("Writer closed!");
         }
     }
 
-    public Page previous() throws IOException
-    {
-        synchronized (lock)
-        {
+    public Page previous() throws IOException {
+        synchronized (lock) {
             checkOpen();
             seek(-1);
             return pages.get(ptr);
         }
     }
 
-    public Page next() throws IOException
-    {
-        synchronized (lock)
-        {
+    public Page next() throws IOException {
+        synchronized (lock) {
             checkOpen();
             seek(1);
             return pages.get(ptr);
         }
     }
 
-    public Page current() throws IOException
-    {
-        synchronized (lock)
-        {
+    public Page current() throws IOException {
+        synchronized (lock) {
             checkOpen();
             seek(0);
             return pages.get(ptr);
         }
     }
 
-    public boolean write(Element element) throws IOException
-    {
-        synchronized (lock)
-        {
+    public boolean write(Element element) throws IOException {
+        synchronized (lock) {
             checkOpen();
             Page currentPage = current();
             if (element.bounds() == null)
@@ -87,8 +73,8 @@ public class PageWriter
             manager.doAssert(currentPage.insidePage(element.bounds()), "Element outside page boundary.");
             Element intersect = currentPage.intersectsElement(element.bounds());
             manager.doAssert(intersect == null, "Element intersects existing element " + intersect + ": box "
-                    + ((intersect != null && intersect.bounds() != null) ? intersect.bounds() : "<null>") + " and "
-                    + element.bounds() + "!");
+                + ((intersect != null && intersect.bounds() != null) ? intersect.bounds() : "<null>") + " and "
+                + element.bounds() + "!");
 
             if (element.identifier() != null)
                 index.push(element.identifier(), ptr);
@@ -96,8 +82,7 @@ public class PageWriter
             currentPage.push(element);
 
             PageCursor current = cursor();
-            for (Element e : currentPage.allElements())
-            {
+            for (Element e : currentPage.allElements()) {
                 if (e.bounds().floating())
                     continue;
                 ObjectBounds bb = e.bounds();
@@ -106,8 +91,7 @@ public class PageWriter
             }
 
             IntegerExclusionStream window = new IntegerExclusionStream(0, currentPage.width);
-            for (Element e : currentPage.allElements())
-            {
+            for (Element e : currentPage.allElements()) {
                 ObjectBounds bb = e.bounds();
                 if (current.y() >= bb.y && bb.y + bb.height >= current.y())
                     window.excludeRange(0, bb.x + bb.width);
@@ -120,46 +104,37 @@ public class PageWriter
         }
     }
 
-    public PageCursor cursor() throws IOException
-    {
-        synchronized (lock)
-        {
+    public PageCursor cursor() throws IOException {
+        synchronized (lock) {
             checkOpen();
             return cursors.get(ptr);
         }
     }
 
-    private void seek(int which) throws IOException
-    {
-        synchronized (lock)
-        {
+    private void seek(int which) throws IOException {
+        synchronized (lock) {
             ptr += which;
             if (0 > ptr)
                 ptr = 0;
             if (ptr > pages.size())
                 ptr = pages.size();
-            if (ptr == pages.size())
-            {
+            if (ptr == pages.size()) {
                 pages.add(new Page(attributes.copy()));
                 cursors.add(new PageCursor());
             }
         }
     }
 
-    public List<Page> pages()
-    {
-        synchronized (lock)
-        {
+    public List<Page> pages() {
+        synchronized (lock) {
             if (!closed)
                 return (List<Page>) pages.clone();
             return pages;
         }
     }
 
-    public PageIndex index() throws IOException
-    {
-        synchronized (lock)
-        {
+    public PageIndex index() throws IOException {
+        synchronized (lock) {
             if (!closed)
                 throw new IOException("Writing not finished!");
             return index;

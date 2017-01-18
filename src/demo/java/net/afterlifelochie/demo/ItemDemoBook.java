@@ -15,10 +15,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ItemDemoBook extends Item
-{
-    public ItemDemoBook()
-    {
+public class ItemDemoBook extends Item {
+    public ItemDemoBook() {
         super();
         this.setUnlocalizedName("demo_book");
         this.setRegistryName("demo_book");
@@ -27,14 +25,12 @@ public class ItemDemoBook extends Item
     }
 
     @SideOnly(Side.CLIENT)
-    public void initModel()
-    {
+    public void initModel() {
         ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand)
-    {
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand hand) {
         if (worldIn.isRemote)
             Minecraft.getMinecraft().displayGuiScreen(new DemoBook().toGui());
         return ActionResult.newResult(EnumActionResult.PASS, playerIn.getHeldItem(hand));

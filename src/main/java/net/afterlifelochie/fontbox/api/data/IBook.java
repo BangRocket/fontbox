@@ -4,9 +4,9 @@ import net.afterlifelochie.fontbox.api.formatting.PageMode;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.minecraft.client.gui.GuiScreen;
 
-public interface IBook
-{
+public interface IBook {
     PageProperties getPageProperties();
+
     PageMode getPageMode();
 
     /**
@@ -23,12 +23,12 @@ public interface IBook
      * state such that the layout (0, 0) will be drawn in the current place.
      * </p>
      *
-     * @param width     The width of the gui
-     * @param height    The height of the gui
-     * @param mx        The mouse x-coordinate
-     * @param my        The mouse y-coordinate
-     * @param frame     The partial frames rendered
-     * @param zLevel    The current zLevel
+     * @param width  The width of the gui
+     * @param height The height of the gui
+     * @param mx     The mouse x-coordinate
+     * @param my     The mouse y-coordinate
+     * @param frame  The partial frames rendered
+     * @param zLevel The current zLevel
      */
     void drawBackground(int width, int height, int mx, int my, float frame, float zLevel);
 
@@ -39,12 +39,12 @@ public interface IBook
      * text.
      * </p>
      *
-     * @param width     The width of the gui
-     * @param height    The height of the gui
-     * @param mx        The mouse x-coordinate
-     * @param my        The mouse y-coordinate
-     * @param frame     The partial frames rendered
-     * @param zLevel    The current zLevel
+     * @param width  The width of the gui
+     * @param height The height of the gui
+     * @param mx     The mouse x-coordinate
+     * @param my     The mouse y-coordinate
+     * @param frame  The partial frames rendered
+     * @param zLevel The current zLevel
      */
     void drawForeground(int width, int height, int mx, int my, float frame, float zLevel);
 }

@@ -7,11 +7,9 @@ package net.afterlifelochie.fontbox.api.tracer;
  *
  * @author AfterLifeLochie
  */
-public class PrintOutputTracer implements ITracer
-{
+public class PrintOutputTracer implements ITracer {
     @Override
-    public void trace(Object... params)
-    {
+    public void trace(Object... params) {
         StringBuilder result = new StringBuilder();
         for (Object element : params)
             result.append(element).append(", ");
@@ -20,8 +18,7 @@ public class PrintOutputTracer implements ITracer
     }
 
     @Override
-    public void warn(Object... params)
-    {
+    public void warn(Object... params) {
         StringBuilder result = new StringBuilder();
         for (Object element : params)
             result.append(element).append(", ");
@@ -30,8 +27,7 @@ public class PrintOutputTracer implements ITracer
     }
 
     @Override
-    public boolean enableAssertion()
-    {
+    public boolean enableAssertion() {
         return true;
     }
 }

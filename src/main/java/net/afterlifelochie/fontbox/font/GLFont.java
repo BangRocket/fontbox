@@ -18,24 +18,22 @@ import java.util.Hashtable;
  *
  * @author AfterLifeLochie
  */
-public class GLFont implements IGLFont
-{
+public class GLFont implements IGLFont {
     /**
      * Create a GLFont from an image buffer of a specified size with a specified
      * metric map.
      *
-     * @param manager   The used manager
-     * @param name      The name of the font
-     * @param image     The buffered image
-     * @param width     The width of the image, absolute pixels
-     * @param height    The height of the image, absolute pixels
-     * @param metric    The font metric map
+     * @param manager The used manager
+     * @param name    The name of the font
+     * @param image   The buffered image
+     * @param width   The width of the image, absolute pixels
+     * @param height  The height of the image, absolute pixels
+     * @param metric  The font metric map
      * @return The GLFont result
      * @throws FontException Any exception which occurs when transforming the buffer into
      *                       a GLFont container.
      */
-    public static IGLFont fromBuffer(FontboxManager manager, String name, BufferedImage image, int width, int height, GLFontMetrics metric) throws FontException
-    {
+    public static IGLFont fromBuffer(FontboxManager manager, String name, BufferedImage image, int width, int height, GLFontMetrics metric) throws FontException {
         if (manager == null || manager.tracer() == null)
             throw new IllegalArgumentException("trace may not be null");
         if (name == null)
@@ -45,7 +43,7 @@ public class GLFont implements IGLFont
         if (metric == null)
             throw new IllegalArgumentException("metric may not be null");
         ColorModel glAlphaColorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]{
-                8, 8, 8, 8}, true, false, Transparency.TRANSLUCENT, DataBuffer.TYPE_BYTE);
+            8, 8, 8, 8}, true, false, Transparency.TRANSLUCENT, DataBuffer.TYPE_BYTE);
         WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, width, height, 4, null);
         BufferedImage texImage = new BufferedImage(glAlphaColorModel, raster, true, new Hashtable<Object, Object>());
         Graphics g = texImage.getGraphics();
@@ -66,7 +64,7 @@ public class GLFont implements IGLFont
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
         GlStateManager.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
         GlStateManager.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA,
-                GL11.GL_UNSIGNED_BYTE, buffer.asIntBuffer());
+            GL11.GL_UNSIGNED_BYTE, buffer.asIntBuffer());
         manager.tracer().trace("GLFont.fromBuffer", "texId", texIdx);
         GLFont font = new GLFont(name, texIdx, 0.44f, metric);
         manager.tracer().trace("GLFont.fromBuffer", font);
@@ -79,8 +77,7 @@ public class GLFont implements IGLFont
     private int textureId;
     private GLFontMetrics metric;
 
-    private GLFont(String name, int textureId, float scale, GLFontMetrics metric)
-    {
+    private GLFont(String name, int textureId, float scale, GLFontMetrics metric) {
         this.name = name;
         this.textureId = textureId;
         this.scale = scale;
@@ -92,8 +89,7 @@ public class GLFont implements IGLFont
      *
      * @return The name of the font
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -102,8 +98,7 @@ public class GLFont implements IGLFont
      *
      * @return The 2D texture ID for the font
      */
-    public int getTextureId()
-    {
+    public int getTextureId() {
         return textureId;
     }
 
@@ -112,8 +107,7 @@ public class GLFont implements IGLFont
      *
      * @return The 2D font scaling ratio
      */
-    public float getScale()
-    {
+    public float getScale() {
         return scale;
     }
 
@@ -122,8 +116,7 @@ public class GLFont implements IGLFont
      *
      * @return The metric map
      */
-    public GLFontMetrics getMetric()
-    {
+    public GLFontMetrics getMetric() {
         return metric;
     }
 
@@ -131,8 +124,7 @@ public class GLFont implements IGLFont
      * Delete the font. This releases all the resources associated with the font
      * immediately.
      */
-    public void delete(FontboxManager manager)
-    {
+    public void delete(FontboxManager manager) {
         manager.deleteFont(this);
         GlStateManager.deleteTexture(textureId);
         textureId = -1;
@@ -141,9 +133,8 @@ public class GLFont implements IGLFont
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "GLFont { hash: " + System.identityHashCode(this) + ", texture: " + textureId + ", metric: "
-                + System.identityHashCode(metric) + " }";
+            + System.identityHashCode(metric) + " }";
     }
 }

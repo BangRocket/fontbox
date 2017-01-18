@@ -27,8 +27,7 @@ import java.io.IOException;
  *
  * @author AfterLifeLochie
  */
-public class Line extends Element
-{
+public class Line extends Element {
     /**
      * The characters
      */
@@ -55,8 +54,7 @@ public class Line extends Element
      * @param bounds     The location of the line
      * @param space_size The size of the spacing between words
      */
-    public Line(char[] line, TextFormatter formatter, ObjectBounds bounds, int space_size)
-    {
+    public Line(char[] line, TextFormatter formatter, ObjectBounds bounds, int space_size) {
         setBounds(bounds);
         this.id = null;
         this.line = line;
@@ -73,38 +71,32 @@ public class Line extends Element
      * @param bounds     The location of the line
      * @param space_size The size of the spacing between words
      */
-    public Line(char[] line, TextFormatter formatter, String uid, ObjectBounds bounds, int space_size)
-    {
+    public Line(char[] line, TextFormatter formatter, String uid, ObjectBounds bounds, int space_size) {
         this(line, formatter, bounds, space_size);
         this.id = uid;
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException
-    {
+    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
         throw new LayoutException("Cannot layout Line type; Line already laid!");
     }
 
     @Override
-    public boolean canUpdate()
-    {
+    public boolean canUpdate() {
         return false;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
         /* No action required */
     }
 
     @Override
-    public boolean canCompileRender()
-    {
+    public boolean canCompileRender() {
         return true;
     }
 
-    private void safeSwitchToFont(IGLFont font) throws RenderException
-    {
+    private void safeSwitchToFont(IGLFont font) throws RenderException {
         if (font.getTextureId() == -1)
             throw new RenderException("Font object not loaded!");
         IGLFontMetrics metric = font.getMetric();
@@ -115,8 +107,7 @@ public class Line extends Element
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame) throws RenderException
-    {
+    public void render(BookGUI gui, int mx, int my, float frame) throws RenderException {
         float x = 0, y = 0;
         if (line.length == 0)
             return;
@@ -129,16 +120,12 @@ public class Line extends Element
         safeSwitchToFont(decorator.font);
         GlStateManager.translate(bounds().x, bounds().y, 0);
 
-        for (int i = 0; i < line.length; i++)
-        {
+        for (int i = 0; i < line.length; i++) {
             char c = line[i];
-            if (c != ' ')
-            {
+            if (c != ' ') {
                 TextFormat newDecorator = formatter.getFormat(i);
-                if (newDecorator != null && !newDecorator.equals(decorator))
-                {
-                    if (newDecorator.font != decorator.font)
-                    {
+                if (newDecorator != null && !newDecorator.equals(decorator)) {
+                    if (newDecorator.font != decorator.font) {
                         GlStateManager.popMatrix();
                         GlStateManager.pushMatrix();
                         safeSwitchToFont(newDecorator.font);
@@ -156,11 +143,10 @@ public class Line extends Element
                     GlStateManager.color(0.0f, 0.0f, 0.0f, 1.0f);
                 else
                     GlStateManager.color(decorator.color.redF(), decorator.color.greenF(), decorator.color.blueF(),
-                            decorator.color.alphaF());
+                        decorator.color.alphaF());
 
                 float tiltTop = 0.0f, tiltBottom = 0.0f;
-                if (decorator.decorations.contains(DecorationStyle.ITALIC))
-                {
+                if (decorator.decorations.contains(DecorationStyle.ITALIC)) {
                     tiltTop = -5.55f;
                     tiltBottom = 5.55f;
                 }
@@ -181,8 +167,7 @@ public class Line extends Element
         GlStateManager.popMatrix();
     }
 
-    private void renderGlyphInPlace(IGLFontMetrics metric, IGLGlyphMetric glyph, float x, float y, float tiltTop, float tiltBottom, boolean underline)
-    {
+    private void renderGlyphInPlace(IGLFontMetrics metric, IGLGlyphMetric glyph, float x, float y, float tiltTop, float tiltBottom, boolean underline) {
         final double z = 1.0;
         double u = glyph.getUx() / metric.getFontImageWidth();
         double v = (glyph.getVy() - glyph.getAscent()) / metric.getFontImageHeight();
@@ -201,24 +186,21 @@ public class Line extends Element
         tessellator.draw();
 
         if (underline)
-            GLUtils.drawLine(x, y + glyph.getHeight()*0.75, x + glyph.getWidth() + tiltBottom, y + glyph.getHeight()*0.75, z);
+            GLUtils.drawLine(x, y + glyph.getHeight() * 0.75, x + glyph.getWidth() + tiltBottom, y + glyph.getHeight() * 0.75, z);
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my)
-    {
+    public void clicked(BookGUI gui, int mx, int my) {
+        /* No action required */
+    }
+
+    @Override
+    public void typed(BookGUI gui, char val, int code) {
 		/* No action required */
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code)
-    {
-		/* No action required */
-    }
-
-    @Override
-    public String identifier()
-    {
+    public String identifier() {
         return id;
     }
 }

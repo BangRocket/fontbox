@@ -7,8 +7,7 @@ package net.afterlifelochie.fontbox.api.exception;
  *
  * @author AfterLifeLochie
  */
-public class LayoutException extends Exception
-{
+public class LayoutException extends Exception {
     /**
      * Serializer version ID
      */
@@ -19,8 +18,7 @@ public class LayoutException extends Exception
      *
      * @param reason The reason for the exception
      */
-    public LayoutException(String reason)
-    {
+    public LayoutException(String reason) {
         super(reason);
     }
 
@@ -30,8 +28,7 @@ public class LayoutException extends Exception
      * @param reason The reason for the exception
      * @param cause  The parent cause exception
      */
-    public LayoutException(String reason, Throwable cause)
-    {
+    public LayoutException(String reason, Throwable cause) {
         super(reason, cause);
     }
 

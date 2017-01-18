@@ -32,8 +32,7 @@ import java.util.Map;
  *
  * @author AfterLifeLochie
  */
-public class GLFontMetrics implements IGLFontMetrics
-{
+public class GLFontMetrics implements IGLFontMetrics {
     /**
      * Derive a font metric from a font file, a font render context and the
      * layout properties specified.
@@ -52,8 +51,7 @@ public class GLFontMetrics implements IGLFontMetrics
      *                       information.
      */
     public static GLFontMetrics fromFontMetrics(ITracer trace, Font font, FontRenderContext ctx, int fontImageWidth,
-                                                int fontImageHeight, int charsPerRow, char minChar, char maxChar) throws FontException
-    {
+                                                int fontImageHeight, int charsPerRow, char minChar, char maxChar) throws FontException {
         if (trace == null)
             throw new IllegalArgumentException("trace may not be null");
         if (font == null)
@@ -62,8 +60,7 @@ public class GLFontMetrics implements IGLFontMetrics
             throw new IllegalArgumentException("ctx may not be null");
         int off = 0;
         GLFontMetrics metric = new GLFontMetrics(fontImageWidth, fontImageHeight);
-        for (char k = minChar; k <= maxChar; k++, off++)
-        {
+        for (char k = minChar; k <= maxChar; k++, off++) {
             TextLayout layout = new TextLayout(String.valueOf(k), font, ctx);
             Rectangle2D rect = layout.getBounds();
             int x = (off % charsPerRow) * (fontImageWidth / charsPerRow);
@@ -77,7 +74,7 @@ public class GLFontMetrics implements IGLFontMetrics
             int v = (int) Math.ceil(layout.getAscent() + layout.getDescent());
             trace.trace("GLFontMetrics.fromFontMetrics", "placeGlyph", k, u, v, x - cx, y - cy);
             metric.glyphs.put((int) k,
-                    new GLGlyphMetric(u, v, (int) layout.getAscent(), (int) (x - cx), (int) (y - cy)));
+                new GLGlyphMetric(u, v, (int) layout.getAscent(), (int) (x - cx), (int) (y - cy)));
         }
         trace.trace("GLFontMetrics.fromFontMetrics", metric);
         return metric;
@@ -97,14 +94,12 @@ public class GLFontMetrics implements IGLFontMetrics
      *                       information.
      */
     public static GLFontMetrics fromResource(ITracer trace, ResourceLocation fontMetricName, int fontImageWidth,
-                                             int fontImageHeight) throws FontException
-    {
+                                             int fontImageHeight) throws FontException {
         if (trace == null)
             throw new IllegalArgumentException("trace may not be null");
         if (fontMetricName == null)
             throw new IllegalArgumentException("fontMetricName may not be null");
-        try
-        {
+        try {
             IResource metricResource = Minecraft.getMinecraft().getResourceManager().getResource(fontMetricName);
             InputStream stream = metricResource.getInputStream();
             if (stream == null)
@@ -117,16 +112,14 @@ public class GLFontMetrics implements IGLFontMetrics
             Element metrics = doc.getDocumentElement();
 
             NodeList list_character = metrics.getElementsByTagName("character");
-            for (int i = 0; i < list_character.getLength(); i++)
-            {
+            for (int i = 0; i < list_character.getLength(); i++) {
                 Element character = (Element) list_character.item(i);
                 int c = Integer.parseInt(character.getAttributes().getNamedItem("key").getNodeValue());
                 if (0 > c || c > 255)
                     throw new FontException(String.format("Unsupported character code %s", c));
                 int w = -1, h = -1, u = -1, v = -1;
                 NodeList character_properties = character.getChildNodes();
-                for (int k = 0; k < character_properties.getLength(); k++)
-                {
+                for (int k = 0; k < character_properties.getLength(); k++) {
                     Node property = character_properties.item(k);
                     if (!(property instanceof Element))
                         continue;
@@ -146,19 +139,16 @@ public class GLFontMetrics implements IGLFontMetrics
                 }
                 if (w == -1 || h == -1 || u == -1 || v == -1)
                     throw new FontException(String.format("Invalid metric properties set for key %s", c));
-                trace.trace("GLFontMetrics.fromResource", "placeGlyph", (char)c, w, h, u, v);
+                trace.trace("GLFontMetrics.fromResource", "placeGlyph", (char) c, w, h, u, v);
                 metric.glyphs.put(c, new GLGlyphMetric(w, h, 0, u, v));
             }
             trace.trace("GLFontMetrics.fromResource", metric);
             return metric;
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new FontException("Cannot setup font.", e);
-        } catch (ParserConfigurationException e)
-        {
+        } catch (ParserConfigurationException e) {
             throw new FontException("Cannot read font metric data.", e);
-        } catch (SAXException e)
-        {
+        } catch (SAXException e) {
             throw new FontException("Cannot read font metric data.", e);
         }
     }
@@ -167,34 +157,29 @@ public class GLFontMetrics implements IGLFontMetrics
     private final Map<Integer, IGLGlyphMetric> glyphs = new HashMap<Integer, IGLGlyphMetric>();
     private final float fontImageWidth, fontImageHeight;
 
-    private GLFontMetrics(int fontImageWidth, int fontImageHeight)
-    {
+    private GLFontMetrics(int fontImageWidth, int fontImageHeight) {
         this.fontImageWidth = fontImageWidth;
         this.fontImageHeight = fontImageHeight;
     }
 
     @Override
-    public Map<Integer, IGLGlyphMetric> getGlyphs()
-    {
+    public Map<Integer, IGLGlyphMetric> getGlyphs() {
         return glyphs;
     }
 
     @Override
-    public float getFontImageWidth()
-    {
+    public float getFontImageWidth() {
         return fontImageWidth;
     }
 
     @Override
-    public float getFontImageHeight()
-    {
+    public float getFontImageHeight() {
         return fontImageHeight;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "GLFontMetrics { hash: " + System.identityHashCode(this) + ", w: " + fontImageWidth + ", h: "
-                + fontImageHeight + " }";
+            + fontImageHeight + " }";
     }
 }

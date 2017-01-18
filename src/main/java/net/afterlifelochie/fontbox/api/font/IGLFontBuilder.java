@@ -6,16 +6,15 @@ import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 
-public interface IGLFontBuilder
-{
+public interface IGLFontBuilder {
     int RASTER_DIM = 512;
 
     /**
      * Create a GLFont from a TTF file
      *
-     * @param manager   The manger used
-     * @param px        The font pixel size
-     * @param ttf       The TTF file
+     * @param manager The manger used
+     * @param px      The font pixel size
+     * @param ttf     The TTF file
      * @return The GLFont result
      * @throws FontException Any exception which occurs when reading the TTF file, brewing
      *                       the buffer or creating the final font.
@@ -26,10 +25,10 @@ public interface IGLFontBuilder
     /**
      * Create a GLFont from a sprite font and XML descriptor
      *
-     * @param manager   The manger used
-     * @param name      The name of the font, case sensitive
-     * @param image     The image file
-     * @param xml       The XML descriptor file
+     * @param manager The manger used
+     * @param name    The name of the font, case sensitive
+     * @param image   The image file
+     * @param xml     The XML descriptor file
      * @return The GLFont result
      * @throws FontException Any exception which occurs when reading the image file, when
      *                       reading the XML descriptor, when brewing the buffer or
@@ -40,8 +39,8 @@ public interface IGLFontBuilder
     /**
      * Create a GLFont from a Java Font object
      *
-     * @param manager   The manger used
-     * @param font      The font object
+     * @param manager The manger used
+     * @param font    The font object
      * @return The GLFont result
      * @throws FontException Any exception which occurs when brewing the buffer or
      *                       creating the final result.

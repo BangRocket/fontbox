@@ -6,8 +6,7 @@ package net.afterlifelochie.fontbox.api.tracer;
  *
  * @author AfterLifeLochie
  */
-public interface ITracer
-{
+public interface ITracer {
     /**
      * <p>
      * Called by FontboxManager to trace a particular event to the tracer.

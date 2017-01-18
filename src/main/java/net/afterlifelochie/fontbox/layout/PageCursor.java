@@ -1,48 +1,39 @@
 package net.afterlifelochie.fontbox.layout;
 
-public class PageCursor
-{
+public class PageCursor {
     private int x, y;
 
-    public PageCursor()
-    {
+    public PageCursor() {
         x = 0;
         y = 0;
     }
 
-    public int x()
-    {
+    public int x() {
         return x;
     }
 
-    public int y()
-    {
+    public int y() {
         return y;
     }
 
-    public void left(int vx)
-    {
+    public void left(int vx) {
         x = vx;
     }
 
-    public void top(int vy)
-    {
+    public void top(int vy) {
         y = vy;
     }
 
-    public void pushLeft(int dx)
-    {
+    public void pushLeft(int dx) {
         x += dx;
     }
 
-    public void pushDown(int dy)
-    {
+    public void pushDown(int dy) {
         y += dy;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "C>{" + x + ", " + y + "}";
     }
 
