@@ -3,11 +3,11 @@ package net.afterlifelochie.fontbox.render;
 import net.afterlifelochie.fontbox.api.data.IBook;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
+import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.IPageIndex;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
-import net.afterlifelochie.fontbox.layout.PageIndex;
-import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.Tuple;
@@ -29,11 +29,11 @@ public class BookGUI extends GuiScreen {
     /**
      * The list of pages
      */
-    private List<Page> pages;
+    private List<? extends IPage> pages;
     /**
      * The data index
      */
-    private PageIndex index;
+    private IPageIndex index;
     /**
      * The current page pointer
      */
@@ -90,7 +90,7 @@ public class BookGUI extends GuiScreen {
      * @param pages The new list of pages
      * @param index The new page index
      */
-    public void changePages(List<Page> pages, PageIndex index) {
+    public void changePages(List<? extends IPage> pages, IPageIndex index) {
         if (ptr >= pages.size()) {
             ptr = 0;
             internalOnPageChanged(this, ptr);
@@ -130,22 +130,22 @@ public class BookGUI extends GuiScreen {
         drawBackground(mx, my, frames);
         try {
             if (pages != null) {
-                List<Tuple<Layout, Page>> toRender = new ArrayList<Tuple<Layout, Page>>(2);
+                List<Tuple<Layout, IPage>> toRender = new ArrayList<>(2);
                 int i;
                 for (i = 0; i < mode.pages; i++) {
                     int what = ptr + i;
                     if (pages.size() <= what)
                         break;
-                    toRender.add(new Tuple<Layout, Page>(mode.layouts[i], pages.get(ptr + i)));
+                    toRender.add(new Tuple<>(mode.layouts[i], pages.get(ptr + i)));
                 }
                 i = 0;
-                for (Tuple<Layout, Page> page : toRender)
+                for (Tuple<Layout, IPage> page : toRender)
                     if (useDisplayList)
                         renderPageStaticsBuffered(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
                     else
                         renderPageStaticsImmediate(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
                 i = 0;
-                for (Tuple<Layout, Page> page : toRender)
+                for (Tuple<Layout, IPage> page : toRender)
                     renderPageDynamics(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
             }
         } catch (RenderException err) {
@@ -292,9 +292,9 @@ public class BookGUI extends GuiScreen {
             int which = ptr + i;
             if (pages.size() <= which)
                 break;
-            Page page = pages.get(ptr + i);
+            IPage page = pages.get(ptr + i);
             int mouseX = mx - where.x, mouseY = my - where.y;
-            if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.width && mouseY <= page.height) {
+            if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
                 Element elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
                 if (elem != null)
                     elem.clicked(this, mouseX, mouseY);
@@ -312,14 +312,14 @@ public class BookGUI extends GuiScreen {
         super.mouseClickMove(mx, my, button, ticks);
     }
 
-    private void renderPageDynamics(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+    private void renderPageDynamics(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         renderElementGroupImmediate(page.dynamicElements(), mx, my, frame);
         GlStateManager.popMatrix();
     }
 
-    private void renderPageStaticsBuffered(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+    private void renderPageStaticsBuffered(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         if (glBufferDirty[index]) {
             GlStateManager.glNewList(glDisplayLists[index], GL11.GL_COMPILE);
             renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
@@ -329,14 +329,14 @@ public class BookGUI extends GuiScreen {
         GlStateManager.callList(glDisplayLists[index]);
     }
 
-    private void renderPageStaticsImmediate(int index, Page page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+    private void renderPageStaticsImmediate(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         renderElementGroupImmediate(page.staticElements(), mx, my, frame);
         GlStateManager.popMatrix();
     }
 
-    private void renderElementGroupImmediate(List<Element> elements, int mx, int my, float frame) throws RenderException {
+    private void renderElementGroupImmediate(Iterable<? extends Element> elements, int mx, int my, float frame) throws RenderException {
         for (Element element : elements)
             element.render(this, mx, my, frame);
     }

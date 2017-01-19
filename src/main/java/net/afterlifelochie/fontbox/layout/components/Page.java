@@ -1,6 +1,7 @@
 package net.afterlifelochie.fontbox.layout.components;
 
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
+import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author AfterLifeLochie
  */
-public class Page extends Container {
+public class Page extends Container implements IPage {
     /**
      * The page layout properties container
      */

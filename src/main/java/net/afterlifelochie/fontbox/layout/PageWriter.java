@@ -2,6 +2,7 @@ package net.afterlifelochie.fontbox.layout;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
+import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.io.IntegerExclusionStream;
@@ -14,8 +15,8 @@ import java.util.List;
 public class PageWriter {
     private final Object lock = new Object();
     private final FontboxManager manager;
-    private ArrayList<Page> pages = new ArrayList<Page>();
-    private ArrayList<PageCursor> cursors = new ArrayList<PageCursor>();
+    private ArrayList<Page> pages = new ArrayList<>();
+    private ArrayList<PageCursor> cursors = new ArrayList<>();
     private PageProperties attributes;
     private PageIndex index;
     private boolean closed = false;
@@ -125,7 +126,7 @@ public class PageWriter {
         }
     }
 
-    public List<Page> pages() {
+    public List<? extends IPage> pages() {
         synchronized (lock) {
             if (!closed)
                 return (List<Page>) pages.clone();

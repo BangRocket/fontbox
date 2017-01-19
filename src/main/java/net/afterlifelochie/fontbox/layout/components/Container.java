@@ -1,12 +1,14 @@
 package net.afterlifelochie.fontbox.layout.components;
 
+import net.afterlifelochie.fontbox.api.layout.IContainer;
+
 /**
  * Layout container object. Containers have properties such as a width and a
  * height, and can contain child Container elements.
  *
  * @author AfterLifeLochie
  */
-public abstract class Container {
+public abstract class Container implements IContainer {
     /**
      * The width of the container
      */
@@ -27,4 +29,13 @@ public abstract class Container {
         this.height = height;
     }
 
+    @Override
+    public int getHeight() {
+        return height;
+    }
+
+    @Override
+    public int getWidth() {
+        return width;
+    }
 }

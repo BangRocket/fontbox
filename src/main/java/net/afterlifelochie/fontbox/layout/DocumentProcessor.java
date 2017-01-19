@@ -1,6 +1,7 @@
 package net.afterlifelochie.fontbox.layout;
 
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Document;
 import net.afterlifelochie.fontbox.document.Element;
@@ -9,7 +10,7 @@ import net.afterlifelochie.fontbox.layout.components.Page;
 import java.io.IOException;
 
 public class DocumentProcessor {
-    public static Element getElementAt(Page page, int x, int y) {
+    public static Element getElementAt(IPage page, int x, int y) {
         for (Element element : page.allElements())
             if (element.bounds().encloses(x, y))
                 return element;
