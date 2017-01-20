@@ -1,8 +1,10 @@
 package net.afterlifelochie.fontbox.document;
 
+import net.afterlifelochie.fontbox.Book;
 import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.data.IBook;
+import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.data.IDocument;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
@@ -95,12 +97,20 @@ public class DocumentWrapper implements IDocument {
     }
 
     @Override
-    public GuiScreen createBookGui(FontboxManager manager, IBook book) throws IOException, LayoutException {
-        PageWriter writer = new PageWriter(book.getPageProperties(), manager);
+    public GuiScreen createBookGui(FontboxManager manager, IBookProperties bookProperties) throws IOException, LayoutException {
+        PageWriter writer = new PageWriter(bookProperties.getPageProperties(), manager);
         DocumentProcessor.generatePages(manager.tracer(), document, writer);
         writer.close();
-        BookGUI gui = new BookGUI(book, manager.tracer());
+        BookGUI gui = new BookGUI(bookProperties, manager.tracer());
         gui.changePages(writer.pages(), writer.index());
         return gui;
+    }
+
+    @Override
+    public IBook createBook(FontboxManager manager, IBookProperties bookProperties) throws IOException, LayoutException {
+        PageWriter writer = new PageWriter(bookProperties.getPageProperties(), manager);
+        DocumentProcessor.generatePages(manager.tracer(), document, writer);
+        writer.close();
+        return new Book(writer.pages(), writer.index(), bookProperties);
     }
 }

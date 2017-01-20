@@ -40,5 +40,7 @@ public interface IDocument {
 
     void floatBreak();
 
-    GuiScreen createBookGui(FontboxManager manager, IBook book) throws IOException, LayoutException;
+    GuiScreen createBookGui(FontboxManager manager, IBookProperties bookProperties) throws IOException, LayoutException;
+
+    IBook createBook(FontboxManager manager, IBookProperties bookProperties) throws IOException, LayoutException;
 }

@@ -3,7 +3,7 @@ package net.afterlifelochie.demo;
 import net.afterlifelochie.fontbox.api.DocumentBuilder;
 import net.afterlifelochie.fontbox.api.IDocumentBuilder;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
-import net.afterlifelochie.fontbox.api.data.IBook;
+import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.data.IDocument;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.font.IGLFont;
@@ -32,7 +32,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.EnumSet;
 
-public class DemoBook implements IBook {
+public class DemoBook implements IBookProperties {
     @DocumentBuilder
     public static IDocumentBuilder builder;
 

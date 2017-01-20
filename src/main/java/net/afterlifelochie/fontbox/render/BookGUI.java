@@ -1,6 +1,6 @@
 package net.afterlifelochie.fontbox.render;
 
-import net.afterlifelochie.fontbox.api.data.IBook;
+import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
 import net.afterlifelochie.fontbox.api.layout.IPage;
@@ -52,28 +52,28 @@ public class BookGUI extends GuiScreen {
      */
     private boolean glBufferDirty[];
     /**
-     * The underlying book
+     * The underlying bookProperties properties
      */
-    private final IBook book;
+    private final IBookProperties bookProperties;
 
     /**
      * <p>
      * Create a new Book rendering context on top of the existing Minecraft GUI
-     * system. The book rendering properties are set through the constructor and
+     * system. The bookProperties rendering properties are set through the constructor and
      * control how many and where pages are rendered.
      * </p>
      *
-     * @param book The underlying {@link IBook}
+     * @param bookProperties The underlying {@link IBookProperties}
      */
-    public BookGUI(IBook book, ITracer tracer) {
-        if (book == null)
-            throw new IllegalArgumentException("IBook cannot be null!");
-        if (book.getPageMode() == null)
+    public BookGUI(IBookProperties bookProperties, ITracer tracer) {
+        if (bookProperties == null)
+            throw new IllegalArgumentException("IBookProperties cannot be null!");
+        if (bookProperties.getPageMode() == null)
             throw new IllegalArgumentException("Mode cannot be null!");
-        if (book.getPageMode().layouts == null)
+        if (bookProperties.getPageMode().layouts == null)
             throw new IllegalArgumentException("Layout cannot be null!");
-        this.book = book;
-        this.mode = book.getPageMode();
+        this.bookProperties = bookProperties;
+        this.mode = bookProperties.getPageMode();
         prepareGraphics(tracer);
     }
 
@@ -84,7 +84,7 @@ public class BookGUI extends GuiScreen {
      * <p>
      * If the page read pointer is currently beyond the end of the new page
      * count (ie, the number of pages has reduced), the pointer will be reset to
-     * the beginning of the book.
+     * the beginning of the bookProperties.
      * </p>
      *
      * @param pages The new list of pages
@@ -165,7 +165,7 @@ public class BookGUI extends GuiScreen {
      * @param frame The partial frames rendered
      */
     public void drawBackground(int mx, int my, float frame) {
-        book.drawBackground(width, height, mx, my, frame, zLevel);
+        bookProperties.drawBackground(width, height, mx, my, frame, zLevel);
     }
 
     /**
@@ -180,19 +180,19 @@ public class BookGUI extends GuiScreen {
      * @param frame The partial frames rendered
      */
     public void drawForeground(int mx, int my, float frame) {
-        book.drawForeground(width, height, mx, my, frame, zLevel);
+        bookProperties.drawForeground(width, height, mx, my, frame, zLevel);
     }
 
     /**
      * Called internally when the page is changed.
      *
-     * @param gui     The book GUI
+     * @param gui     The bookProperties GUI
      * @param whatPtr The new page pointer
      */
     private void internalOnPageChanged(BookGUI gui, int whatPtr) {
         for (int i = 0; i < mode.pages; i++)
             glBufferDirty[i] = true;
-        book.onPageChanged(gui, whatPtr);
+        bookProperties.onPageChanged(gui, whatPtr);
     }
 
     /**
