@@ -8,7 +8,7 @@ public class TextFormatter {
     private Map<Integer, TextFormat> formatting;
 
     public TextFormatter() {
-        formatting = new HashMap<Integer, TextFormat>();
+        formatting = new HashMap<>();
     }
 
     public TextFormatter(TextFormat defaultFormat) {
@@ -32,12 +32,7 @@ public class TextFormatter {
     }
 
     public void cleanAfter(int index) {
-        Iterator<Map.Entry<Integer, TextFormat>> itr = formatting.entrySet().iterator();
-        while (itr.hasNext()) {
-            Map.Entry<Integer, TextFormat> entry = itr.next();
-            if (entry.getKey() >= index && entry.getKey() != 0)
-                itr.remove();
-        }
+        formatting.entrySet().removeIf(entry -> entry.getKey() >= index && entry.getKey() != 0);
     }
 
     public TextFormatter getFormatter(int start, int length) {

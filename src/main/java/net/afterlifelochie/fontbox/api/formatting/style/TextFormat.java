@@ -4,6 +4,7 @@ import net.afterlifelochie.fontbox.api.font.IGLFont;
 
 import java.util.EnumSet;
 
+// TODO: maybe abstract this
 public class TextFormat implements Cloneable {
     public final EnumSet<DecorationStyle> decorations;
     public final IGLFont font;

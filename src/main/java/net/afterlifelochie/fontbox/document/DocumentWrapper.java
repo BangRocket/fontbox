@@ -87,16 +87,6 @@ public class DocumentWrapper implements IDocument {
     }
 
     @Override
-    public void pageBreak() {
-        addCompilerHint(CompilerHint.PAGE_BREAK);
-    }
-
-    @Override
-    public void floatBreak() {
-        addCompilerHint(CompilerHint.FLOAT_BREAK);
-    }
-
-    @Override
     public GuiScreen createBookGui(FontboxManager manager, IBookProperties bookProperties) throws IOException, LayoutException {
         PageWriter writer = new PageWriter(bookProperties.getPageProperties(), manager);
         DocumentProcessor.generatePages(manager.tracer(), document, writer);

@@ -12,7 +12,15 @@ import net.minecraft.util.ResourceLocation;
 import java.io.IOException;
 
 public interface IDocument {
+    default void addHeading(String uid, String text) {
+        addHeading(uid, new FormattedString(text));
+    }
+
     void addHeading(String uid, FormattedString text);
+
+    default void addParagraph(String text) {
+        addParagraph(new FormattedString(text));
+    }
 
     void addParagraph(FormattedString text);
 
@@ -36,9 +44,13 @@ public interface IDocument {
 
     void addCompilerHint(CompilerHint hint);
 
-    void pageBreak();
+    default void pageBreak() {
+        addCompilerHint(CompilerHint.PAGE_BREAK);
+    }
 
-    void floatBreak();
+    default void floatBreak() {
+        addCompilerHint(CompilerHint.FLOAT_BREAK);
+    }
 
     GuiScreen createBookGui(FontboxManager manager, IBookProperties bookProperties) throws IOException, LayoutException;
 

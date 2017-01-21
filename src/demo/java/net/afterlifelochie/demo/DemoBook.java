@@ -61,17 +61,17 @@ public class DemoBook implements IBookProperties {
 			/* Build the document */
             document = builder.createDocument();
             document.addImage(new ResourceLocation("fontbox", "textures/books/tortoise-rocket.png"), 128, 128, FloatMode.LEFT);
-            document.addHeading("title", new FormattedString("The Tortoise and the Hare"));
-            document.addHeading("author", new FormattedString("Written by Aesop"));
+            document.addHeading("title", "The Tortoise and the Hare");
+            document.addHeading("author", "Written by Aesop");
 
             document.floatBreak();
             document.addItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER);
             document.addParagraph(new FormattedString("The classic fable demonstration book thingy.")
-                .applyFormat(new TextFormat(daniel, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
+                .applyFormat(new TextFormat(daniel, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255))));
             document.addParagraph(new FormattedString("The classic fable demonstration book thingy.")
-                .applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
+                .applyFormat(new TextFormat(notethis, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255))));
             document.addParagraph(new FormattedString("The classic fable demonstration book thingy.")
-                .applyFormat(new TextFormat(ampersand, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255)), 0));
+                .applyFormat(new TextFormat(ampersand, EnumSet.of(DecorationStyle.BOLD), new ColorFormat(128, 128, 255))));
             document.pageBreak();
 
             String[] lines = fable.toString().split("\n");
@@ -84,10 +84,10 @@ public class DemoBook implements IBookProperties {
             document.addParagraph(new FormattedString(realLines.get(0)));
             document.addItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER);
             document.addItemStack(new ItemStack(Items.APPLE, 1), 32, 32, FloatMode.LEFT);
-            document.addParagraph(new FormattedString(realLines.get(1)).applyFormat(new TextFormat(daniel), 0));
+            document.addParagraph(new FormattedString(realLines.get(1)).applyFormat(new TextFormat(daniel)));
             document.pageBreak();
 
-            document.addHeading("ending", new FormattedString("The Finish"));
+            document.addHeading("ending", "The Finish");
             document.addItemStack(new ItemStack(Items.DIAMOND, 1), 32, 32, AlignmentMode.CENTER);
             document.addItemStack(new ItemStack(Items.GOLD_INGOT, 1), 32, 32, FloatMode.LEFT);
             document.addParagraph(new FormattedString(realLines.get(2)));
