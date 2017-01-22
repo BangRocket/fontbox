@@ -45,7 +45,7 @@ public class GLFont implements IGLFont {
         ColorModel glAlphaColorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[]{
             8, 8, 8, 8}, true, false, Transparency.TRANSLUCENT, DataBuffer.TYPE_BYTE);
         WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, width, height, 4, null);
-        BufferedImage texImage = new BufferedImage(glAlphaColorModel, raster, true, new Hashtable<Object, Object>());
+        BufferedImage texImage = new BufferedImage(glAlphaColorModel, raster, true, new Hashtable<>());
         Graphics g = texImage.getGraphics();
         g.setColor(new Color(0f, 0f, 0f, 0f));
         g.fillRect(0, 0, width, height);

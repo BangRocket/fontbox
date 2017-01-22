@@ -2,12 +2,13 @@ package net.afterlifelochie.io;
 
 import java.util.ArrayList;
 
+// TODO: check what if this is actually working correctly
 public class IntegerExclusionStream
 {
     private volatile int ptr = -1;
     private final int min;
     private final int max;
-    private ArrayList<Integer> exclusions = new ArrayList<Integer>();
+    private ArrayList<Integer> exclusions = new ArrayList<>();
 
     public IntegerExclusionStream(int min, int max)
     {

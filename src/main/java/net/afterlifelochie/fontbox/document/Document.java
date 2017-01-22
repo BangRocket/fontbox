@@ -19,7 +19,7 @@ public class Document {
      * Creates a new blank Document
      */
     public Document() {
-        elements = new ArrayList<Element>();
+        elements = new ArrayList<>();
     }
 
     /**

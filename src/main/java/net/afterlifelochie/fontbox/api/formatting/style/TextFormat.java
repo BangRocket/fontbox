@@ -44,7 +44,7 @@ public class TextFormat implements Cloneable {
             return false;
         if ((that.color != null && color == null) || (that.color == null && color != null))
             return false;
-        if (that.color != null && color != null)
+        if (that.color != null)
             if (!color.equals(that.color))
                 return false;
         return true;

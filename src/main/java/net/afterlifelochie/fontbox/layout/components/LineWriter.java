@@ -60,7 +60,7 @@ public class LineWriter {
     public LineWriter(PageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid) {
         this.writer = writer;
         this.alignment = alignment;
-        this.words = new ArrayList<String>();
+        this.words = new ArrayList<>();
         this.formatter = formatter;
         this.uid = uid;
     }

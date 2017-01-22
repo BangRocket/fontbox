@@ -126,16 +126,22 @@ public class GLFontMetrics implements IGLFontMetrics {
                     Element elem = (Element) property;
                     String name = elem.getNodeName().toLowerCase();
                     int val = Integer.parseInt(elem.getFirstChild().getNodeValue());
-                    if (name.equals("width"))
-                        w = val;
-                    else if (name.equals("height"))
-                        h = val;
-                    else if (name.equals("x"))
-                        u = val;
-                    else if (name.equals("y"))
-                        v = val;
-                    else
-                        throw new FontException(String.format("Unexpected metric command %s", name));
+                    switch (name) {
+                        case "width":
+                            w = val;
+                            break;
+                        case "height":
+                            h = val;
+                            break;
+                        case "x":
+                            u = val;
+                            break;
+                        case "y":
+                            v = val;
+                            break;
+                        default:
+                            throw new FontException(String.format("Unexpected metric command %s", name));
+                    }
                 }
                 if (w == -1 || h == -1 || u == -1 || v == -1)
                     throw new FontException(String.format("Invalid metric properties set for key %s", c));
@@ -146,15 +152,13 @@ public class GLFontMetrics implements IGLFontMetrics {
             return metric;
         } catch (IOException e) {
             throw new FontException("Cannot setup font.", e);
-        } catch (ParserConfigurationException e) {
-            throw new FontException("Cannot read font metric data.", e);
-        } catch (SAXException e) {
+        } catch (ParserConfigurationException | SAXException e) {
             throw new FontException("Cannot read font metric data.", e);
         }
     }
 
 
-    private final Map<Integer, IGLGlyphMetric> glyphs = new HashMap<Integer, IGLGlyphMetric>();
+    private final Map<Integer, IGLGlyphMetric> glyphs = new HashMap<>();
     private final float fontImageWidth, fontImageHeight;
 
     private GLFontMetrics(int fontImageWidth, int fontImageHeight) {

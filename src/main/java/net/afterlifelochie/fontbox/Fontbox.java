@@ -38,11 +38,7 @@ public class Fontbox {
                 Field field = clazz.getField(asmData.getObjectName());
                 if (field.getType() == type)
                     field.set(null, instance);
-            } catch (ClassNotFoundException e) {
-                log.warn("Failed to set: {}" + asmData.getClassName() + "." + asmData.getObjectName());
-            } catch (NoSuchFieldException e) {
-                log.warn("Failed to set: {}" + asmData.getClassName() + "." + asmData.getObjectName());
-            } catch (IllegalAccessException e) {
+            } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                 log.warn("Failed to set: {}" + asmData.getClassName() + "." + asmData.getObjectName());
             }
         }

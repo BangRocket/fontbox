@@ -23,11 +23,11 @@ public class Page extends Container implements IPage {
     /**
      * The list of static elements on the page
      */
-    private ArrayList<Element> staticElements = new ArrayList<Element>();
+    private ArrayList<Element> staticElements = new ArrayList<>();
     /**
      * The list of dynamic elements on the page
      */
-    private ArrayList<Element> dynamicElements = new ArrayList<Element>();
+    private ArrayList<Element> dynamicElements = new ArrayList<>();
 
     /**
      * Initialize a new Page with a specified set of page layout properties.
@@ -40,7 +40,7 @@ public class Page extends Container implements IPage {
     }
 
     public ArrayList<Element> allElements() {
-        ArrayList<Element> all = new ArrayList<Element>();
+        ArrayList<Element> all = new ArrayList<>();
         all.addAll(staticElements);
         all.addAll(dynamicElements);
         return all;

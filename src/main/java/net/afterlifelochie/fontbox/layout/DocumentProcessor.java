@@ -5,7 +5,6 @@ import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Document;
 import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.layout.components.Page;
 
 import java.io.IOException;
 

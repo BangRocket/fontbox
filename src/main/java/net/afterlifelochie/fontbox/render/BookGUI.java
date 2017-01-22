@@ -143,10 +143,9 @@ public class BookGUI extends GuiScreen {
                     if (useDisplayList)
                         renderPageStaticsBuffered(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
                     else
-                        renderPageStaticsImmediate(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
-                i = 0;
+                        renderPageStaticsImmediate(page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
                 for (Tuple<Layout, IPage> page : toRender)
-                    renderPageDynamics(i++, page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
+                    renderPageDynamics(page.getSecond(), page.getFirst().x, page.getFirst().y, zLevel, mx, my, frames);
             }
         } catch (RenderException err) {
             err.printStackTrace();
@@ -312,33 +311,32 @@ public class BookGUI extends GuiScreen {
         super.mouseClickMove(mx, my, button, ticks);
     }
 
-    private void renderPageDynamics(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+    private void renderPageDynamics(IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         renderElementGroupImmediate(page.dynamicElements(), mx, my, frame);
         GlStateManager.popMatrix();
     }
 
-    private void renderPageStaticsBuffered(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
-        if (glBufferDirty[index]) {
-            GlStateManager.glNewList(glDisplayLists[index], GL11.GL_COMPILE);
-            renderPageStaticsImmediate(index, page, x, y, z, mx, my, frame);
-            GlStateManager.glEndList();
-            glBufferDirty[index] = false;
-        }
-        GlStateManager.callList(glDisplayLists[index]);
-    }
-
-    private void renderPageStaticsImmediate(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+    private void renderPageStaticsImmediate(IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, z);
         renderElementGroupImmediate(page.staticElements(), mx, my, frame);
         GlStateManager.popMatrix();
     }
 
+    private void renderPageStaticsBuffered(int index, IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
+        if (glBufferDirty[index]) {
+            GlStateManager.glNewList(glDisplayLists[index], GL11.GL_COMPILE);
+            renderPageStaticsImmediate(page, x, y, z, mx, my, frame);
+            GlStateManager.glEndList();
+            glBufferDirty[index] = false;
+        }
+        GlStateManager.callList(glDisplayLists[index]);
+    }
+
     private void renderElementGroupImmediate(Iterable<? extends Element> elements, int mx, int my, float frame) throws RenderException {
         for (Element element : elements)
             element.render(this, mx, my, frame);
     }
-
 }

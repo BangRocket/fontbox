@@ -15,7 +15,7 @@ public class StackedPushBackStringReader
     /**
      * Mutex lock.
      */
-    protected Object lock;
+    protected final Object lock;
     /**
      * Map of all Characters in the stream
      */
@@ -38,8 +38,8 @@ public class StackedPushBackStringReader
     public StackedPushBackStringReader(String s)
     {
         lock = this;
-        str = new ArrayList<Character>();
-        pushback = new Stack<Integer>();
+        str = new ArrayList<>();
+        pushback = new Stack<>();
         char[] chars = s.toCharArray();
         for (char c : chars)
             str.add(c);

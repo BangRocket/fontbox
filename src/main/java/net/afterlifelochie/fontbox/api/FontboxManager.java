@@ -49,7 +49,7 @@ public class FontboxManager {
     /**
      * The map of all font names to fonts
      */
-    private HashMap<String, IGLFont> fonts = new HashMap<String, IGLFont>();
+    private HashMap<String, IGLFont> fonts = new HashMap<>();
 
     /**
      * Allocate a font on the font record heap. The font can later be referenced

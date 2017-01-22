@@ -75,7 +75,7 @@ public class DemoBook implements IBookProperties {
             document.pageBreak();
 
             String[] lines = fable.toString().split("\n");
-            ArrayList<String> realLines = new ArrayList<String>();
+            ArrayList<String> realLines = new ArrayList<>();
             for (String para : lines)
                 if (para.trim().length() > 0)
                     realLines.add(para.trim());
