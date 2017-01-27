@@ -4,15 +4,16 @@ import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Line;
 import net.afterlifelochie.fontbox.layout.components.LineWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.render.BookGUI;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.afterlifelochie.io.StackedPushBackStringReader;
+import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
@@ -24,7 +25,7 @@ import java.io.IOException;
  *
  * @author AfterLifeLochie
  */
-public abstract class Element {
+public abstract class Element implements IElement {
     private ObjectBounds bounds;
 
     /**
@@ -82,57 +83,6 @@ public abstract class Element {
      * @return If the element can be compile-rendered.
      */
     public abstract boolean canCompileRender();
-
-    /**
-     * <p>
-     * Called to render the element on the page. You should use the pre-computed
-     * rendering properties generated through the call to
-     * {@link Element#layout(ITracer, PageWriter)}.
-     * </p>
-     *
-     * @param gui   The GUI rendering on
-     * @param mx    The mouse x-coordinate
-     * @param my    The mouse y-coordinate
-     * @param frame The current partial frame
-     * @throws RenderException Any rendering exception which prevents the element from being
-     *                         rendered on the page
-     */
-    public abstract void render(BookGUI gui, int mx, int my, float frame) throws RenderException;
-
-    /**
-     * <p>
-     * Called by the container controller when a click occurs on the element.
-     * </p>
-     *
-     * @param gui The GUI being clicked
-     * @param mx  The mouse x-coordinate
-     * @param my  The mouse y-coordinate
-     */
-    public abstract void clicked(BookGUI gui, int mx, int my);
-
-    /**
-     * <p>
-     * Called by the container when a key press occurs.
-     * </p>
-     *
-     * @param gui  The GUI being typed into
-     * @param val  The character value
-     * @param code The key code
-     */
-    public abstract void typed(BookGUI gui, char val, int code);
-
-    /**
-     * <p>
-     * Called by the generator to ask for unique ID for this element. If the
-     * object does not need to be indexed, this method should return null and
-     * not be overridden; else, you should return a unique identifier.
-     * </p>
-     *
-     * @return The unique identifier for this element
-     */
-    public String identifier() {
-        return null;
-    }
 
     /**
      * <p>

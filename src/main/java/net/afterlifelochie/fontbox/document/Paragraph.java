@@ -6,7 +6,7 @@ import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.render.BookGUI;
+import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 
@@ -58,17 +58,17 @@ public class Paragraph extends Element {
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame) {
+    public void render(GuiScreen gui, int mx, int my, float frame) {
         /* No action required */
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my) {
+    public void clicked(GuiScreen gui, int mx, int my) {
 		/* No action required */
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code) {
+    public void typed(GuiScreen gui, char val, int code) {
 		/* No action required */
     }
 

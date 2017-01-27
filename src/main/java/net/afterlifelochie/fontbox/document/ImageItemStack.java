@@ -2,8 +2,8 @@ package net.afterlifelochie.fontbox.document;
 
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
-import net.afterlifelochie.fontbox.render.BookGUI;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
@@ -85,7 +85,7 @@ public class ImageItemStack extends Image {
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame) {
+    public void render(GuiScreen gui, int mx, int my, float frame) {
         GlStateManager.pushMatrix();
         RenderHelper.enableGUIStandardItemLighting();
         GlStateManager.translate(bounds().x * 0.44f, bounds().y * 0.44f, 0);
@@ -96,12 +96,12 @@ public class ImageItemStack extends Image {
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my) {
+    public void clicked(GuiScreen gui, int mx, int my) {
 		/* No action required */
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code) {
+    public void typed(GuiScreen gui, char val, int code) {
 		/* No action required */
     }
 }

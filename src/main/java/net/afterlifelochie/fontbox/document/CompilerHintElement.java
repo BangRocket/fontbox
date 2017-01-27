@@ -6,7 +6,7 @@ import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.render.BookGUI;
+import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -88,17 +88,17 @@ public class CompilerHintElement extends Element {
     }
 
     @Override
-    public void render(BookGUI gui, int mx, int my, float frame) {
+    public void render(GuiScreen gui, int mx, int my, float frame) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public void clicked(BookGUI gui, int mx, int my) {
+    public void clicked(GuiScreen gui, int mx, int my) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 
     @Override
-    public void typed(BookGUI gui, char val, int code) {
+    public void typed(GuiScreen gui, char val, int code) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 }
