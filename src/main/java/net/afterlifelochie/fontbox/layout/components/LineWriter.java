@@ -6,7 +6,7 @@ import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
-import net.afterlifelochie.fontbox.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 
 import java.io.IOException;

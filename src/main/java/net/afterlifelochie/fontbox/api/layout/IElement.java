@@ -7,6 +7,16 @@ import net.minecraft.client.gui.GuiScreen;
  * A renderable element
  */
 public interface IElement {
+
+    /**
+     * <p>
+     * Get the {@link ObjectBounds} for this element
+     * </p>
+     *
+     * @return bounds for this element
+     */
+    ObjectBounds bounds();
+
     /**
      * <p>
      * Called to render the element on the page.

@@ -2,7 +2,9 @@ package net.afterlifelochie.fontbox.layout;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.io.IntegerExclusionStream;
@@ -83,7 +85,7 @@ public class PageWriter {
             currentPage.push(element);
 
             PageCursor current = cursor();
-            for (Element e : currentPage.allElements()) {
+            for (IElement e : currentPage.allElements()) {
                 if (e.bounds().floating())
                     continue;
                 ObjectBounds bb = e.bounds();
@@ -92,7 +94,7 @@ public class PageWriter {
             }
 
             IntegerExclusionStream window = new IntegerExclusionStream(0, currentPage.width);
-            for (Element e : currentPage.allElements()) {
+            for (IElement e : currentPage.allElements()) {
                 ObjectBounds bb = e.bounds();
                 if (current.y() >= bb.y && bb.y + bb.height >= current.y())
                     window.excludeRange(0, bb.x + bb.width);

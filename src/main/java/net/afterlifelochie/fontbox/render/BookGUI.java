@@ -3,6 +3,7 @@ package net.afterlifelochie.fontbox.render;
 import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.api.layout.IPageIndex;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
@@ -294,7 +295,7 @@ public class BookGUI extends GuiScreen {
             IPage page = pages.get(ptr + i);
             int mouseX = mx - where.x, mouseY = my - where.y;
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
-                Element elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
+                IElement elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
                 if (elem != null)
                     elem.clicked(this, mouseX, mouseY);
             }
@@ -335,8 +336,8 @@ public class BookGUI extends GuiScreen {
         GlStateManager.callList(glDisplayLists[index]);
     }
 
-    private void renderElementGroupImmediate(Iterable<? extends Element> elements, int mx, int my, float frame) throws RenderException {
-        for (Element element : elements)
+    private void renderElementGroupImmediate(Iterable<? extends IElement> elements, int mx, int my, float frame) throws RenderException {
+        for (IElement element : elements)
             element.render(this, mx, my, frame);
     }
 }

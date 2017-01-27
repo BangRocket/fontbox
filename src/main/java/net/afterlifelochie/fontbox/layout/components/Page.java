@@ -1,12 +1,12 @@
 package net.afterlifelochie.fontbox.layout.components;
 
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * One whole page containing a collection of spaced lines with line-heights and
@@ -39,7 +39,7 @@ public class Page extends Container implements IPage {
         this.properties = properties;
     }
 
-    public ArrayList<Element> allElements() {
+    public Iterable<? extends IElement> allElements() {
         ArrayList<Element> all = new ArrayList<>();
         all.addAll(staticElements);
         all.addAll(dynamicElements);
@@ -51,7 +51,7 @@ public class Page extends Container implements IPage {
      *
      * @return The list of static elements on the page
      */
-    public List<Element> staticElements() {
+    public Iterable<? extends IElement> staticElements() {
         return staticElements;
     }
 
@@ -60,7 +60,7 @@ public class Page extends Container implements IPage {
      *
      * @return The list of dynamic elements on the page
      */
-    public List<Element> dynamicElements() {
+    public Iterable<? extends IElement> dynamicElements() {
         return dynamicElements;
     }
 

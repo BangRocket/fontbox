@@ -6,14 +6,12 @@ import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Line;
 import net.afterlifelochie.fontbox.layout.components.LineWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
-import net.afterlifelochie.fontbox.render.RenderException;
 import net.afterlifelochie.io.StackedPushBackStringReader;
-import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
 

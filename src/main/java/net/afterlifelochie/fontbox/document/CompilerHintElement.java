@@ -2,6 +2,7 @@ package net.afterlifelochie.fontbox.document;
 
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
@@ -45,9 +46,9 @@ public class CompilerHintElement extends Element {
                 case FLOAT_BREAK:
                     PageCursor cursor = writer.cursor();
                     Page current = writer.current();
-                    Element lowest = null;
+                    IElement lowest = null;
                     int dfx = 0;
-                    for (Element elem : current.allElements()) {
+                    for (IElement elem : current.allElements()) {
                         int dux = elem.bounds().y + elem.bounds().height;
                         if (dux > dfx) {
                             dfx = dux;
