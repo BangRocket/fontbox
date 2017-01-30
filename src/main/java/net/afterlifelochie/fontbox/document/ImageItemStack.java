@@ -97,7 +97,7 @@ public class ImageItemStack extends Image {
 
     @Override
     public void clicked(GuiScreen gui, int mx, int my) {
-		/* No action required */
+        /* No action required */
     }
 
     @Override

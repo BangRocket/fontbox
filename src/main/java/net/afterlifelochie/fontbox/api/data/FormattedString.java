@@ -45,7 +45,7 @@ public class FormattedString {
      * Apply a {@link TextFormat} to text from a given index
      *
      * @param format the {@link TextFormat} to apply
-     * @param index the index it starts from
+     * @param index  the index it starts from
      * @return this object
      */
     public FormattedString applyFormat(TextFormat format, int index) {

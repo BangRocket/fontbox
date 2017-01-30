@@ -3,8 +3,8 @@ package net.afterlifelochie.fontbox.document;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
-import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
@@ -159,7 +159,7 @@ public class Image extends Element {
 
     @Override
     public void typed(GuiScreen gui, char val, int code) {
-		/* No action required */
+        /* No action required */
     }
 
 }

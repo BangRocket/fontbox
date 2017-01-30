@@ -3,8 +3,8 @@ package net.afterlifelochie.fontbox.layout.components;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IPage;
-import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.document.Element;
 
 import java.util.ArrayList;
 

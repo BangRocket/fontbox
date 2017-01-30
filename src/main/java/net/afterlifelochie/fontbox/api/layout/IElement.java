@@ -47,7 +47,7 @@ public interface IElement {
      * Called by the container when a key press occurs.
      * </p>
      *
-     *  @param gui  The GUI being typed into
+     * @param gui  The GUI being typed into
      * @param val  The character value
      * @param code The key code
      */
@@ -62,7 +62,7 @@ public interface IElement {
      *
      * @return The unique identifier for this element
      */
-     default String identifier() {
+    default String identifier() {
         return null;
     }
 }

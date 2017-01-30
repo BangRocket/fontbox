@@ -7,9 +7,9 @@ import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
 import net.afterlifelochie.fontbox.api.formatting.style.DecorationStyle;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
+import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.afterlifelochie.fontbox.render.RenderException;
@@ -196,7 +196,7 @@ public class Line extends Element {
 
     @Override
     public void typed(GuiScreen gui, char val, int code) {
-		/* No action required */
+        /* No action required */
     }
 
     @Override

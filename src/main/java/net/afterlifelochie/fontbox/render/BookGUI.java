@@ -7,7 +7,6 @@ import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.api.layout.IPageIndex;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
