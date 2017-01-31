@@ -286,6 +286,7 @@ public class BookGUI extends GuiScreen {
     @Override
     protected void mouseClicked(int mx, int my, int button) throws IOException {
         super.mouseClicked(mx, my, button);
+        // TODO correct gui scaling stuff
         for (int i = 0; i < mode.pages; i++) {
             Layout where = mode.layouts[i];
             int which = ptr + i;

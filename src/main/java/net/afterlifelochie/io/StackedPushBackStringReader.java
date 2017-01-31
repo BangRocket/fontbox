@@ -10,8 +10,7 @@ import java.util.Stack;
  *
  * @author AfterLifeLochie
  */
-public class StackedPushBackStringReader
-{
+public class StackedPushBackStringReader {
     /**
      * Mutex lock.
      */
@@ -35,8 +34,7 @@ public class StackedPushBackStringReader
      *
      * @param s The source string.
      */
-    public StackedPushBackStringReader(String s)
-    {
+    public StackedPushBackStringReader(String s) {
         lock = this;
         str = new ArrayList<>();
         pushback = new Stack<>();
@@ -48,8 +46,7 @@ public class StackedPushBackStringReader
     /**
      * Check to make sure that the stream has not been closed
      */
-    private void ensureOpen() throws IOException
-    {
+    private void ensureOpen() throws IOException {
         if (str == null)
             throw new IOException("Stream closed");
     }
@@ -62,10 +59,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public char next() throws IOException
-    {
-        synchronized (lock)
-        {
+    public char next() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             if (next >= str.size())
                 return (char) 0;
@@ -80,10 +75,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public void pushPosition() throws IOException
-    {
-        synchronized (lock)
-        {
+    public void pushPosition() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             if (pushback.size() > 64)
                 throw new IOException("Pusback overflow!");
@@ -98,10 +91,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public void popPosition() throws IOException
-    {
-        synchronized (lock)
-        {
+    public void popPosition() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             if (pushback.size() == 0)
                 throw new IOException("Pushback underflow!");
@@ -116,10 +107,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public int getPosition() throws IOException
-    {
-        synchronized (lock)
-        {
+    public int getPosition() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             return next;
         }
@@ -132,10 +121,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public void setPosition(int ns) throws IOException
-    {
-        synchronized (lock)
-        {
+    public void setPosition(int ns) throws IOException {
+        synchronized (lock) {
             ensureOpen();
             next = ns;
         }
@@ -148,10 +135,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public void commitPosition() throws IOException
-    {
-        synchronized (lock)
-        {
+    public void commitPosition() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             pushback.pop();
         }
@@ -164,10 +149,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public void skip(long ns) throws IOException
-    {
-        synchronized (lock)
-        {
+    public void skip(long ns) throws IOException {
+        synchronized (lock) {
             ensureOpen();
             next += ns;
             if (0 > next)
@@ -184,10 +167,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public void rewind(long ns) throws IOException
-    {
-        synchronized (lock)
-        {
+    public void rewind(long ns) throws IOException {
+        synchronized (lock) {
             ensureOpen();
             next -= ns;
             if (0 > next)
@@ -204,10 +185,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public boolean ready() throws IOException
-    {
-        synchronized (lock)
-        {
+    public boolean ready() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             return true;
         }
@@ -220,10 +199,8 @@ public class StackedPushBackStringReader
      * @throws IOException If the lock cannot be obtained or if the stream is not open,
      *                     an IOException will be thrown.
      */
-    public int available() throws IOException
-    {
-        synchronized (lock)
-        {
+    public int available() throws IOException {
+        synchronized (lock) {
             ensureOpen();
             return Math.max(0, str.size() - next);
         }
@@ -232,8 +209,7 @@ public class StackedPushBackStringReader
     /**
      * Closes the reader.
      */
-    public void close()
-    {
+    public void close() {
         str = null;
     }
 

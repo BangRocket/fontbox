@@ -95,6 +95,13 @@ public class ReliabilityTests {
 			assertTrue("second is not 2", stream.next() == 2);
 			stream.excludeRange(3, 9);
 			assertTrue("last is not 10", stream.next() == 10);
+
+			stream = new IntegerExclusionStream(100, 120);
+			stream.exclude(101);
+			assertTrue("first is not 0", stream.next() == 100);
+			assertTrue("second is not 2", stream.next() == 102);
+			stream.excludeRange(103, 119);
+			assertTrue("last is not 10", stream.next() == 120);
 		} catch (Throwable t) {
 			if (t instanceof AssertionError)
 				throw (AssertionError) t;

@@ -1,61 +1,72 @@
 package net.afterlifelochie.io;
 
-import java.util.ArrayList;
+import java.util.Set;
+import java.util.TreeSet;
 
-// TODO: check what if this is actually working correctly
-public class IntegerExclusionStream
-{
-    private volatile int ptr = -1;
+/**
+ * A stream of integers with certain numbers excluded
+ */
+public class IntegerExclusionStream {
+    private volatile int ptr;
     private final int min;
     private final int max;
-    private ArrayList<Integer> exclusions = new ArrayList<>();
+    private Set<Integer> exclusions = new TreeSet<>();
 
-    public IntegerExclusionStream(int min, int max)
-    {
+    public IntegerExclusionStream(int min, int max) {
         this.min = min;
+        this.ptr = min - 1;
         this.max = max;
     }
 
-    public void exclude(int i)
-    {
+    public void exclude(int i) {
         exclusions.add(i);
     }
 
-    public void excludeRange(int a, int b)
-    {
-        if (a == b)
+    /**
+     * Exclude a range of integers
+     * Both values are included in the range
+     *
+     * @param a left bound
+     * @param b right bound
+     */
+    public void excludeRange(int a, int b) {
+        if (a == b) {
             exclude(a);
-        else
-            for (int n = Math.min(a, b), p = Math.max(a, b); n <= p; n++)
+        } else {
+            for (int n = Math.min(a, b), p = Math.max(a, b); n <= p; n++) {
                 exclude(n);
+            }
+        }
     }
 
-    public int largest()
-    {
+    /**
+     * @return the start ptr of the largest gap
+     */
+    public int largest() {
         int size = 0, bestStart = 0, bestSize = 0;
-        for (int start = 0; start <= max; start++)
-            if (exclusions.contains(start))
-            {
-                if (size > bestSize)
-                {
+        for (int start = min; start <= max; start++) {
+            if (exclusions.contains(start)) {
+                if (size > bestSize) {
                     bestStart = start - size;
                     bestSize = size;
                 }
                 size = 0;
-            } else
+            } else {
                 size++;
-        if (size > bestSize)
-        {
+            }
+        }
+        if (size > bestSize) {
             bestStart = max - size;
             bestSize = size;
         }
         return Math.max(0, bestStart);
     }
 
-    public int next()
-    {
-        while (true)
-        {
+    /**
+     * @return the next integer in the stream
+     */
+    public int next() {
+        while (true) {
             ptr++;
             if (!exclusions.contains(ptr))
                 break;
@@ -63,10 +74,11 @@ public class IntegerExclusionStream
         return ptr;
     }
 
-    public int previous()
-    {
-        while (true)
-        {
+    /**
+     * @return the previous integer in the stream
+     */
+    public int previous() {
+        while (true) {
             ptr--;
             if (!exclusions.contains(ptr))
                 break;
