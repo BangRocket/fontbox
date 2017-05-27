@@ -4,7 +4,6 @@ import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
-import net.afterlifelochie.fontbox.document.Element;
 
 import java.util.ArrayList;
 
@@ -18,16 +17,16 @@ public class Page extends Container implements IPage {
     /**
      * The page layout properties container
      */
-    public PageProperties properties;
+    private PageProperties properties;
 
     /**
      * The list of static elements on the page
      */
-    private ArrayList<Element> staticElements = new ArrayList<>();
+    private ArrayList<IElement> staticElements = new ArrayList<>();
     /**
      * The list of dynamic elements on the page
      */
-    private ArrayList<Element> dynamicElements = new ArrayList<>();
+    private ArrayList<IElement> dynamicElements = new ArrayList<>();
 
     /**
      * Initialize a new Page with a specified set of page layout properties.
@@ -39,8 +38,12 @@ public class Page extends Container implements IPage {
         this.properties = properties;
     }
 
-    public Iterable<? extends IElement> allElements() {
-        ArrayList<Element> all = new ArrayList<>();
+    public PageProperties getProperties() {
+        return properties;
+    }
+
+    public Iterable<IElement> allElements() {
+        ArrayList<IElement> all = new ArrayList<>();
         all.addAll(staticElements);
         all.addAll(dynamicElements);
         return all;
@@ -51,7 +54,7 @@ public class Page extends Container implements IPage {
      *
      * @return The list of static elements on the page
      */
-    public Iterable<? extends IElement> staticElements() {
+    public Iterable<IElement> staticElements() {
         return staticElements;
     }
 
@@ -60,7 +63,7 @@ public class Page extends Container implements IPage {
      *
      * @return The list of dynamic elements on the page
      */
-    public Iterable<? extends IElement> dynamicElements() {
+    public Iterable<IElement> dynamicElements() {
         return dynamicElements;
     }
 
@@ -69,7 +72,7 @@ public class Page extends Container implements IPage {
      *
      * @param element The element to push
      */
-    public void push(Element element) {
+    public void push(IElement element) {
         if (!element.canCompileRender())
             dynamicElements.add(element);
         else
@@ -84,8 +87,8 @@ public class Page extends Container implements IPage {
      * @param bounds The bounding box to check
      * @return If an intersection occurs
      */
-    public Element intersectsElement(ObjectBounds bounds) {
-        for (Element element : staticElements)
+    public IElement intersectsElement(ObjectBounds bounds) {
+        for (IElement element : staticElements)
             if (element.bounds() != null && element.bounds().intersects(bounds))
                 return element;
         return null;

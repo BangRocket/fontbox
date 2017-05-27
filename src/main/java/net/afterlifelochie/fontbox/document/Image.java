@@ -3,10 +3,11 @@ package net.afterlifelochie.fontbox.document;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.layout.PageCursor;
-import net.afterlifelochie.fontbox.layout.PageWriter;
+import net.afterlifelochie.fontbox.api.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.minecraft.client.gui.GuiScreen;
@@ -84,11 +85,11 @@ public class Image extends Element {
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
-        Page current = writer.current();
+    public void layout(ITracer trace, IPageWriter writer) throws IOException, LayoutException {
+        IPage current = writer.current();
         PageCursor cursor = writer.cursor();
         int yh = cursor.y() + height;
-        if (yh > current.properties.height) {
+        if (yh > current.getProperties().height) {
             current = writer.next();
             cursor = writer.cursor();
         }
@@ -97,12 +98,12 @@ public class Image extends Element {
 
         switch (align) {
             case CENTER:
-                float qt = current.properties.width - width;
+                float qt = current.getProperties().width - width;
                 x = (int) Math.floor(qt / 2.0f);
                 break;
             case JUSTIFY:
                 float srh = (float) height / (float) width;
-                width = current.properties.width - cursor.x();
+                width = current.getProperties().width - cursor.x();
                 height = (int) Math.ceil(width * srh);
                 x = cursor.x();
                 break;
@@ -113,12 +114,12 @@ public class Image extends Element {
                 x = cursor.x();
                 break;
             case RIGHT:
-                x = current.properties.width - width;
+                x = current.getProperties().width - width;
                 break;
         }
 
         if (floating == FloatMode.RIGHT)
-            x = current.properties.width - width;
+            x = current.getProperties().width - width;
 
         trace.trace("Image.layout", "finalize", x, cursor.y(), width, height, floating != FloatMode.NONE);
         setBounds(new ObjectBounds(x, cursor.y(), width, height, floating));

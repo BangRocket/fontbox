@@ -1,7 +1,11 @@
 package net.afterlifelochie.fontbox.api.layout;
 
+import net.afterlifelochie.fontbox.api.exception.LayoutException;
+import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.minecraft.client.gui.GuiScreen;
+
+import java.io.IOException;
 
 /**
  * A renderable element
@@ -65,4 +69,28 @@ public interface IElement {
     default String identifier() {
         return null;
     }
+
+    /**
+     * Called to determine if this element can be compile-rendered. If an
+     * element is compiled-rendered, it will be drawn once to a video-buffer;
+     * else, the element will be redrawn each frame.
+     *
+     * @return If the element can be compile-rendered.
+     */
+     boolean canCompileRender();
+
+    /**
+     * <p>
+     * Called by the document generator to request this element fill in it's
+     * rendering-based properties. The element should place itself on the
+     * current page and update the writing cursor if required.
+     * </p>
+     *
+     * @param trace  The debugging tracer object
+     * @param writer The current page writer
+     * @throws IOException     Any I/O exception which occurs when writing to the stream
+     * @throws LayoutException Any exception which prevents the element from being written
+     *                         to the writing stream
+     */
+     void layout(ITracer trace, IPageWriter writer) throws IOException, LayoutException;
 }

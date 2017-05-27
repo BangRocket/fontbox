@@ -2,10 +2,10 @@ package net.afterlifelochie.fontbox.layout;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
 import net.afterlifelochie.fontbox.api.formatting.PageProperties;
-import net.afterlifelochie.fontbox.api.layout.IElement;
-import net.afterlifelochie.fontbox.api.layout.IPage;
-import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
-import net.afterlifelochie.fontbox.document.Element;
+import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
+import net.afterlifelochie.fontbox.api.layout.*;
+import net.afterlifelochie.fontbox.layout.components.LineWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.io.IntegerExclusionStream;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
-public class PageWriter {
+public class PageWriter implements IPageWriter {
     private final Object lock = new Object();
     private final FontboxManager manager;
     private ArrayList<Page> pages = new ArrayList<>();
@@ -30,6 +30,7 @@ public class PageWriter {
         this.index = new PageIndex();
     }
 
+    @Override
     public void close() {
         synchronized (lock) {
             closed = true;
@@ -43,6 +44,7 @@ public class PageWriter {
         }
     }
 
+    @Override
     public Page previous() throws IOException {
         synchronized (lock) {
             checkOpen();
@@ -51,6 +53,7 @@ public class PageWriter {
         }
     }
 
+    @Override
     public Page next() throws IOException {
         synchronized (lock) {
             checkOpen();
@@ -59,6 +62,7 @@ public class PageWriter {
         }
     }
 
+    @Override
     public Page current() throws IOException {
         synchronized (lock) {
             checkOpen();
@@ -67,14 +71,15 @@ public class PageWriter {
         }
     }
 
-    public boolean write(Element element) throws IOException {
+    @Override
+    public boolean write(IElement element) throws IOException {
         synchronized (lock) {
             checkOpen();
             Page currentPage = current();
             if (element.bounds() == null)
                 throw new IOException("Cannot write unbounded object to page.");
             manager.doAssert(currentPage.insidePage(element.bounds()), "Element outside page boundary.");
-            Element intersect = currentPage.intersectsElement(element.bounds());
+            IElement intersect = currentPage.intersectsElement(element.bounds());
             manager.doAssert(intersect == null, "Element intersects existing element " + intersect + ": box "
                 + ((intersect != null && intersect.bounds() != null) ? intersect.bounds() : "<null>") + " and "
                 + element.bounds() + "!");
@@ -107,6 +112,7 @@ public class PageWriter {
         }
     }
 
+    @Override
     public PageCursor cursor() throws IOException {
         synchronized (lock) {
             checkOpen();
@@ -128,6 +134,7 @@ public class PageWriter {
         }
     }
 
+    @Override
     public List<? extends IPage> pages() {
         synchronized (lock) {
             if (!closed)
@@ -136,11 +143,17 @@ public class PageWriter {
         }
     }
 
+    @Override
     public PageIndex index() throws IOException {
         synchronized (lock) {
             if (!closed)
                 throw new IOException("Writing not finished!");
             return index;
         }
+    }
+
+    @Override
+    public ILineWriter getLineWriter(TextFormatter formatter, AlignmentMode alignment, String uid) {
+        return new LineWriter(this, formatter, alignment, uid);
     }
 }

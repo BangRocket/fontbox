@@ -5,6 +5,8 @@ import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.layout.IElement;
+import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.layout.PageWriter;
@@ -44,22 +46,7 @@ public abstract class Element implements IElement {
         bounds = bb;
     }
 
-    /**
-     * <p>
-     * Called by the document generator to request this element fill in it's
-     * rendering-based properties. The element should place itself on the
-     * current page and update the writing cursor if required.
-     * </p>
-     *
-     * @param trace  The debugging tracer object
-     * @param writer The current page writer
-     * @throws IOException     Any I/O exception which occurs when writing to the stream
-     * @throws LayoutException Any exception which prevents the element from being written
-     *                         to the writing stream
-     */
-    public abstract void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException;
-
-    /**
+     /**
      * Called to determine if this element requires explicit update ticks. This
      * value is cached; that is, if this method returns <code>false</code>, this
      * method will not be queried again to see if updating is required.
@@ -72,15 +59,6 @@ public abstract class Element implements IElement {
      * Called to update the interface
      */
     public abstract void update();
-
-    /**
-     * Called to determine if this element can be compile-rendered. If an
-     * element is compiled-rendered, it will be drawn once to a video-buffer;
-     * else, the element will be redrawn each frame.
-     *
-     * @return If the element can be compile-rendered.
-     */
-    public abstract boolean canCompileRender();
 
     /**
      * <p>
@@ -99,7 +77,7 @@ public abstract class Element implements IElement {
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, PageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException {
+    protected void boxText(ITracer trace, IPageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException {
         StackedPushBackStringReader reader = new StackedPushBackStringReader(what.string);
         trace.trace("Element.boxText", "startBox");
         while (reader.available() > 0) {
@@ -137,7 +115,7 @@ public abstract class Element implements IElement {
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, PageWriter pageWriter, LineWriter lineWriter, StackedPushBackStringReader text) throws IOException, LayoutException {
+    protected void boxText(ITracer trace, IPageWriter pageWriter, LineWriter lineWriter, StackedPushBackStringReader text) throws IOException, LayoutException {
         main:
         while (text.available() > 0) {
             // Put some words on the writer:
@@ -166,12 +144,12 @@ public abstract class Element implements IElement {
                 trace.trace("Element.boxText", "considerWord", inWord.toString());
                 lineWriter.push(inWord.toString());
                 ObjectBounds future = lineWriter.pendingBounds();
-                Page current = pageWriter.current();
+                IPage current = pageWriter.current();
                 trace.trace("Element.boxText", "considerCursor", pageWriter.cursor());
 
                 // If we overflow the page, back out last change to fit:
                 if (!current.insidePage(future)) {
-                    trace.trace("Element.boxText", "overflowPage", current.width, current.height, future, lineWriter.size());
+                    trace.trace("Element.boxText", "overflowPage", current.getWidth(), current.getHeight(), future, lineWriter.size());
                     lineWriter.pop();
                     text.popPosition();
                     // If there are now no words on the writer, then
@@ -182,7 +160,7 @@ public abstract class Element implements IElement {
                 } else if (current.intersectsElement(future) != null) {
                     // We hit another object, so let's undo
                     trace.trace("Element.boxText", "collideElement", lineWriter.size());
-                    Element e0 = current.intersectsElement(future);
+                    IElement e0 = current.intersectsElement(future);
                     trace.trace("Element.boxText", "collideHit", e0.bounds().toString(), future.toString());
                     lineWriter.pop();
                     text.popPosition();

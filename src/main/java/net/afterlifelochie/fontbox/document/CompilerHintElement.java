@@ -3,9 +3,10 @@ package net.afterlifelochie.fontbox.document;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
 import net.afterlifelochie.fontbox.api.layout.IElement;
+import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.layout.PageCursor;
-import net.afterlifelochie.fontbox.layout.PageWriter;
+import net.afterlifelochie.fontbox.api.layout.PageCursor;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -40,12 +41,12 @@ public class CompilerHintElement extends Element {
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
+    public void layout(ITracer trace, IPageWriter writer) throws IOException, LayoutException {
         for (CompilerHint whatHint : types) {
             switch (whatHint) {
                 case FLOAT_BREAK:
                     PageCursor cursor = writer.cursor();
-                    Page current = writer.current();
+                    IPage current = writer.current();
                     IElement lowest = null;
                     int dfx = 0;
                     for (IElement elem : current.allElements()) {

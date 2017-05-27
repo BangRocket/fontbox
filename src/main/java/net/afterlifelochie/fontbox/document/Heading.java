@@ -3,8 +3,9 @@ package net.afterlifelochie.fontbox.document;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -32,9 +33,9 @@ public class Heading extends Element {
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
-        Page page = writer.current();
-        boxText(trace, writer, page.properties.headingFormat, text, id, AlignmentMode.LEFT);
+    public void layout(ITracer trace, IPageWriter writer) throws IOException, LayoutException {
+        IPage page = writer.current();
+        boxText(trace, writer, page.getProperties().headingFormat, text, id, AlignmentMode.LEFT);
         writer.cursor().pushDown(10);
     }
 

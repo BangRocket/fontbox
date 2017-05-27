@@ -38,7 +38,7 @@ public class DocumentProcessor {
      *                         element on a Page
      */
     public static void generatePages(ITracer trace, Document doc, PageWriter writer) throws IOException, LayoutException {
-        for (Element element : doc.elements)
+        for (IElement element : doc.elements)
             element.layout(trace, writer);
     }
 }

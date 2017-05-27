@@ -1,5 +1,7 @@
 package net.afterlifelochie.fontbox.document;
 
+import net.afterlifelochie.fontbox.api.layout.IElement;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Document {
     /**
      * The list of elements in the document
      */
-    public ArrayList<Element> elements;
+    public ArrayList<IElement> elements;
 
     /**
      * Creates a new blank Document
@@ -34,7 +36,7 @@ public class Document {
      *
      * @param element The element to add
      */
-    public void push(Element element) {
+    public void push(IElement element) {
         if (elements.contains(element))
             throw new IllegalArgumentException("Element already exists in tree!");
         elements.add(element);
@@ -52,8 +54,8 @@ public class Document {
      *
      * @param elements The elements to add
      */
-    public void pushAll(List<Element> elements) {
-        for (Element ez : elements)
+    public void pushAll(List<IElement> elements) {
+        for (IElement ez : elements)
             if (ez != null)
                 push(ez);
     }
@@ -67,7 +69,7 @@ public class Document {
      * @return The element on the end of the document, or null if the document
      * is empty
      */
-    public Element pop() {
+    public IElement pop() {
         if (elements.size() == 0)
             return null;
         return elements.remove(elements.size() - 1);
@@ -81,7 +83,7 @@ public class Document {
      *
      * @return The first element in the document, or null
      */
-    public Element head() {
+    public IElement head() {
         return elements.get(0);
     }
 
@@ -93,7 +95,7 @@ public class Document {
      *
      * @return The last element in the document, or null
      */
-    public Element tail() {
+    public IElement tail() {
         return elements.get(elements.size() - 1);
     }
 

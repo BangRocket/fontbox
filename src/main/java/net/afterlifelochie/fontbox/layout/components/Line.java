@@ -7,10 +7,10 @@ import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
 import net.afterlifelochie.fontbox.api.formatting.style.DecorationStyle;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
+import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.document.Element;
-import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.minecraft.client.gui.GuiScreen;
@@ -77,7 +77,7 @@ public class Line extends Element {
     }
 
     @Override
-    public void layout(ITracer trace, PageWriter writer) throws IOException, LayoutException {
+    public void layout(ITracer trace, IPageWriter writer) throws IOException, LayoutException {
         throw new LayoutException("Cannot layout Line type; Line already laid!");
     }
 

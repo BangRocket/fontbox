@@ -5,13 +5,21 @@ import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
+import java.util.Collection;
 
 public interface IDocument {
+    void addElement(IElement element);
+
+    default void addElements(Collection<IElement> elements) {
+        elements.forEach(e -> addElement(e));
+    }
+
     default void addHeading(String uid, String text) {
         addHeading(uid, new FormattedString(text));
     }

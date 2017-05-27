@@ -10,6 +10,7 @@ import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
 import net.afterlifelochie.fontbox.render.BookGUI;
@@ -24,6 +25,11 @@ public class DocumentWrapper implements IDocument {
 
     public DocumentWrapper() {
         document = new Document();
+    }
+
+    @Override
+    public void addElement(IElement element) {
+        document.push(element);
     }
 
     @Override

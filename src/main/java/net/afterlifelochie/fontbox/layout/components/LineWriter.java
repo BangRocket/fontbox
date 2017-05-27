@@ -6,18 +6,20 @@ import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
+import net.afterlifelochie.fontbox.api.layout.ILineWriter;
+import net.afterlifelochie.fontbox.api.layout.IPage;
+import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
-import net.afterlifelochie.fontbox.layout.PageWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineWriter {
+public class LineWriter implements ILineWriter {
     /**
      * The writer stream
      */
-    private final PageWriter writer;
+    private final IPageWriter writer;
     /**
      * The alignment writing in
      */
@@ -57,7 +59,7 @@ public class LineWriter {
      * @param alignment The alignment to paginate in.
      * @param uid       The lines uid.
      */
-    public LineWriter(PageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid) {
+    public LineWriter(IPageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid) {
         this.writer = writer;
         this.alignment = alignment;
         this.words = new ArrayList<>();
@@ -68,7 +70,7 @@ public class LineWriter {
     private void update() throws LayoutException, IOException {
         int width = 0, height = 0;
 
-        Page page = writer.current();
+        IPage page = writer.current();
 
         int offset = lineOffset;
         int wordsWidth = 0;
@@ -88,8 +90,8 @@ public class LineWriter {
             offset++;
         }
 
-        int blankWidth = page.width - page.properties.margin_left - page.properties.margin_right - wordsWidth;
-        spaceSize = page.properties.min_space_size;
+        int blankWidth = page.getWidth() - page.getProperties().margin_left - page.getProperties().margin_right - wordsWidth;
+        spaceSize = page.getProperties().min_space_size;
         int x = writer.cursor().x(), y = writer.cursor().y();
 
         switch (alignment) {
@@ -98,10 +100,10 @@ public class LineWriter {
                 x += (int) Math.floor(halfBlank);
                 break;
             case JUSTIFY:
-                float density = (float) wordsWidth / (float) page.width;
-                if (density >= page.properties.min_line_density) {
+                float density = (float) wordsWidth / (float) page.getWidth();
+                if (density >= page.getProperties().min_line_density) {
                     int extra_px_per_space = (int) Math.floor(blankWidth / words.size());
-                    if (extra_px_per_space > page.properties.min_space_size)
+                    if (extra_px_per_space > page.getProperties().min_space_size)
                         spaceSize = extra_px_per_space;
                 }
                 break;
@@ -114,16 +116,10 @@ public class LineWriter {
         }
 
         width = wordsWidth + Math.max(words.size() - 2, 0) * spaceSize;
-        bounds = new ObjectBounds(x, y, width, Math.max(height, page.properties.line_height_size), FloatMode.NONE);
+        bounds = new ObjectBounds(x, y, width, Math.max(height, page.getProperties().line_height_size), FloatMode.NONE);
     }
 
-    /**
-     * Called to emit the stack's contents to a Line element. The contents of
-     * the stack are automatically cleared and zerored on invocation.
-     *
-     * @return The formatted line. The stack, properties and other values
-     * associated with generating the line are reset on the self object.
-     */
+    @Override
     public Line emit() {
         StringBuilder words = new StringBuilder();
         for (int i = 0; i < this.words.size(); i++) {
@@ -143,40 +139,18 @@ public class LineWriter {
         return what;
     }
 
-    /**
-     * Get the current pending bounding box of the words on the writer.
-     *
-     * @return The pending bounding box of the words on the writer.
-     */
+
     public ObjectBounds pendingBounds() {
         return bounds;
     }
 
-    /**
-     * Pushes the word onto the writer stack. The word is placed on the end of
-     * the stack and the dimensions of the stack are recomputed automatically.
-     *
-     * @param word The word to place on the end of the stack
-     * @throws IOException     Any exception which occurs when reading from the page writing
-     *                         stream underlying this writer
-     * @throws LayoutException Any exception which occurs when updating the potentially
-     *                         paginated text
-     */
     public void push(String word) throws LayoutException, IOException {
         words.add(word);
         update();
     }
 
-    /**
-     * Removes the word from the end of the writer stack. The word removed is
-     * returned and then dimensions of the stack are recomputed automatically.
-     *
-     * @return The word which was removed from the end of the stack
-     * @throws IOException     Any exception which occurs when reading from the page writing
-     *                         stream underlying this writer
-     * @throws LayoutException Any exception which occurs when updating the potentially
-     *                         paginated text
-     */
+
+    @Override
     public String pop() throws LayoutException, IOException {
         String word = words.remove(words.size() - 1);
 
@@ -190,12 +164,8 @@ public class LineWriter {
         return word;
     }
 
-    /**
-     * Get the size (number of elements) on the stack at the current time.
-     *
-     * @return The number of elements currently on the writer stack at the time
-     * of invocation.
-     */
+
+    @Override
     public int size() {
         return words.size();
     }
