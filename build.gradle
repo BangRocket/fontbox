@@ -92,6 +92,7 @@ task sourcesJar(type: Jar, dependsOn: 'sourceMainJava') {
 
 task apiJar(type: Jar, dependsOn: 'sourceMainJava') {
 	from "build/sources/main/java/net/afterlifelochie/fontbox/api"
+	from "build/classes/main/java/net/afterlifelochie/fontbox/api"
 	classifier "api"
 	destinationDir = file (rootProject.getRootDir().getPath() + '/output')
 }
