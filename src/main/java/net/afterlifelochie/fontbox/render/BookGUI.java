@@ -12,6 +12,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.Tuple;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.Util;
@@ -55,6 +56,7 @@ public class BookGUI extends GuiScreen {
      * The underlying bookProperties properties
      */
     private final IBookProperties bookProperties;
+    private int guiTop, guiLeft;
 
     /**
      * <p>
@@ -107,6 +109,8 @@ public class BookGUI extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
+        this.guiLeft = (width - bookProperties.getPageProperties().width) / 2;
+        this.guiTop = (height - bookProperties.getPageProperties().height) / 2;
     }
 
     @Override
@@ -293,13 +297,25 @@ public class BookGUI extends GuiScreen {
             if (pages.size() <= which)
                 break;
             IPage page = pages.get(ptr + i);
-            int mouseX = mx - where.x, mouseY = my - where.y;
+            int mouseX = mx - guiLeft - where.x, mouseY = my - guiTop - where.y;
+            float thresholdX = page.getWidth() / 10.0F, thresholdY =page.getHeight() / 10.0F;
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
                 IElement elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
-                if (elem != null)
+                if (elem != null) {
                     elem.clicked(this, mouseX, mouseY);
+                    return;
+                }
+            }
+
+            if (mouseX >= 0 && mouseY >= page.getHeight() - thresholdY && mouseX <= thresholdX && mouseY <= page.getHeight()) {
+                previous();
+                return;
+            } else if (mouseX >= page.getWidth() - thresholdX && mouseY >= page.getHeight() - thresholdY && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
+                next();
+                return;
             }
         }
+
     }
 
     @Override
@@ -310,6 +326,17 @@ public class BookGUI extends GuiScreen {
     @Override
     protected void mouseClickMove(int mx, int my, int button, long ticks) {
         super.mouseClickMove(mx, my, button, ticks);
+    }
+
+    @Override
+    public void handleMouseInput() throws IOException {
+        super.handleMouseInput();
+        int scroll = Mouse.getEventDWheel();
+        if (scroll > 0) {
+            next();
+        } else if (scroll < 0) {
+            previous();
+        }
     }
 
     private void renderPageDynamics(IPage page, float x, float y, float z, int mx, int my, float frame) throws RenderException {
