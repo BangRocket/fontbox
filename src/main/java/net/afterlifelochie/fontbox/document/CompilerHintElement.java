@@ -2,12 +2,8 @@ package net.afterlifelochie.fontbox.document;
 
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.CompilerHint;
-import net.afterlifelochie.fontbox.api.layout.IElement;
-import net.afterlifelochie.fontbox.api.layout.IPage;
-import net.afterlifelochie.fontbox.api.layout.IPageWriter;
+import net.afterlifelochie.fontbox.api.layout.*;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.api.layout.PageCursor;
-import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
@@ -95,7 +91,7 @@ public class CompilerHintElement extends Element {
     }
 
     @Override
-    public void clicked(GuiScreen gui, int mx, int my) {
+    public void clicked(IIndexed gui, int mx, int my) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
 

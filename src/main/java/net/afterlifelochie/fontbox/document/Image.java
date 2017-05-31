@@ -4,11 +4,8 @@ import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
-import net.afterlifelochie.fontbox.api.layout.IPage;
-import net.afterlifelochie.fontbox.api.layout.IPageWriter;
-import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.api.layout.*;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.api.layout.PageCursor;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -156,7 +153,7 @@ public class Image extends Element {
     }
 
     @Override
-    public void clicked(GuiScreen gui, int mx, int my) {
+    public void clicked(IIndexed gui, int mx, int my) {
         /* No action required */
     }
 

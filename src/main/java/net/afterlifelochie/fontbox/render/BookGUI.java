@@ -1,6 +1,7 @@
 package net.afterlifelochie.fontbox.render;
 
 import net.afterlifelochie.fontbox.api.data.IBookProperties;
+import net.afterlifelochie.fontbox.api.layout.IIndexed;
 import net.afterlifelochie.fontbox.api.formatting.PageMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.Layout;
 import net.afterlifelochie.fontbox.api.layout.IElement;
@@ -22,7 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookGUI extends GuiScreen {
+public class BookGUI extends GuiScreen implements IIndexed {
     /**
      * The renderer's PageMode
      */
@@ -244,7 +245,8 @@ public class BookGUI extends GuiScreen {
     /**
      * Advance to the next page
      */
-    protected void next() {
+    @Override
+    public void next() {
         if (ptr + mode.pages < pages.size()) {
             ptr += mode.pages;
             internalOnPageChanged(this, ptr);
@@ -257,7 +259,8 @@ public class BookGUI extends GuiScreen {
      *
      * @param id The ID of the anchor to go to
      */
-    protected void go(String id) {
+    @Override
+    public void go(String id) {
         int where = index.find(id);
         if (where != -1)
             go(where);
@@ -268,7 +271,8 @@ public class BookGUI extends GuiScreen {
      *
      * @param where The page pointer
      */
-    protected void go(int where) {
+    @Override
+    public void go(int where) {
         where = where - (where % mode.pages);
         if (ptr != where && 0 <= where - mode.pages && where + mode.pages < pages.size()) {
             ptr = where;
@@ -279,11 +283,17 @@ public class BookGUI extends GuiScreen {
     /**
      * Reverse to the previous page
      */
-    protected void previous() {
+    @Override
+    public void previous() {
         if (0 <= ptr - mode.pages) {
             ptr -= mode.pages;
             internalOnPageChanged(this, ptr);
         }
+    }
+
+    @Override
+    public GuiScreen getGuiScreen() {
+        return this;
     }
 
     @Override

@@ -3,10 +3,10 @@ package net.afterlifelochie.fontbox.document;
 import net.afterlifelochie.fontbox.api.data.FormattedString;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
+import net.afterlifelochie.fontbox.api.layout.IIndexed;
 import net.afterlifelochie.fontbox.api.layout.IPage;
 import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
-import net.afterlifelochie.fontbox.layout.components.Page;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class Heading extends Element {
     }
 
     @Override
-    public void clicked(GuiScreen gui, int mx, int my) {
+    public void clicked(IIndexed gui, int mx, int my) {
         /* No action required */
     }
 

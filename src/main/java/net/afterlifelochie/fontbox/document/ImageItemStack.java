@@ -3,6 +3,7 @@ package net.afterlifelochie.fontbox.document;
 import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
+import net.afterlifelochie.fontbox.api.layout.IIndexed;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -97,7 +98,7 @@ public class ImageItemStack extends Image {
     }
 
     @Override
-    public void clicked(GuiScreen gui, int mx, int my) {
+    public void clicked(IIndexed gui, int mx, int my) {
         /* No action required */
     }
 

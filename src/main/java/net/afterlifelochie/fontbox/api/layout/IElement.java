@@ -39,12 +39,11 @@ public interface IElement {
      * <p>
      * Called by the container controller when a click occurs on the element.
      * </p>
-     *
-     * @param gui The GUI being clicked
+     *  @param gui The GUI being clicked
      * @param mx  The mouse x-coordinate
      * @param my  The mouse y-coordinate
      */
-    void clicked(GuiScreen gui, int mx, int my);
+    void clicked(IIndexed gui, int mx, int my);
 
     /**
      * <p>
