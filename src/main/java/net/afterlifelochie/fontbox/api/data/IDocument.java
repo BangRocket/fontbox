@@ -34,6 +34,12 @@ public interface IDocument {
 
     void addParagraph(FormattedString text, AlignmentMode align);
 
+    default void addLink(String text, String toUid) {
+        addLink(new FormattedString(text), toUid);
+    }
+
+    void addLink(FormattedString text, String toUid);
+
     void addImage(ResourceLocation location, int width, int height);
 
     void addImage(ResourceLocation location, int width, int height, AlignmentMode align);

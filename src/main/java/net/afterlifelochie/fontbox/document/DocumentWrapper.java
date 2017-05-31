@@ -13,6 +13,7 @@ import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.layout.DocumentProcessor;
 import net.afterlifelochie.fontbox.layout.PageWriter;
+import net.afterlifelochie.fontbox.layout.components.Line;
 import net.afterlifelochie.fontbox.render.BookGUI;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
@@ -40,6 +41,11 @@ public class DocumentWrapper implements IDocument {
     @Override
     public void addParagraph(FormattedString text) {
         document.push(new Paragraph(text));
+    }
+
+    @Override
+    public void addLink(FormattedString text, String toUid) {
+        document.push(new Link(text, toUid));
     }
 
     @Override
