@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-@Mod(name = Fontbox.NAME, modid = Fontbox.ID, version = "0.0.3")
+@Mod(name = Fontbox.NAME, modid = Fontbox.ID, version = "@VERSION@")
 public class Fontbox {
     public static final String NAME = "Fontbox";
     public static final String ID = "fontbox";
