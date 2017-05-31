@@ -6,10 +6,7 @@ import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
-import net.afterlifelochie.fontbox.api.layout.ILineWriter;
-import net.afterlifelochie.fontbox.api.layout.IPage;
-import net.afterlifelochie.fontbox.api.layout.IPageWriter;
-import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
+import net.afterlifelochie.fontbox.api.layout.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +45,7 @@ public class LineWriter implements ILineWriter {
     /**
      * Current lines uid
      */
-    private final String uid;
+    private final IElement underlyingElement;
 
     /**
      * Construct a new line writing utility. The underlying stream and the
@@ -57,14 +54,14 @@ public class LineWriter implements ILineWriter {
      * @param writer    The underlying stream to operate on.
      * @param formatter The text formatter.
      * @param alignment The alignment to paginate in.
-     * @param uid       The lines uid.
+     * @param underlyingElement       The lines underlying element.
      */
-    public LineWriter(IPageWriter writer, TextFormatter formatter, AlignmentMode alignment, String uid) {
+    public LineWriter(IPageWriter writer, TextFormatter formatter, AlignmentMode alignment, IElement underlyingElement) {
         this.writer = writer;
         this.alignment = alignment;
         this.words = new ArrayList<>();
         this.formatter = formatter;
-        this.uid = uid;
+        this.underlyingElement = underlyingElement;
     }
 
     private void update() throws LayoutException, IOException {
@@ -131,7 +128,7 @@ public class LineWriter implements ILineWriter {
         int offset = 0;
         for (String word : this.words)
             offset += word.length() + 1;
-        Line what = new Line(words.toString().toCharArray(), formatter.getFormatter(lineOffset, offset), uid, bounds, spaceSize);
+        Line what = new Line(words.toString().toCharArray(), formatter.getFormatter(lineOffset, offset), bounds, spaceSize, underlyingElement);
         bounds = null;
         spaceSize = 0;
         lineOffset += offset;

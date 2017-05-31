@@ -7,6 +7,7 @@ import net.afterlifelochie.fontbox.api.font.IGLGlyphMetric;
 import net.afterlifelochie.fontbox.api.formatting.style.DecorationStyle;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormat;
 import net.afterlifelochie.fontbox.api.formatting.style.TextFormatter;
+import net.afterlifelochie.fontbox.api.layout.IElement;
 import net.afterlifelochie.fontbox.api.layout.IIndexed;
 import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
@@ -39,9 +40,9 @@ public class Line extends Element {
     public final TextFormatter formatter;
 
     /**
-     * The line's ID
+     * The line's underlying element
      */
-    public String id;
+    public IElement underlyingElement;
     /**
      * The size of the spacing between words
      */
@@ -57,7 +58,7 @@ public class Line extends Element {
      */
     public Line(char[] line, TextFormatter formatter, ObjectBounds bounds, int space_size) {
         setBounds(bounds);
-        this.id = null;
+        this.underlyingElement = null;
         this.line = line;
         this.formatter = formatter;
         this.space_size = space_size;
@@ -68,13 +69,13 @@ public class Line extends Element {
      *
      * @param line       The line's text
      * @param formatter  The text formatter
-     * @param uid        The line's ID
      * @param bounds     The location of the line
      * @param space_size The size of the spacing between words
+     * @param underlyingElement The underlying element
      */
-    public Line(char[] line, TextFormatter formatter, String uid, ObjectBounds bounds, int space_size) {
+    public Line(char[] line, TextFormatter formatter, ObjectBounds bounds, int space_size, IElement underlyingElement) {
         this(line, formatter, bounds, space_size);
-        this.id = uid;
+        this.underlyingElement = underlyingElement;
     }
 
     @Override
@@ -192,16 +193,20 @@ public class Line extends Element {
 
     @Override
     public void clicked(IIndexed gui, int mx, int my) {
-        /* No action required */
+        if (underlyingElement != null)
+            underlyingElement.clicked(gui, mx, my);
     }
 
     @Override
     public void typed(GuiScreen gui, char val, int code) {
-        /* No action required */
+        if (underlyingElement != null)
+            underlyingElement.typed(gui, val, code);
     }
 
     @Override
     public String identifier() {
-        return id;
+        if (underlyingElement != null)
+            return underlyingElement.identifier();
+        return super.identifier();
     }
 }

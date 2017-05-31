@@ -29,7 +29,7 @@ public interface IPageWriter {
      *
      * @param formatter The text formatter.
      * @param alignment The alignment to paginate in.
-     * @param uid       The lines uid.
+     * @param underlyingElement       The lines underlying {@link IElementgr}.
      */
-    ILineWriter getLineWriter(TextFormatter formatter, AlignmentMode alignment, String uid);
+    ILineWriter getLineWriter(TextFormatter formatter, AlignmentMode alignment, IElement underlyingElement);
 }

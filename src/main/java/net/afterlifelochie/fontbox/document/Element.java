@@ -71,19 +71,19 @@ public abstract class Element implements IElement {
      * @param writer    The page writer
      * @param format    The default format
      * @param what      The text to write
-     * @param uid       The ID of the text block
      * @param alignment The text alignment mode
+     * @param realElement The underlying element
      * @throws IOException     Any exception which occurs when reading from the text stream
      * @throws LayoutException Any layout problem which prevents the text from being laid
      *                         out correctly
      */
-    protected void boxText(ITracer trace, IPageWriter writer, TextFormat format, FormattedString what, String uid, AlignmentMode alignment) throws IOException, LayoutException {
+    protected void boxText(ITracer trace, IPageWriter writer, TextFormat format, FormattedString what, AlignmentMode alignment, IElement realElement) throws IOException, LayoutException {
         StackedPushBackStringReader reader = new StackedPushBackStringReader(what.string);
         trace.trace("Element.boxText", "startBox");
         while (reader.available() > 0) {
             what.formatter.addDefaultFormat(format);
 
-            LineWriter stream = new LineWriter(writer, what.formatter, alignment, uid);
+            LineWriter stream = new LineWriter(writer, what.formatter, alignment, realElement);
             boxText(trace, writer, stream, reader);
             trace.trace("Element.boxText", "streamRemain", reader.available());
             if (reader.available() > 0)

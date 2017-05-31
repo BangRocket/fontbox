@@ -35,7 +35,7 @@ public class Link extends Element {
     @Override
     public void layout(ITracer trace, IPageWriter writer) throws IOException, LayoutException {
         IPage page = writer.current();
-        boxText(trace, writer, page.getProperties().headingFormat, text, null, AlignmentMode.LEFT);
+        boxText(trace, writer, page.getProperties().headingFormat, text, AlignmentMode.LEFT, null);
         writer.cursor().pushDown(10);
     }
 

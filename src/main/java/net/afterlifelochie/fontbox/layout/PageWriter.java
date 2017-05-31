@@ -153,7 +153,7 @@ public class PageWriter implements IPageWriter {
     }
 
     @Override
-    public ILineWriter getLineWriter(TextFormatter formatter, AlignmentMode alignment, String uid) {
-        return new LineWriter(this, formatter, alignment, uid);
+    public ILineWriter getLineWriter(TextFormatter formatter, AlignmentMode alignment, IElement underlyingElement) {
+        return new LineWriter(this, formatter, alignment, underlyingElement);
     }
 }
