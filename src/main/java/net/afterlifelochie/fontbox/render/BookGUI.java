@@ -97,10 +97,10 @@ public class BookGUI extends GuiScreen {
     public void changePages(List<? extends IPage> pages, IPageIndex index) {
         if (ptr >= pages.size()) {
             ptr = 0;
-            internalOnPageChanged(this, ptr);
         }
         this.pages = pages;
         this.index = index;
+        internalOnPageChanged(this, ptr);
     }
 
     @Override
