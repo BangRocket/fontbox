@@ -274,7 +274,7 @@ public class BookGUI extends GuiScreen implements IIndexed {
     @Override
     public void go(int where) {
         where = where - (where % mode.pages);
-        if (ptr != where && 0 <= where - mode.pages && where + mode.pages < pages.size()) {
+        if (ptr != where && where >= 0 && where + mode.pages - 1 <= pages.size()) {
             ptr = where;
             internalOnPageChanged(this, ptr);
         }
