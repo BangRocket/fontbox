@@ -1,6 +1,7 @@
 package net.afterlifelochie.fontbox.font;
 
 import net.afterlifelochie.fontbox.api.FontboxManager;
+import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.exception.FontException;
 import net.afterlifelochie.fontbox.api.font.IGLFont;
 import net.minecraft.client.renderer.GlStateManager;
@@ -66,7 +67,7 @@ public class GLFont implements IGLFont {
         GlStateManager.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA,
             GL11.GL_UNSIGNED_BYTE, buffer.asIntBuffer());
         manager.tracer().trace("GLFont.fromBuffer", "texId", texIdx);
-        GLFont font = new GLFont(name, texIdx, 0.44f, metric);
+        GLFont font = new GLFont(name, texIdx, IBookProperties.SCALE, metric);
         manager.tracer().trace("GLFont.fromBuffer", font);
         manager.allocateFont(font);
         return font;

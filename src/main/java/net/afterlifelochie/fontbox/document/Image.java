@@ -1,5 +1,6 @@
 package net.afterlifelochie.fontbox.document;
 
+import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.exception.LayoutException;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
@@ -8,7 +9,6 @@ import net.afterlifelochie.fontbox.api.layout.IPageWriter;
 import net.afterlifelochie.fontbox.api.layout.ObjectBounds;
 import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.afterlifelochie.fontbox.api.layout.PageCursor;
-import net.afterlifelochie.fontbox.layout.components.Page;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
@@ -147,8 +147,10 @@ public class Image extends Element {
         GLUtils.useSystemTexture(source);
         GlStateManager.enableBlend();
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-        GLUtils.drawTexturedRectUV(bounds().x * 0.44f, bounds().y * 0.44f, bounds().width * 0.44f,
-            bounds().height * 0.44f, 0, 0, 1, 1, 1);
+        GLUtils.drawTexturedRectUV(
+            bounds().x * IBookProperties.SCALE, bounds().y * IBookProperties.SCALE,
+            bounds().width * IBookProperties.SCALE, bounds().height * IBookProperties.SCALE,
+            0, 0, 1, 1, 1);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();
     }

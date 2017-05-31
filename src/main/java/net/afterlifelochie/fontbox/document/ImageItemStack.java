@@ -1,5 +1,6 @@
 package net.afterlifelochie.fontbox.document;
 
+import net.afterlifelochie.fontbox.api.data.IBookProperties;
 import net.afterlifelochie.fontbox.api.formatting.layout.AlignmentMode;
 import net.afterlifelochie.fontbox.api.formatting.layout.FloatMode;
 import net.minecraft.client.Minecraft;
@@ -88,8 +89,8 @@ public class ImageItemStack extends Image {
     public void render(GuiScreen gui, int mx, int my, float frame) {
         GlStateManager.pushMatrix();
         RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.translate(bounds().x * 0.44f, bounds().y * 0.44f, 0);
-        GlStateManager.scale(bounds().width * 0.44f / 16.0f, bounds().height * 0.44f / 16.0f, 1.0f);
+        GlStateManager.translate(bounds().x * IBookProperties.SCALE, bounds().y * IBookProperties.SCALE, 0);
+        GlStateManager.scale(bounds().width * IBookProperties.SCALE / 16.0f, bounds().height * IBookProperties.SCALE / 16.0f, 1.0f);
         Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(stack, 0, 0);
         GlStateManager.disableBlend();
         GlStateManager.popMatrix();

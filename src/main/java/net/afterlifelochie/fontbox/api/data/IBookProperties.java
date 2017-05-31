@@ -5,6 +5,8 @@ import net.afterlifelochie.fontbox.api.formatting.PageProperties;
 import net.minecraft.client.gui.GuiScreen;
 
 public interface IBookProperties {
+    float SCALE = 0.44F;
+
     PageProperties getPageProperties();
 
     PageMode getPageMode();
@@ -14,8 +16,9 @@ public interface IBookProperties {
      *
      * @param gui     The current GUI
      * @param whatPtr The new page pointer value
+     * @param lastPage The pointer of the last page
      */
-    void onPageChanged(GuiScreen gui, int whatPtr);
+    void onPageChanged(GuiScreen gui, int whatPtr, int lastPage);
 
     /**
      * <p>
@@ -47,4 +50,8 @@ public interface IBookProperties {
      * @param zLevel The current zLevel
      */
     void drawForeground(int width, int height, int mx, int my, float frame, float zLevel);
+
+    int getBookWidth();
+
+    int getBookHeight();
 }

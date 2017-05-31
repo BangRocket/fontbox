@@ -118,30 +118,32 @@ public class DemoBook implements IBookProperties {
 
     @Override
     public PageMode getPageMode() {
-        return new PageMode(new Layout(0, 0), new Layout(180, 0));
+        return new PageMode(new Layout(15, 10), new Layout(195, 10));
     }
 
     @Override
-    public void onPageChanged(GuiScreen gui, int whatPtr) {
+    public void onPageChanged(GuiScreen gui, int whatPtr, int lastPointer) {
         /* No action required */
     }
 
     @Override
     public void drawBackground(int width, int height, int mx, int my, float frame, float zLevel) {
-        GlStateManager.pushMatrix();
-        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
-        GlStateManager.translate(width / 2 - 200, height / 2 - 110, 0.0f);
         // GLUtils isn't the api but I'm lazy
         GLUtils.useFontboxTexture("noteback");
         GLUtils.drawTexturedRectUV(0, 0, 400, 220, 0, 0, 1083.0f / 1111.0f, 847.0f / 1024.0f, zLevel);
-        GlStateManager.popMatrix();
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(width / 2 - 180, height / 2 - 100, 0.0f);
     }
 
     @Override
     public void drawForeground(int width, int height, int mx, int my, float frame, float zLevel) {
-        GlStateManager.popMatrix();
     }
 
+    @Override
+    public int getBookHeight() {
+        return 220;
+    }
+
+    @Override
+    public int getBookWidth() {
+        return 400;
+    }
 }

@@ -45,8 +45,8 @@ public class Book implements IBook {
     }
 
     @Override
-    public void onPageChanged(GuiScreen gui, int whatPtr) {
-        properties.onPageChanged(gui, whatPtr);
+    public void onPageChanged(GuiScreen gui, int whatPtr, int lastPointer) {
+        properties.onPageChanged(gui, whatPtr, lastPointer);
     }
 
     @Override
@@ -57,6 +57,16 @@ public class Book implements IBook {
     @Override
     public void drawForeground(int width, int height, int mx, int my, float frame, float zLevel) {
         properties.drawForeground(width, height, mx, my, frame, zLevel);
+    }
+
+    @Override
+    public int getBookWidth() {
+        return properties.getBookWidth();
+    }
+
+    @Override
+    public int getBookHeight() {
+        return properties.getBookHeight();
     }
 
     @Override

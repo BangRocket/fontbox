@@ -11,6 +11,7 @@ import net.afterlifelochie.fontbox.layout.DocumentProcessor;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.Tuple;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
@@ -56,7 +57,8 @@ public class BookGUI extends GuiScreen {
      * The underlying bookProperties properties
      */
     private final IBookProperties bookProperties;
-    private int guiTop, guiLeft;
+
+    private int guiLeft, guiTop;
 
     /**
      * <p>
@@ -109,8 +111,8 @@ public class BookGUI extends GuiScreen {
     @Override
     public void initGui() {
         super.initGui();
-        this.guiLeft = (width - bookProperties.getPageProperties().width) / 2;
-        this.guiTop = (height - bookProperties.getPageProperties().height) / 2;
+        this.guiLeft = (width - bookProperties.getBookWidth()) / 2;
+        this.guiTop = (height - bookProperties.getBookHeight()) / 2;
     }
 
     @Override
@@ -168,7 +170,11 @@ public class BookGUI extends GuiScreen {
      * @param frame The partial frames rendered
      */
     public void drawBackground(int mx, int my, float frame) {
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+        GlStateManager.translate(guiLeft, guiTop, 0.0f);
+        GlStateManager.pushMatrix();
         bookProperties.drawBackground(width, height, mx, my, frame, zLevel);
+        GlStateManager.popMatrix();
     }
 
     /**
@@ -183,7 +189,9 @@ public class BookGUI extends GuiScreen {
      * @param frame The partial frames rendered
      */
     public void drawForeground(int mx, int my, float frame) {
+        GlStateManager.pushMatrix();
         bookProperties.drawForeground(width, height, mx, my, frame, zLevel);
+        GlStateManager.popMatrix();
     }
 
     /**
@@ -195,7 +203,7 @@ public class BookGUI extends GuiScreen {
     private void internalOnPageChanged(BookGUI gui, int whatPtr) {
         for (int i = 0; i < mode.pages; i++)
             glBufferDirty[i] = true;
-        bookProperties.onPageChanged(gui, whatPtr);
+        bookProperties.onPageChanged(gui, whatPtr, pages.size() - 1);
     }
 
     /**
@@ -290,15 +298,14 @@ public class BookGUI extends GuiScreen {
     @Override
     protected void mouseClicked(int mx, int my, int button) throws IOException {
         super.mouseClicked(mx, my, button);
-        // TODO correct gui scaling stuff
         for (int i = 0; i < mode.pages; i++) {
             Layout where = mode.layouts[i];
             int which = ptr + i;
             if (pages.size() <= which)
                 break;
             IPage page = pages.get(ptr + i);
-            int mouseX = mx - guiLeft - where.x, mouseY = my - guiTop - where.y;
-            float thresholdX = page.getWidth() / 10.0F, thresholdY =page.getHeight() / 10.0F;
+            int mouseX = MathHelper.ceil((mx - guiLeft - where.x) / IBookProperties.SCALE), mouseY = MathHelper.ceil((my - guiTop - where.y) / IBookProperties.SCALE);
+            float thresholdX = page.getWidth() / 10.0F, thresholdY = page.getHeight() / 10.0F;
             if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
                 IElement elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
                 if (elem != null) {
@@ -307,10 +314,10 @@ public class BookGUI extends GuiScreen {
                 }
             }
 
-            if (mouseX >= 0 && mouseY >= page.getHeight() - thresholdY && mouseX <= thresholdX && mouseY <= page.getHeight()) {
+            if (mouseX >= -thresholdX && mouseY >= page.getHeight() - thresholdY && mouseX <= thresholdX && mouseY <= page.getHeight() + thresholdY) {
                 previous();
                 return;
-            } else if (mouseX >= page.getWidth() - thresholdX && mouseY >= page.getHeight() - thresholdY && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
+            } else if (mouseX >= page.getWidth() - thresholdX && mouseY >= page.getHeight() - thresholdY && mouseX <= page.getWidth() + thresholdX && mouseY <= page.getHeight() + thresholdY) {
                 next();
                 return;
             }
@@ -333,9 +340,9 @@ public class BookGUI extends GuiScreen {
         super.handleMouseInput();
         int scroll = Mouse.getEventDWheel();
         if (scroll > 0) {
-            next();
-        } else if (scroll < 0) {
             previous();
+        } else if (scroll < 0) {
+            next();
         }
     }
 
