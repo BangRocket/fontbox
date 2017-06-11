@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
@@ -20,7 +20,7 @@ public class GLUtils {
 
     public static void drawDefaultRect(double x, double y, double w, double h, double z) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
         buffer.pos(x, y + h, z).endVertex();
         buffer.pos(x + w, y + h, z).endVertex();
@@ -31,7 +31,7 @@ public class GLUtils {
 
     public static void drawTexturedRectUV(double x, double y, double w, double h, double u, double v, double us, double vs, double z) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         buffer.pos(x, y + h, z).tex(u, v + vs).endVertex();
         buffer.pos(x + w, y + h, z).tex(u + us, v + vs).endVertex();
@@ -45,7 +45,7 @@ public class GLUtils {
         GlStateManager.disableTexture2D();
         GlStateManager.glLineWidth(scale * 0.5F);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
         buffer.pos(xBegin, yBegin, z).endVertex();
         buffer.pos(xEnd, yEnd, z).endVertex();

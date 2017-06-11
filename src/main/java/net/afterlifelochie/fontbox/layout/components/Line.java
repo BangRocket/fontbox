@@ -16,9 +16,9 @@ import net.afterlifelochie.fontbox.document.Element;
 import net.afterlifelochie.fontbox.render.GLUtils;
 import net.afterlifelochie.fontbox.render.RenderException;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 
@@ -177,7 +177,7 @@ public class Line extends Element {
         double vs = glyph.getHeight() / metric.getFontImageHeight();
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
 
         buffer.pos(x + tiltTop, y + glyph.getHeight(), z).tex(u, v + vs).endVertex();
