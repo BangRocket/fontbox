@@ -73,4 +73,8 @@ public class Paragraph extends Element {
 		/* No action required */
     }
 
+    @Override
+    public void hover(GuiScreen gui, int mx, int my) {
+        /* No action required */
+    }
 }

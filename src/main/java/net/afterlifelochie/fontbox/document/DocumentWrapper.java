@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
+import java.util.List;
 
 public class DocumentWrapper implements IDocument {
     private Document document;
@@ -41,6 +42,11 @@ public class DocumentWrapper implements IDocument {
     @Override
     public void addParagraph(FormattedString text) {
         document.push(new Paragraph(text));
+    }
+
+    @Override
+    public void addLink(FormattedString text, String toUid, List<String> lines) {
+        document.push(new Link(text, toUid, lines));
     }
 
     @Override

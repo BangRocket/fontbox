@@ -8,7 +8,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+
+import java.util.List;
 
 /**
  * Minecraft item stacks as images.
@@ -105,5 +108,13 @@ public class ImageItemStack extends Image {
     @Override
     public void typed(GuiScreen gui, char val, int code) {
 		/* No action required */
+    }
+
+    @Override
+    public void hover(GuiScreen gui, int mx, int my) {
+        List<String> lines = stack.getTooltip(Minecraft.getMinecraft().player, Minecraft.getMinecraft().gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
+        if (lines != null && !lines.isEmpty()) {
+            gui.drawHoveringText(lines, mx, my);
+        }
     }
 }

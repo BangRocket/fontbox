@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 public interface IDocument {
     void addElement(IElement element);
@@ -39,6 +40,8 @@ public interface IDocument {
     }
 
     void addLink(FormattedString text, String toUid);
+
+    void addLink(FormattedString text, String toUid, List<String> lines);
 
     void addImage(ResourceLocation location, int width, int height);
 

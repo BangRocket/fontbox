@@ -99,4 +99,9 @@ public class CompilerHintElement extends Element {
     public void typed(GuiScreen gui, char val, int code) {
         throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
     }
+
+    @Override
+    public void hover(GuiScreen gui, int mx, int my) {
+        throw new RuntimeException("Undefined behaviour: CompilerHintElement in doctree!");
+    }
 }

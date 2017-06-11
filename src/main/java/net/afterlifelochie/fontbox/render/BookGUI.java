@@ -193,6 +193,21 @@ public class BookGUI extends GuiScreen implements IIndexed {
         GlStateManager.pushMatrix();
         bookProperties.drawForeground(width, height, mx, my, frame, zLevel);
         GlStateManager.popMatrix();
+        for (int i = 0; i < mode.pages; i++) {
+            Layout where = mode.layouts[i];
+            int which = ptr + i;
+            if (pages.size() <= which)
+                break;
+            IPage page = pages.get(ptr + i);
+            int mouseX = MathHelper.ceil((mx - guiLeft - where.x) / IBookProperties.SCALE), mouseY = MathHelper.ceil((my - guiTop - where.y) / IBookProperties.SCALE);
+            if (mouseX >= 0 && mouseY >= 0 && mouseX <= page.getWidth() && mouseY <= page.getHeight()) {
+                IElement elem = DocumentProcessor.getElementAt(page, mouseX, mouseY);
+                if (elem != null) {
+                    elem.hover(this, mx - guiLeft, my - guiTop);
+                    return;
+                }
+            }
+        }
     }
 
     /**

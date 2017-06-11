@@ -204,6 +204,12 @@ public class Line extends Element {
     }
 
     @Override
+    public void hover(GuiScreen gui, int mx, int my) {
+        if (underlyingElement != null)
+            underlyingElement.hover(gui, mx, my);
+    }
+
+    @Override
     public String identifier() {
         if (underlyingElement != null)
             return underlyingElement.identifier();

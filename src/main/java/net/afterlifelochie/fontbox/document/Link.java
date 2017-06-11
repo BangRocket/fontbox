@@ -10,6 +10,7 @@ import net.afterlifelochie.fontbox.api.tracer.ITracer;
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
+import java.util.List;
 
 public class Link extends Element {
     /**
@@ -20,6 +21,10 @@ public class Link extends Element {
      * The link ID
      */
     public String id;
+    /**
+     * The hover lines
+     */
+    public List<String> lines;
 
     /**
      * Creates a new Link element
@@ -28,8 +33,13 @@ public class Link extends Element {
      * @param id   The unique identifier that it links to
      */
     public Link(FormattedString text, String id) {
+        this(text, id, null);
+    }
+
+    public Link(FormattedString text, String toUid, List<String> lines) {
         this.text = text;
-        this.id = id;
+        this.id = toUid;
+        this.lines = lines;
     }
 
     @Override
@@ -67,5 +77,12 @@ public class Link extends Element {
     @Override
     public void typed(GuiScreen gui, char val, int code) {
 		/* No action required */
+    }
+
+    @Override
+    public void hover(GuiScreen gui, int mx, int my) {
+        if (lines != null && !lines.isEmpty()) {
+            gui.drawHoveringText(lines, mx, my);
+        }
     }
 }

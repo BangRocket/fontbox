@@ -37,7 +37,7 @@ public interface IElement {
 
     /**
      * <p>
-     * Called by the container controller when a click occurs on the element.
+     * Called by the container when a click occurs on the element.
      * </p>
      *  @param gui The GUI being clicked
      * @param mx  The mouse x-coordinate
@@ -55,6 +55,16 @@ public interface IElement {
      * @param code The key code
      */
     void typed(GuiScreen gui, char val, int code);
+
+    /**
+     * <p>
+     * Called by the container on hover of the element.
+     * </p>
+     * @param gui The GUI being used
+     * @param mx The mouse x-coordinate
+     * @param my The mouse y-coordinate
+     */
+    void hover(GuiScreen gui, int mx, int my);
 
     /**
      * <p>
