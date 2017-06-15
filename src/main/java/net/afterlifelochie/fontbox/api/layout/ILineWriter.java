@@ -28,24 +28,26 @@ public interface ILineWriter {
      * the stack and the dimensions of the stack are recomputed automatically.
      *
      * @param word The word to place on the end of the stack
+     * @param ignoreInvalidSymbols don't throw exceptions for unsupported symbols
      * @throws IOException     Any exception which occurs when reading from the page writing
      *                         stream underlying this writer
      * @throws LayoutException Any exception which occurs when updating the potentially
      *                         paginated text
      */
-    void push(String word) throws LayoutException, IOException;
+    void push(String word, boolean ignoreInvalidSymbols) throws LayoutException, IOException;
 
     /**
      * Removes the word from the end of the writer stack. The word removed is
      * returned and then dimensions of the stack are recomputed automatically.
      *
+     * @param ignoreInvalidSymbols don't throw exceptions for unsupported symbols
      * @return The word which was removed from the end of the stack
      * @throws IOException     Any exception which occurs when reading from the page writing
      *                         stream underlying this writer
      * @throws LayoutException Any exception which occurs when updating the potentially
      *                         paginated text
      */
-    String pop() throws LayoutException, IOException;
+    String pop(boolean ignoreInvalidSymbols) throws LayoutException, IOException;
 
     /**
      * Get the size (number of elements) on the stack at the current time.

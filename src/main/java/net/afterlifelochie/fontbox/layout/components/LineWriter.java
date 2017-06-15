@@ -64,7 +64,7 @@ public class LineWriter implements ILineWriter {
         this.underlyingElement = underlyingElement;
     }
 
-    private void update() throws LayoutException, IOException {
+    private void update(boolean ignoreInvalidSymbols) throws LayoutException, IOException {
         int width = 0, height = 0;
 
         IPage page = writer.current();
@@ -76,12 +76,17 @@ public class LineWriter implements ILineWriter {
             for (char cz : chars) {
                 TextFormat format = formatter.getFormat(offset);
                 IGLGlyphMetric cm = format.font.getMetric().getGlyphs().get((int) cz);
-                if (cm == null)
-                    throw new LayoutException(String.format("Glyph %s not supported by font %s.", cz,
-                        format.font.getName()));
+                if (cm == null) {
+                    if (ignoreInvalidSymbols) {
+                        cm = format.font.getMetric().getGlyphs().get((int) '?');
+                    } else {
+                        throw new LayoutException(String.format("Glyph %s not supported by font %s.", cz, format.font.getName()));
+                    }
+                }
                 wordsWidth += cm.getWidth();
-                if (cm.getAscent() > height)
+                if (cm.getAscent() > height) {
                     height = cm.getAscent();
+                }
                 offset++;
             }
             offset++;
@@ -136,19 +141,20 @@ public class LineWriter implements ILineWriter {
         return what;
     }
 
-
+    @Override
     public ObjectBounds pendingBounds() {
         return bounds;
     }
 
-    public void push(String word) throws LayoutException, IOException {
+    @Override
+    public void push(String word, boolean ignoreInvalidSymbols) throws LayoutException, IOException {
         words.add(word);
-        update();
+        update(ignoreInvalidSymbols);
     }
 
 
     @Override
-    public String pop() throws LayoutException, IOException {
+    public String pop(boolean ignoreInvalidSymbols) throws LayoutException, IOException {
         String word = words.remove(words.size() - 1);
 
         int offset = 0;
@@ -157,7 +163,7 @@ public class LineWriter implements ILineWriter {
 
         formatter.cleanAfter(offset);
 
-        update();
+        update(ignoreInvalidSymbols);
         return word;
     }
 

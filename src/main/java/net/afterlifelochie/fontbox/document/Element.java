@@ -142,7 +142,7 @@ public abstract class Element implements IElement {
 
                 // Consider the word:
                 trace.trace("Element.boxText", "considerWord", inWord.toString());
-                lineWriter.push(inWord.toString());
+                lineWriter.push(inWord.toString(), trace.ignoreInvalidSymbols());
                 ObjectBounds future = lineWriter.pendingBounds();
                 IPage current = pageWriter.current();
                 trace.trace("Element.boxText", "considerCursor", pageWriter.cursor());
@@ -150,7 +150,7 @@ public abstract class Element implements IElement {
                 // If we overflow the page, back out last change to fit:
                 if (!current.insidePage(future)) {
                     trace.trace("Element.boxText", "overflowPage", current.getWidth(), current.getHeight(), future, lineWriter.size());
-                    lineWriter.pop();
+                    lineWriter.pop(trace.ignoreInvalidSymbols());
                     text.popPosition();
                     // If there are now no words on the writer, then
                     if (lineWriter.size() == 0)
@@ -162,7 +162,7 @@ public abstract class Element implements IElement {
                     trace.trace("Element.boxText", "collideElement", lineWriter.size());
                     IElement e0 = current.intersectsElement(future);
                     trace.trace("Element.boxText", "collideHit", e0.bounds().toString(), future.toString());
-                    lineWriter.pop();
+                    lineWriter.pop(trace.ignoreInvalidSymbols());
                     text.popPosition();
                     if (lineWriter.size() == 0)
                         break main; // Nothing fits at all where we are; break

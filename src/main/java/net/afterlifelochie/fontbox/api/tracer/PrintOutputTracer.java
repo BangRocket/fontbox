@@ -30,4 +30,9 @@ public class PrintOutputTracer implements ITracer {
     public boolean enableAssertion() {
         return true;
     }
+
+    @Override
+    public boolean ignoreInvalidSymbols() {
+        return false;
+    }
 }
