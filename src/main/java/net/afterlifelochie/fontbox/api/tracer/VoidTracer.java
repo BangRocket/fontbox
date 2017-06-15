@@ -27,4 +27,9 @@ public class VoidTracer implements ITracer {
     public boolean enableAssertion() {
         return false;
     }
+
+    @Override
+    public boolean ignoreInvalidSymbols() {
+        return true;
+    }
 }

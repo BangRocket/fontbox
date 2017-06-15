@@ -56,4 +56,13 @@ public interface ITracer {
      */
     boolean enableAssertion();
 
+    /**
+     * <p>
+     * When false a {@link net.afterlifelochie.fontbox.api.exception.LayoutException} will be thrown when
+     * an invalid symbol is encountered. Otherwise it is just ignored
+     * </p>
+     *
+     * @return true if invalid symbols should be ignored
+     */
+    boolean ignoreInvalidSymbols();
 }
