@@ -21,7 +21,6 @@ public class ItemDemoBook extends Item {
         this.setUnlocalizedName("demo_book");
         this.setRegistryName("demo_book");
         this.setCreativeTab(CreativeTabs.MISC);
-        GameRegistry.register(this);
     }
 
     @SideOnly(Side.CLIENT)
